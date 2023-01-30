@@ -1,43 +1,52 @@
 const data = [{
     id: 1,
     icon: "⭕️",
-    status: "open",
-    title: "Human Interest Form",
-    content: "Fill out human interest distribution form"
+    status: "Discover",
+    title: "Dev Hub Landing Page",
+    content: "Dev Hub Landing Page"
 }, {
     id: 2,
     icon: "⭕️",
-    status: "open",
-    title: "Purchase present",
-    content: "Get an anniversary gift"
+    status: "Evaluate",
+    title: "Docs Landing Page",
+    content: "Docs Landing Page"
 }, {
     id: 3,
     icon: "⭕️",
-    status: "open",
-    title: "Invest in investments",
-    content: "Call the bank to talk about investments"
+    status: "Learn",
+    title: "Getting Started/Quick start Quide",
+    content: "Getting Started/Quick start Quide"
 }, {
     id: 4,
     icon: "⭕️",
-    status: "open",
-    title: "Daily reading",
-    content: "Finish reading Intro to UI/UX"
-}];
+    status: "Build",
+    title: "Extensions",
+    content: "Extensions"
+}, {
+    id: 5,
+    icon: "⭕️",
+    status: "Scale",
+    title: "Developer Success",
+    content: "Developer Success"}];
 
 const statuses = [{
-    status: "open",
+    status: "Discover",
     icon: "⭕️",
     color: "#EB5A46"
 }, {
-    status: "in progress",
+    status: "Evaluate",
     icon: "🔆️",
     color: "#00C2E0"
 }, {
-    status: "in review",
+    status: "Learn",
     icon: "📝",
     color: "#C377E0"
 }, {
-    status: "done",
+    status: "Build",
+    icon: "✅",
+    color: "#3981DE"
+},{
+    status: "Scale",
     icon: "✅",
     color: "#3981DE"
 }];
