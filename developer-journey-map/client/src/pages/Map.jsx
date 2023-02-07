@@ -19,7 +19,7 @@ const itemsFromBackend = [
 ];
 
 // temp columns
-const columnsFromBackend = { 
+const columnsFromBackend = {
 	[uuid()]: { name: "DISCOVER", items: itemsFromBackend },
 	[uuid()]: { name: "EVALUATE", items: [] },
 	[uuid()]: { name: "LEARN", items: [] },
@@ -99,7 +99,7 @@ const Map = () => {
 															{(provided, snapshot) => {
 																return (
 																	<div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}
-																		className={{...provided.draggableProps.style} + "select-none text-white m-1 min-h-[50px] ".concat((snapshot.isDragging ? "bg-slate-400" : "bg-slate-500"))}>
+																		className={{ ...provided.draggableProps.style } + "select-none text-white m-1 min-h-[50px] ".concat((snapshot.isDragging ? "bg-slate-400" : "bg-slate-500"))}>
 																		{item.title}
 																	</div>
 																);
