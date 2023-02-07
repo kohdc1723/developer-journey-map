@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "../index.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuid } from "uuid";
@@ -15,7 +15,7 @@ const itemsFromBackend = [
 	{ id: uuid(), title: "Sandbox" },
 	{ id: uuid(), title: "Extensions" },
 	{ id: uuid(), title: "Certification" },
-	{ id: uuid(), title: "Showcase" }
+	{ id: uuid(), title: "Showcase" },
 ];
 
 // temp columns
@@ -24,8 +24,8 @@ const columnsFromBackend = {
 	[uuid()]: { name: "EVALUATE", items: [] },
 	[uuid()]: { name: "LEARN", items: [] },
 	[uuid()]: { name: "BUILD", items: [] },
-	[uuid()]: { name: "SCALE", items: [] }
-}
+	[uuid()]: { name: "SCALE", items: [] },
+};
 
 // on drag handler
 const onDragEnd = (result, columns, setColumns) => {
@@ -47,12 +47,12 @@ const onDragEnd = (result, columns, setColumns) => {
 			...columns,
 			[source.droppableId]: {
 				...srcColumn,
-				items: srcItems
+				items: srcItems,
 			},
 			[destination.droppableId]: {
 				...destColumn,
-				items: destItems
-			}
+				items: destItems,
+			},
 		});
 	} else {
 		// if drag and drop within same column
@@ -68,22 +68,24 @@ const onDragEnd = (result, columns, setColumns) => {
 			...columns,
 			[source.droppableId]: {
 				...sourceColumn,
-				items: copiedItems
-			}
+				items: copiedItems,
+			},
 		});
 	}
-}
+};
 
 const Map = () => {
 	const [title, setTitle] = useState("Developer Journey Map");
 	const [columns, setColumns] = useState(columnsFromBackend);
 
 	return (
-		<div className='p-3'>
+		<div className="p-3">
 			<h2 className="text-3xl">{title}</h2>
 
-			<div className='flex justify-center h-full'>
-				<DragDropContext onDragEnd={result => onDragEnd(result, columns, setColumns)}>
+			<div className="flex justify-center h-full">
+				<DragDropContext
+					onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+				>
 					{Object.entries(columns).map(([id, column]) => {
 						return (
 							<div key={id} className="m-1">
@@ -91,15 +93,37 @@ const Map = () => {
 								<Droppable droppableId={id}>
 									{(provided, snapshot) => {
 										return (
-											<div {...provided.droppableProps} ref={provided.innerRef}
-												className={"w-40 min-h-[500px] p-1".concat((snapshot.isDraggingOver ? " bg-slate-200" : " bg-slate-300"))}>
+											<div
+												{...provided.droppableProps}
+												ref={provided.innerRef}
+												className={"w-40 min-h-[500px] p-1".concat(
+													snapshot.isDraggingOver
+														? " bg-slate-200"
+														: " bg-slate-300"
+												)}
+											>
 												{column.items.map((item, index) => {
 													return (
-														<Draggable key={item.id} draggableId={item.id} index={index}>
+														<Draggable
+															key={item.id}
+															draggableId={item.id}
+															index={index}
+														>
 															{(provided, snapshot) => {
 																return (
-																	<div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}
-																		className={{ ...provided.draggableProps.style } + "select-none text-white m-1 min-h-[50px] ".concat((snapshot.isDragging ? "bg-slate-400" : "bg-slate-500"))}>
+																	<div
+																		{...provided.draggableProps}
+																		{...provided.dragHandleProps}
+																		ref={provided.innerRef}
+																		className={
+																			{ ...provided.draggableProps.style } +
+																			"select-none text-white m-1 min-h-[50px] ".concat(
+																				snapshot.isDragging
+																					? "bg-slate-400"
+																					: "bg-slate-500"
+																			)
+																		}
+																	>
 																		{item.title}
 																	</div>
 																);
@@ -119,6 +143,6 @@ const Map = () => {
 			</div>
 		</div>
 	);
-}
+};
 
 export default Map;
