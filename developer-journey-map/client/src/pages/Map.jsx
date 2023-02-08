@@ -79,8 +79,6 @@ const Map = () => {
 	const [title, setTitle] = useState("Developer Journey Map");
 	const [columns, setColumns] = useState(columnsFromBackend);
 
-	const [modalOpen, setModalOpen] = useState(false);
-
 	return (
 		<div className="p-3">
 			<h2 className="text-3xl">{title}</h2>
