@@ -11,7 +11,7 @@ function CreateTouchPoint({ columns, setModal, id, column }) {
             ...columns,
             [id]: {
                 ...column,
-                items: [...column.items, { id: uuid(), title: touchTitle }],
+                touchpoints: [...column.touchpoints, { _id: uuid(), title: touchTitle }],
                 createModal: false,
             },
         });
