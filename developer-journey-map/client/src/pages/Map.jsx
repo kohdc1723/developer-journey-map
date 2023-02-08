@@ -5,10 +5,10 @@ import { Column, Stage, GoalsAndNeeds } from "../components";
 
 // on drag handler
 const onDragEnd = (result, columns, setColumns) => {
+	const { source, destination } = result;
+	
 	// if drag and drop to non-droppable area
 	if (!result.destination) return;
-
-	const { source, destination } = result;
 
 	// if drag and drop to different columns
 	if (source.droppableId !== destination.droppableId) {
