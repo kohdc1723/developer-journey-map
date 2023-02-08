@@ -3,6 +3,7 @@ import "../index.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { v4 as uuid } from "uuid";
 import Stage from "../components/Stage";
+import CreateTouchPoint from "../components/CreateTouchPoint";
 
 // temp items
 const itemsFromBackend = [
@@ -20,11 +21,11 @@ const itemsFromBackend = [
 
 // temp columns
 const columnsFromBackend = {
-	[uuid()]: { name: "DISCOVER", items: itemsFromBackend },
-	[uuid()]: { name: "EVALUATE", items: [] },
-	[uuid()]: { name: "LEARN", items: [] },
-	[uuid()]: { name: "BUILD", items: [] },
-	[uuid()]: { name: "SCALE", items: [] },
+	[uuid()]: { name: "DISCOVER", items: itemsFromBackend, createModal: false },
+	[uuid()]: { name: "EVALUATE", items: [], createModal: false },
+	[uuid()]: { name: "LEARN", items: [], createModal: false },
+	[uuid()]: { name: "BUILD", items: [], createModal: false },
+	[uuid()]: { name: "SCALE", items: [], createModal: false },
 };
 
 // on drag handler
@@ -89,7 +90,23 @@ const Map = () => {
 					{Object.entries(columns).map(([id, column]) => {
 						return (
 							<div key={id} className="m-1">
-								<h2>{column.name}</h2>
+								<div className="flex justify-between">
+									<h2>{column.name}</h2>
+									<button
+										onClick={() => {
+											setColumns({
+												...columns,
+												[id]: {
+													...column,
+													createModal: true,
+												},
+											});
+										}}
+									>
+										+
+									</button>
+								</div>
+								{column.createModal && <CreateTouchPoint setModal={setColumns} id={id} column={column} columns={columns} />}
 								<Droppable droppableId={id}>
 									{(provided, snapshot) => {
 										return (
