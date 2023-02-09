@@ -1,32 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { v4 as uuid } from "uuid";
-import CreateTouchPoint from "../components/CreateTouchPoint";
+import { DragDropContext } from "react-beautiful-dnd";
 import { Column, Stage, GoalsAndNeeds } from "../components";
-
-// temp items
-const itemsFromBackend = [
-	{ id: uuid(), title: "DevHub" },
-	{ id: uuid(), title: "Blog" },
-	{ id: uuid(), title: "Docs" },
-	{ id: uuid(), title: "FAQs" },
-	{ id: uuid(), title: "Training" },
-	{ id: uuid(), title: "Tutorials" },
-	{ id: uuid(), title: "Sandbox" },
-	{ id: uuid(), title: "Extensions" },
-	{ id: uuid(), title: "Certification" },
-	{ id: uuid(), title: "Showcase" },
-];
-
-// temp columns
-const columnsFromBackend = {
-	[uuid()]: { name: "DISCOVER", items: itemsFromBackend, createModal: false },
-	[uuid()]: { name: "EVALUATE", items: [], createModal: false },
-	[uuid()]: { name: "LEARN", items: [], createModal: false },
-	[uuid()]: { name: "BUILD", items: [], createModal: false },
-	[uuid()]: { name: "SCALE", items: [], createModal: false },
-};
 
 // on drag handler
 const onDragEnd = (result, columns, setColumns) => {
