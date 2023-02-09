@@ -17,7 +17,7 @@ function CreateTouchPoint({ columns, setModal, id, column }) {
         });
     }
     return (
-        <div className="bg-gray-300 fixed flex justify-center items-center">
+        <div className="bg-gray-300 flex justify-center items-center absolute top-1/2 left-1/2 z-10">
             <div className="w-96 h-96 rounded-xl bg-white shadow-2xl shadow-slate-400 flex flex-col p-25">
                 <div className="flex flex-end flex-row-reverse">
                     <button className='bg-transparent border-none text-2xl cursor-pointer p-2'
