@@ -139,7 +139,7 @@ const Map = () => {
 						{Object.entries(columns)
 							.filter(([id, column]) => column.position === "internal")
 							.map(([id, column]) => (
-								<Column id={id} column={column} columns={columns} setColumns={setColumns} />
+								<Column id={id} key={id} column={column} columns={columns} setColumns={setColumns} />
 							))
 						}
 
@@ -147,7 +147,7 @@ const Map = () => {
 						{Object.entries(columns)
 							.filter(([id, column]) => column.position === "external")
 							.map(([id, column]) => (
-								<Column id={id} column={column} columns={columns} setColumns={setColumns} />
+								<Column id={id} key={id} column={column} columns={columns} setColumns={setColumns} />
 							))
 						}
 					</div>

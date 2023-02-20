@@ -8,23 +8,17 @@ const options = [
   { value: 'border-red-600', label: 'Red' }
 ]
 
-function CreateTouchPoint({ columns, setModal, id, column }) {
+function EditTouchPoint({ columns, setModal, id, column }) {
     const [touchTitle, setTouchTitle] = useState(null);
-    const [touchColor, setTouchColor] = useState("border-black");
     function getTouchTitle(event) {
         setTouchTitle(event.target.value)
-    }
-    function setColor(selectedOption) {
-        console.log("setColor", selectedOption);
-        setTouchColor(selectedOption.value);
-        console.log(touchColor)
     }
     function addTouchPoint() {
         setModal({
             ...columns,
             [id]: {
                 ...column,
-                touchpoints: [...column.touchpoints, { _id: uuid(), title: touchTitle, borderColor: touchColor }],
+                touchpoints: [...column.touchpoints, { _id: uuid(), title: touchTitle }],
                 createModal: false,
             },
         });
@@ -53,7 +47,6 @@ function CreateTouchPoint({ columns, setModal, id, column }) {
                 <div className="flex flex-[50%] justify-center items-center text-center text-3xl">
                     <input className="border-2 border-black" type="text" onChange={getTouchTitle} />
                 </div>
-                <Select options={options} onChange={setColor}/>
                 <div className="flex flex-[20%] justify-center items-center">
                     <button className='w-36 h-11 m-2 border-none bg-red-600 text-white rounded-lg text-xl cursor-pointer'
                         onClick={() => {
@@ -78,4 +71,4 @@ function CreateTouchPoint({ columns, setModal, id, column }) {
     );
 }
 
-export default CreateTouchPoint
+export default EditTouchPoint

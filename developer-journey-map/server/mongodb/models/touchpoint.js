@@ -10,6 +10,9 @@ const Touchpoint = new mongoose.Schema({
     title: {
         type: String,
         required: true
+    },
+    borderColor: {
+        type: String,
     }
 });
 
