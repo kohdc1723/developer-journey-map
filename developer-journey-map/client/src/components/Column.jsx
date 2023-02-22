@@ -3,12 +3,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { Touchpoint } from "../components";
 import CreateTouchPoint from "../components/CreateTouchPoint";
 
-const Column = (props) => {
-	const id = props.id;
-	const column = props.column;
-	const columns = props.columns;
-	const setColumns = props.setColumns;
-
+const Column = ({id, column, columns, setColumns}) => {
 	return (
 		<div key={id} className="py-1 m-1">
 			{column.createModal && (

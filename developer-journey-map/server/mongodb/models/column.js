@@ -2,11 +2,15 @@ import mongoose from "mongoose";
 import Touchpoint from "./touchpoint.js";
 
 const Column = new mongoose.Schema({
-    _id: {
-        type: String,
+    index: {
+        type: Number,
         required: true
     },
     name: {
+        type: String,
+        required: true
+    },
+    position: {
         type: String,
         required: true
     },

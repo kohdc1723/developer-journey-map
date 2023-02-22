@@ -3,146 +3,162 @@ import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const testDb = [
+const defaultColumn = [
     {
-        "_id": "0",
+        "index": "0",
         "name": "discover_internal",
         "position": "internal",
         "touchpoints": [
             {
-                "_id": uuid(),
-                "title": "Dev Hub Landing Page"
+                "uuid": uuid(),
+                "content": "Dev Hub Landing Page"
             },
             {
-                "_id": uuid(),
-                "title": "Newsletter"
+                "uuid": uuid(),
+                "content": "Newsletter"
             }
         ]
     },
     {
-        "_id": "1",
+        "index": "1",
         "name": "evaluate_internal",
         "position": "internal",
         "touchpoints": [
             {
-                "_id": uuid(),
-                "title": "Docs Landing Page"
+                "uuid": uuid(),
+                "content": "Docs Landing Page"
             },
             {
-                "_id": uuid(),
-                "title": "FAQs"
+                "uuid": uuid(),
+                "content": "FAQs"
             }
         ]
     },
     {
-        "_id": "2",
+        "index": "2",
         "name": "learn_internal",
         "position": "internal",
         "touchpoints": [
             {
-                "_id": uuid(),
-                "title": "Code Samples"
+                "uuid": uuid(),
+                "content": "Code Samples"
             },
             {
-                "_id": uuid(),
-                "title": "Tutorials"
+                "uuid": uuid(),
+                "content": "Tutorials"
             }
         ]
     },
     {
-        "_id": "3",
+        "index": "3",
         "name": "build_internal",
         "position": "internal",
         "touchpoints": [
             {
-                "_id": uuid(),
-                "title": "Change Log"
+                "uuid": uuid(),
+                "content": "Change Log"
             },
             {
-                "_id": uuid(),
-                "title": "Sandbox"
+                "uuid": uuid(),
+                "content": "Sandbox"
             }
         ]
     },
     {
-        "_id": "4",
+        "index": "4",
         "name": "scale_internal",
         "position": "internal",
         "touchpoints": [
             {
-                "_id": uuid(),
-                "title": "Showcase"
+                "uuid": uuid(),
+                "content": "Showcase"
             },
             {
-                "_id": uuid(),
-                "title": "Certitication"
+                "uuid": uuid(),
+                "content": "Certitication"
             }
         ]
     },
     {
-        "_id": "5",
+        "index": "5",
         "name": "discover_external",
         "position": "external",
         "touchpoints": [
             {
-                "_id": uuid(),
-                "title": "Syndication"
+                "uuid": uuid(),
+                "content": "Syndication"
             },
             {
-                "_id": uuid(),
-                "title": "Referrals"
+                "uuid": uuid(),
+                "content": "Referrals"
             }
         ]
     },
     {
-        "_id": "6",
+        "index": "6",
         "name": "evaluate_external",
         "position": "external",
         "touchpoints": [
             {
-                "_id": uuid(),
-                "title": "GitHub"
+                "uuid": uuid(),
+                "content": "GitHub"
             },
             {
-                "_id": uuid(),
-                "title": "Stack Overflow"
+                "uuid": uuid(),
+                "content": "Stack Overflow"
             }
         ]
     },
     {
-        "_id": "7",
+        "index": "7",
         "name": "learn_external",
         "position": "external",
         "touchpoints": [
             {
-                "_id": uuid(),
-                "title": "Technology Dependencies"
+                "uuid": uuid(),
+                "content": "Technology Dependencies"
             }
         ]
     },
     {
-        "_id": "8",
+        "index": "8",
         "name": "build_external",
         "position": "external",
         "touchpoints": []
     },
     {
-        "_id": "9",
+        "index": "9",
         "name": "scale_external",
         "position": "external",
         "touchpoints": []
     }
 ];
 
+const testdb = [
+    {
+        uid: "1",
+        title: "Map1",
+        columns: defaultColumn
+    },
+    {
+        uid: "2",
+        title: "Map2",
+        columns: defaultColumn
+    },
+    {
+        uid: "3",
+        title: "Map3",
+        columns: defaultColumn
+    },
+];
+
 const uri = "mongodb+srv://team13:team13@developer-journey-map.xx3xnsr.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
-    const db = client.db("test");
-    const collection = db.collection("columns");
-    collection.insertMany(testDb, (err, res) => {
+    const db = client.db("test2");
+    const collection = db.collection("maps");
+    collection.insertMany(testdb, (err, res) => {
         console.log("Data inserted into the collection");
         client.close();
     });
 });
-
-// run command "node testdb.js" in this directory to insert test db

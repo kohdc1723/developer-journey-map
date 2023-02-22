@@ -1,12 +1,9 @@
 import React from 'react';
 import { Draggable } from "react-beautiful-dnd";
 
-const Touchpoint = (props) => {
-    const item = props.item;
-    const index = props.index; 
-
+const Touchpoint = ({item, index}) => {
     return (
-        <Draggable key={item._id} draggableId={item._id} index={index}>
+        <Draggable key={item.uuid} draggableId={item.uuid} index={index}>
             {(provided, snapshot) => {
                 return (
                     <div
@@ -22,7 +19,7 @@ const Touchpoint = (props) => {
                             )
                         }
                     >
-                        {item.title}
+                        {item.content}
                     </div>
                 );
             }}

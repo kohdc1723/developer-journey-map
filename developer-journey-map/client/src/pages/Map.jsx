@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../index.css";
 import { DragDropContext } from "react-beautiful-dnd";
+import { useParams } from "react-router-dom";
 import { Column } from "../components";
 
 // on drag handler
 const onDragEnd = (result, columns, setColumns) => {
 	const { source, destination } = result;
+	console.log("source: ", source, "dest: ", destination);
 	
 	// if drag and drop to non-droppable area
 	if (!result.destination) return;
@@ -51,39 +53,41 @@ const onDragEnd = (result, columns, setColumns) => {
 }
 
 const Map = () => {
+	const { id } = useParams();
 	// hooks
 	const [title, setTitle] = useState("Developer Journey Map");
 	const [columns, setColumns] = useState([]);
 
 	// will be called once at the very beginning
 	useEffect(() => {
-		// load the entire columns from server and setColumns
-		const initColumns = async () => {
-			const response = await fetch("http://localhost:3800/api/column");
-			const columns = await response.json();
-			setColumns(columns.data);
+		const initMap = async () => {
+			const response = await fetch(`http://localhost:3800/api/map/${id}`);
+			const map = await response.json();
+
+			setTitle(map.data.title);
+			setColumns(map.data.columns);
 		}
-		// execute
-		initColumns();
-	}, []);
+
+		initMap();
+	});
 	
 	// will be called whenever columns change
-	useEffect(() => {
-		// asynchronously auto-update db
-		const updateColumns = async () => {
-			const response = await fetch("http://localhost:3800/api/column", {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(columns)
-			});
+	// useEffect(() => {
+	// 	// asynchronously auto-update db
+	// 	const updateColumns = async () => {
+	// 		const response = await fetch(`http://localhost:3800/api/map/column/${id}`, {
+	// 			method: "PUT",
+	// 			headers: {
+	// 				"Content-Type": "application/json"
+	// 			},
+	// 			body: JSON.stringify(columns)
+	// 		});
 			
-			await response.json();
-		}
-		// execute
-		updateColumns();
-	}, [columns]);
+	// 		await response.json();
+	// 	}
+	// 	// execute
+	// 	updateColumns();
+	// }, [columns]);
 
 	return (
 		<DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
@@ -139,7 +143,7 @@ const Map = () => {
 						{Object.entries(columns)
 							.filter(([id, column]) => column.position === "internal")
 							.map(([id, column]) => (
-								<Column id={id} column={column} columns={columns} setColumns={setColumns} />
+								<Column id={id} column={column} columns={columns} setColumns={setColumns} key={id} />
 							))
 						}
 
@@ -147,7 +151,7 @@ const Map = () => {
 						{Object.entries(columns)
 							.filter(([id, column]) => column.position === "external")
 							.map(([id, column]) => (
-								<Column id={id} column={column} columns={columns} setColumns={setColumns} />
+								<Column id={id} column={column} columns={columns} setColumns={setColumns} key={id} />
 							))
 						}
 					</div>
