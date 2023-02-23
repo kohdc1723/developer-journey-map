@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const testDb = [
+const defaultColumn = [
     {
         "_id": "0",
         "name": "discover_internal",
@@ -134,15 +134,36 @@ const testDb = [
     }
 ];
 
+const testdb = [
+    {
+        uid: "1",
+        title: "Map1",
+        columns: defaultColumn
+    },
+    {
+        uid: "2",
+        title: "Map2",
+        columns: defaultColumn
+    },
+    {
+        uid: "2",
+        title: "Map22",
+        columns: defaultColumn
+    },
+    {
+        uid: "3",
+        title: "Map3",
+        columns: defaultColumn
+    },
+];
+
 const uri = "mongodb+srv://team13:team13@developer-journey-map.xx3xnsr.mongodb.net/?retryWrites=true&w=majority"
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
-    const db = client.db("test");
-    const collection = db.collection("columns");
-    collection.insertMany(testDb, (err, res) => {
+    const db = client.db("test2");
+    const collection = db.collection("maps");
+    collection.insertMany(testdb, (err, res) => {
         console.log("Data inserted into the collection");
         client.close();
     });
 });
-
-// run command "node testdb.js" in this directory to insert test db

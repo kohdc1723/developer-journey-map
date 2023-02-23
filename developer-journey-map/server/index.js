@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import connectDb from "./mongodb/connect.js";
-import columnRoutes from "./routes/columnRoutes.js";
+import mapRoutes from "./routes/mapRoutes.js";
+import mapsRoutes from "./routes/mapsRoutes.js";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -10,7 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/column", columnRoutes);
+app.use("/api/map", mapRoutes);
+app.use("/api/maps", mapsRoutes);
 
 app.get("/", (req, res) => {
     res.send("Hello, World!");
