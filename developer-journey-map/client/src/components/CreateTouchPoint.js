@@ -56,9 +56,9 @@ function CreateTouchPoint({ columns, setModal, id, column }) {
                 <div className="flex flex-[50%] justify-center items-center text-center text-3xl">
                     <p>Please select border color</p>
                 </div>
-                <Select options={options} onChange={setColor} placeholder="Black"/>
+                <Select options={options} onChange={setColor} placeholder="Black" className="py-2"/>
                 <div className="flex flex-[20%] justify-center items-center">
-                    <button className='w-36 h-11 m-2 border-none bg-red-600 text-white rounded-lg text-xl cursor-pointer'
+                    <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
                         onClick={() => {
                             setModal({
                                 ...columns,
@@ -72,7 +72,7 @@ function CreateTouchPoint({ columns, setModal, id, column }) {
                     >
                         Cancel
                     </button>
-                    <button className='w-36 h-11 m-2 border-none bg-indigo-500 text-white rounded-lg text-xl cursor-pointer' onClick={() => {
+                    <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer' onClick={() => {
                         addTouchPoint();
                     }}>Submit</button>
                 </div>
