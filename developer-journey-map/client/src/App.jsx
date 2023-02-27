@@ -1,25 +1,49 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Dashboard, Map, Login } from "./pages";
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import "./index.css";
+import "./app.css"
+import "./login.css"
+import { useEffect, useState } from 'react';
 
 const App = () => {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const getUser = () => {
+            fetch("http://localhost:3800/auth/login/success", {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Credentials": true,
+                },
+            }).then((response) => {
+                if (response.status === 200) return response.json();
+                throw new Error("authentication has been failed!");
+            }).then((resObject) => {
+                setUser(resObject.user);
+            }).catch((err) => {
+                console.log(err);
+            });
+        };
+        getUser();
+    }, []);
+
     return (
         <BrowserRouter>
-            <header className="flex justify-between items-center w-full h-16 bg-black text-white px-3">
-                <Link to="/dashboard">Home</Link>
-                <Link to="/login">Login</Link>
-            </header>
-            <main className="w-full min-h-[calc(100vh-128px)] bg-white">
+            <Navbar user={user} />
+            <main className="w-full min-h-[calc(100vh-100px)] bg-white">
                 <Routes>
-                    <Route path="/dashboard/:uid" element={<Dashboard />} />
-                    <Route path="/map/:id" element={<Map />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={user ? <Navigate to="/dashboard/:uid" /> : <Login />} />
+                    <Route path="/dashboard/:uid" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+                    <Route path="/map/:id" element={user ? <Map /> : <Navigate to="/login" />} />
                 </Routes>
             </main>
-            <footer className="flex justify-start items-center w-full h-16 bg-black text-white px-3">
-                <p>@DevRelBook | www.devrelbook.com | info@devrelbook.com</p>
-            </footer>
+            <Footer />
         </BrowserRouter>
     );
 }
