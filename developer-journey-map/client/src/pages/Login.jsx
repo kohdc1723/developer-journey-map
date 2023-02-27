@@ -3,6 +3,7 @@ import Google from '../img/google.png'
 import Github from '../img/github.png'
 import Linkedin from '../img/linkedin.png'
 import LoginImage from '../img/login.png'
+import "../login.css"
 
 const Login = () => {
 

@@ -5,7 +5,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import "./index.css";
 import "./app.css"
-import "./login.css"
 import { useEffect, useState } from 'react';
 
 const App = () => {
