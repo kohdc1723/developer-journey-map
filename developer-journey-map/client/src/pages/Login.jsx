@@ -28,7 +28,7 @@ const Login = () => {
                     <div className="line" />
                 </div>
                 <div className='right'>
-                    <h1 className='loginTitle'>Create your jouney map now!</h1>
+                    <h1 className='loginTitle'>Create your journey map now!</h1>
                     <div className='loginButton google' onClick={google}>
                         <img src={Google} alt="" className='icon' />
                         Sign in with Google
