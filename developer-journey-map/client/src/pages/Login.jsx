@@ -31,15 +31,15 @@ const Login = () => {
                     <h1 className='loginTitle'>Create your journey map now!</h1>
                     <div className='loginButton google' onClick={google}>
                         <img src={Google} alt="" className='icon' />
-                        Sign in with Google
+                        Continue with Google
                     </div>
                     <div className='loginButton github' onClick={github}>
                         <img src={Github} alt="" className='icon gh' />
-                        Sign in with Github
+                        Continue with Github
                     </div>
                     <div className='loginButton linkedin' onClick={linkedin}>
                         <img src={Linkedin} alt="" className='icon li' />
-                        Sign in with Linkedin
+                        Continue with Linkedin
                     </div>
                 </div>
             </div>
