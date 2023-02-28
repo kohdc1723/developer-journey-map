@@ -3,17 +3,16 @@ import { Draggable } from "react-beautiful-dnd";
 
 const Touchpoint = ({ item, index }) => {
   return (
-    <Draggable key={item._id} draggableId={item._id} index={index}>
+    <Draggable key={item.uuid} draggableId={item.uuid} index={index}>
       {(provided, snapshot) => {
         return (
           <div
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
-            className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "bg-gray-300" : "bg-white"}
-                select-none rounded-lg border border-black my-1 text-sm px-1 w-fit h-fit min-h-[25px]`}
+            className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
           >
-            {item.title}
+            {item.content}
           </div>
         );
       }}

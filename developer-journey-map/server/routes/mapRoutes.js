@@ -32,7 +32,7 @@ router.route("/column/:id").put(async (req, res) => {
     columns.forEach(column => {
         updateQueries.push({
             updateOne: {
-                filter: { "_id": id, "columns._id": column._id },
+                filter: { "_id": id, "columns.colIndex": column.colIndex },
                 update: { $set: { "columns.$.touchpoints": column.touchpoints } }
             }
         });

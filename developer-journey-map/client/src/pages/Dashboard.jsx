@@ -20,7 +20,7 @@ const Dashboard = () => {
     return (
         <div>
             <h2>Dashboard</h2>
-            <div className="flex">
+            <div className="flex gap-3">
                 {maps.map(map => {
                     return (
                         <Link to={`/map/${map._id}`}>

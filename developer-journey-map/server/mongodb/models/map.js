@@ -2,19 +2,19 @@ import mongoose from "mongoose";
 import { v4 as uuid } from "uuid";
 
 const Touchpoint = new mongoose.Schema({
-    _id: {
+    uuid: {
         type: String,
         default: uuid(),
         required: true
     },
-    title: {
+    content: {
         type: String,
         required: true
     }
 });
 
 const Column = new mongoose.Schema({
-    _id: {
+    colIndex: {
         type: String,
         required: true
     },

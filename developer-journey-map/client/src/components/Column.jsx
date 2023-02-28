@@ -2,10 +2,11 @@ import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { Touchpoint } from "../components";
 import CreateTouchPoint from "../components/CreateTouchPoint";
+import "../assets/styles/map.css"
 
-const Column = ({id, column, columns, setColumns}) => {
+const Column = ({ id, column, columns, setColumns }) => {
   return (
-    <div key={id} className="py-1 m-1">
+    <div key={id} className="grid-cell">
       {column.createModal && (
         <CreateTouchPoint
           setModal={setColumns}
@@ -18,28 +19,27 @@ const Column = ({id, column, columns, setColumns}) => {
       <Droppable droppableId={id}>
         {(provided, snapshot) => {
           return (
-            <div
-              {...provided.droppableProps}
+            <div {...provided.droppableProps}
               ref={provided.innerRef}
               className={`${
-                snapshot.isDraggingOver ? "bg-gray-100" : "bg-white"
-              } relative min-h-[150px] pb-8 rounded-lg`}
+                snapshot.isDraggingOver ? "droppable-field-on-dragging" : "droppable-field"
+              }`}
             >
               {column.touchpoints.map((item, index) => {
-                return <Touchpoint item={item} index={index} key={item._id} />;
+                return <Touchpoint item={item} index={index} key={item.uuid} />;
               })}
 
               <button
+                className="add-button"
                 onClick={() => {
                   setColumns({
                     ...columns,
                     [id]: {
                       ...column,
                       createModal: true,
-                    },
+                    }
                   });
                 }}
-                className="my-1 text-gray-500 text-center w-full border border-gray-500 rounded-lg absolute bottom-0"
               >
                 +
               </button>
