@@ -1,5 +1,6 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
+import "../assets/styles/map.css";
 
 const Touchpoint = ({ item, index }) => {
   return (

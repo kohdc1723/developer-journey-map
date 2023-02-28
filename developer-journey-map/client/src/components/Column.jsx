@@ -2,7 +2,7 @@ import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { Touchpoint } from "../components";
 import CreateTouchPoint from "../components/CreateTouchPoint";
-import "../assets/styles/map.css"
+import "../assets/styles/map.css";
 
 const Column = ({ id, column, columns, setColumns }) => {
   return (
