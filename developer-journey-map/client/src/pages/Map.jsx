@@ -51,13 +51,20 @@ const onDragEnd = (result, columns, setColumns) => {
 const Map = () => {
   /* Define states */
   const { id } = useParams();
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("Title");
   const [titleEditable, setTitleEditable] = useState(false);
   const [columns, setColumns] = useState([]);
 
   const handleTitleBlur = (e) => {
     e.preventDefault();
-    setTitle(e.target.value);
+    const value = e.target.value.trim();
+    
+    if (!value) {
+      setTitle("Title");
+    } else {
+      setTitle(e.target.value);
+    }
+
     setTitleEditable(false);
   }
 
@@ -78,6 +85,24 @@ const Map = () => {
     loadMap();
   }, [id]);
 
+  useEffect(() => {
+    const updateTitle = async () => {
+      const response = await fetch(`http://localhost:3800/api/map/title/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: title
+        })
+      })
+
+      await response.json();
+    }
+
+    updateTitle();
+  })
+
   /* This is called whenever columns state change */
   useEffect(() => {
     // auto-update the database
@@ -85,7 +110,7 @@ const Map = () => {
       const response = await fetch(`http://localhost:3800/api/map/column/${id}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(columns),
       });
@@ -98,9 +123,16 @@ const Map = () => {
 
   /* This is called whenever any state change */
   useEffect(() => {
+    // update lastModified in the database
     const updateTimestamp = async () => {
+      const timestamp = { timestamp: new Date() };
+
       const response = await fetch(`http://localhost:3800/api/map/timestamp/${id}`, {
-        method: "PUT"
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(timestamp)
       });
       await response.json();
     }
@@ -117,6 +149,7 @@ const Map = () => {
           onBlur={handleTitleBlur}
           defaultValue={title}
           autoFocus
+          required
         />
       ) : (
         <h2 className="title" onClick={handleTitleClick}>{title}</h2>

@@ -22,7 +22,9 @@ const Dashboard = () => {
     <div>
       <h2 id="title">Dashboard (Temporary)</h2>
       <div id="dashboard-flex-layout">
-        {maps.map((map) => {
+        {maps
+          .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))
+          .map((map) => {
           return (
             <Link to={`/map/${map._id}`}>
               <div className="map">

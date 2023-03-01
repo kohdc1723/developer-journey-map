@@ -29,8 +29,8 @@ const Column = new mongoose.Schema({
     touchpoints: [Touchpoint]
 });
 
-const Question = new mongoose.Schema({
-    questionIndex: {
+const Questions = new mongoose.Schema({
+    qIndex: {
         type: String,
         required: true
     },
@@ -38,6 +38,12 @@ const Question = new mongoose.Schema({
         type: String,
         required: true,
     },
+    items: {
+        type: [String]
+    }
+})
+
+const Question = new mongoose.Schema({
     
 })
 

@@ -21,9 +21,23 @@ router.route("/:id").get(async (req, res) => {
 // update a map's lastModified
 router.route("/timestamp/:id").put(async (req, res) => {
     const id = req.params.id;
+    const timestamp = req.body.timestamp;
 
     try {
-        const result = await Map.updateOne({ _id: id }, { lastModified: new Date() });
+        const result = await Map.updateOne({ _id: id }, { lastModified: new Date(timestamp) });
+        res.status(200).json({ success: true, result: result });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: err });
+    }
+});
+
+router.route("/title/:id").put(async (req, res) => {
+    const id = req.params.id;
+    const title = req.body.title;
+
+    try {
+        const result = await Map.updateOne({ _id: id }, { title: title });
         res.status(200).json({ success: true, result: result });
     } catch (err) {
         console.error(err);
