@@ -29,23 +29,19 @@ const Column = new mongoose.Schema({
     touchpoints: [Touchpoint]
 });
 
-const Questions = new mongoose.Schema({
-    qIndex: {
-        type: String,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    items: {
-        type: [String]
-    }
-})
+// const Questions = new mongoose.Schema({
+//     qIndex: {
+//         type: Number,
+//         required: true
+//     },
+//     questions: {
+//         type: [Question]
+//     }
+// })
 
-const Question = new mongoose.Schema({
+// const Question = new mongoose.Schema({
     
-})
+// })
 
 const Map = new mongoose.Schema({
     uid: {
