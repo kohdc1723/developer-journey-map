@@ -10,7 +10,7 @@
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(5, auto);
-    grid-auto-rows: min-content;
+    grid-auto-rows: max-content;
 }
 
 .heading-left {
@@ -39,19 +39,22 @@
 }
 
 .grid-cell {
+    position: relative;
     padding: 3px;
     margin: 3px;
     font-size: small;
 }
 
+.droppable-cell {
+    padding-bottom: 30px;
+}
+
 .droppable-field {
-    position: relative;
     min-height: 150px;
     border-radius: 10px;
 }
 
 .droppable-field-on-dragging {
-    position: relative;
     min-height: 150px;
     border-radius: 10px;
     opacity: 50%;
@@ -59,8 +62,7 @@
 
 .add-button {
     width: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     color: gray;
     text-align: center;
     position: absolute;

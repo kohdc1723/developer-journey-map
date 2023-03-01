@@ -6,7 +6,7 @@ import "../assets/styles/map.css";
 
 const Column = ({ id, column, columns, setColumns }) => {
   return (
-    <div key={id} className="grid-cell">
+    <div key={id} className="grid-cell droppable-cell">
       {column.createModal && (
         <CreateTouchPoint
           setModal={setColumns}
@@ -29,26 +29,26 @@ const Column = ({ id, column, columns, setColumns }) => {
                 return <Touchpoint item={item} index={index} key={item._id} />;
               })}
 
-              <button
-                className="add-button"
-                onClick={() => {
-                  setColumns({
-                    ...columns,
-                    [id]: {
-                      ...column,
-                      createModal: true,
-                    }
-                  });
-                }}
-              >
-                +
-              </button>
-
               {provided.placeholder}
             </div>
           );
         }}
       </Droppable>
+
+      <button
+        className="add-button"
+        onClick={() => {
+          setColumns({
+            ...columns,
+            [id]: {
+              ...column,
+              createModal: true,
+            }
+          });
+        }}
+      >
+        +
+      </button>
     </div>
   );
 };

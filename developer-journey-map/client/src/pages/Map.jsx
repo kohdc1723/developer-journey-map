@@ -53,12 +53,12 @@ const Map = () => {
   const { id } = useParams();
   const [title, setTitle] = useState("Title");
   const [titleEditable, setTitleEditable] = useState(false);
+  const [qstColumns, setQstColumns] = useState([]);
   const [columns, setColumns] = useState([]);
 
   const handleTitleBlur = (e) => {
-    e.preventDefault();
     const value = e.target.value.trim();
-    
+
     if (!value) {
       setTitle("Title");
     } else {
@@ -79,6 +79,7 @@ const Map = () => {
       const response = await fetch(`http://localhost:3800/api/map/${id}`);
       const map = await response.json();
       setTitle(map.data.title);
+      setQstColumns(map.data.qstColumns);
       setColumns(map.data.columns);
     };
     
@@ -154,6 +155,7 @@ const Map = () => {
       ) : (
         <h2 className="title" onClick={handleTitleClick}>{title}</h2>
       )}
+
       <div id="grid-layout-map">
         <h3 className="heading-left heading-top-rounded">STAGE</h3>
         <h3 className="heading-top">DISCOVER</h3>
@@ -170,34 +172,19 @@ const Map = () => {
         <div className="grid-cell">Can I build to scale?</div>
 
         <h3 className="heading-left">QUESTIONS</h3>
-        <div className="grid-cell">
-          <div>1. What is it?</div>
-          <div>2. Could it solve my problem?</div>
-          <div>3. Is it credible?</div>
-        </div>
-        <div className="grid-cell">
-          <div>1. Does it look easy to use?</div>
-          <div>2. Are there any red flags?</div>
-          <div>3. Is pricing a barrier?</div>
-        </div>
-        <div className="grid-cell">
-          <div>1. Time to "Hello World"</div>
-          <div>2. Are the docs a good experience?</div>
-          <div>3. Do I have confidence?</div>
-          <div>4. Is there a community?</div>
-        </div>
-        <div className="grid-cell">
-          <div>1. Speed to MVP</div>
-          <div>2. Is the product a good experience?</div>
-          <div>3. How do I get support?</div>
-          <div>4. Is it value for money?</div>
-        </div>
-        <div className="grid-cell">
-          <div>1. Can I do more?</div>
-          <div>2. How do I give feedback?</div>
-          <div>3. How can I contribute?</div>
-          <div>4. Will the product grow with me?</div>
-        </div>
+        {qstColumns
+          .sort((a, b) => a.qstColIndex - b.qstColIndex)
+          .map(qstColumn => (
+            <div className="grid-cell">
+              {qstColumn.questions
+                .sort((a, b) => a.qstIndex - b.qstIndex)
+                .map((qst, index) => (
+                  <div>{`${index + 1}. ${qst.question}`}</div>
+                ))
+              }
+            </div>
+          ))
+        }
 
         <h3 className="heading-left">INTERNAL TOUCHPOINTS</h3>
         {Object.entries(columns)
@@ -210,7 +197,8 @@ const Map = () => {
               setColumns={setColumns}
               key={id}
             />
-          ))}
+          ))
+        }
 
         <h3 className="heading-left heading-bottom-rounded">EXTERNAL TOUCHPOINTS</h3>
         {Object.entries(columns)
@@ -223,7 +211,8 @@ const Map = () => {
               setColumns={setColumns}
               key={id}
             />
-          ))}
+          ))
+        }
       </div>
     </DragDropContext>
   );
