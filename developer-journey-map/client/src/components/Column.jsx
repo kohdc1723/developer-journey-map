@@ -31,7 +31,7 @@ const Column = (props) => {
 							)}
 						>
 							{column.touchpoints.map((item, index) => {
-								return <Touchpoint item={item} index={index} />;
+								return <Touchpoint item={item} index={index} key={index}/>;
 							})}
 
 							<button onClick={() => {
