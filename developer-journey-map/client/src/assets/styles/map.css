@@ -1,8 +1,9 @@
 @import url("./color-palette.css");
 
-#title {
+.title {
     font-size: x-large;
     margin-bottom: 10px;
+    min-width: fit-content;
 }
 
 #grid-layout-map {

@@ -29,6 +29,18 @@ const Column = new mongoose.Schema({
     touchpoints: [Touchpoint]
 });
 
+const Question = new mongoose.Schema({
+    questionIndex: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    
+})
+
 const Map = new mongoose.Schema({
     uid: {
         type: String,
@@ -36,6 +48,10 @@ const Map = new mongoose.Schema({
     },
     title: {
         type: String,
+        required: true
+    },
+    lastModified: {
+        type: Date,
         required: true
     },
     columns: [Column]

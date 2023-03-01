@@ -138,21 +138,25 @@ const testdb = [
     {
         uid: "1",
         title: "Map1",
+        lastModified: new Date(),
         columns: defaultColumn
     },
     {
         uid: "2",
         title: "Map2",
+        lastModified: new Date(),
         columns: defaultColumn
     },
     {
         uid: "2",
         title: "Map22",
+        lastModified: new Date(),
         columns: defaultColumn
     },
     {
         uid: "3",
         title: "Map3",
+        lastModified: new Date(),
         columns: defaultColumn
     },
 ];

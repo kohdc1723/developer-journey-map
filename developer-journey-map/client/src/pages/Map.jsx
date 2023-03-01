@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "../index.css";
 import { DragDropContext } from "react-beautiful-dnd";
@@ -51,8 +51,19 @@ const onDragEnd = (result, columns, setColumns) => {
 const Map = () => {
   /* Define states */
   const { id } = useParams();
-  const [title, setTitle] = useState("Developer Journey Map");
+  const [title, setTitle] = useState("");
+  const [titleEditable, setTitleEditable] = useState(false);
   const [columns, setColumns] = useState([]);
+
+  const handleTitleBlur = (e) => {
+    e.preventDefault();
+    setTitle(e.target.value);
+    setTitleEditable(false);
+  }
+
+  const handleTitleClick = (e) => {
+    setTitleEditable(true);
+  }
 
   /* This is called only once at the very beginning */
   useEffect(() => {
@@ -85,9 +96,31 @@ const Map = () => {
     updateColumns();
   }, [columns, id]);
 
+  /* This is called whenever any state change */
+  useEffect(() => {
+    const updateTimestamp = async () => {
+      const response = await fetch(`http://localhost:3800/api/map/timestamp/${id}`, {
+        method: "PUT"
+      });
+      await response.json();
+    }
+
+    updateTimestamp();
+  }, [columns]);
+
   return (
     <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
-      <h2 id="title">{title}</h2>
+      {titleEditable ? (
+        <input
+          className="title"
+          type="text"
+          onBlur={handleTitleBlur}
+          defaultValue={title}
+          autoFocus
+        />
+      ) : (
+        <h2 className="title" onClick={handleTitleClick}>{title}</h2>
+      )}
       <div id="grid-layout-map">
         <h3 className="heading-left heading-top-rounded">STAGE</h3>
         <h3 className="heading-top">DISCOVER</h3>

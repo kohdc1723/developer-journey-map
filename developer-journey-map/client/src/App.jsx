@@ -19,7 +19,7 @@ const App = () => {
             </main>
             <footer id="footer">
                 <div>@DevRelBook | www.devrelbook.com | info@devrelbook.com</div>
-                <div>LOGO</div>
+                <div>Logo</div>
             </footer>
         </BrowserRouter>
     );

@@ -25,7 +25,10 @@ const Dashboard = () => {
         {maps.map((map) => {
           return (
             <Link to={`/map/${map._id}`}>
-              <div className="map">{map.title}</div>
+              <div className="map">
+                <div>{map.title}</div>
+                <div>{new Date(map.lastModified).toLocaleString()}</div>
+              </div>
             </Link>
           );
         })}

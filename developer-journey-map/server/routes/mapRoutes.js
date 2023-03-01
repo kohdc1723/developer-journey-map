@@ -18,6 +18,19 @@ router.route("/:id").get(async (req, res) => {
     }
 });
 
+// update a map's lastModified
+router.route("/timestamp/:id").put(async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const result = await Map.updateOne({ _id: id }, { lastModified: new Date() });
+        res.status(200).json({ success: true, result: result });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: err });
+    }
+});
+
 // update columns in a map which _id == id
 router.route("/column/:id").put(async (req, res) => {
     const id = req.params.id;
