@@ -13,6 +13,9 @@ const Touchpoint = new mongoose.Schema({
     },
     borderColor: {
         type: String,
+    },
+    borderSize: {
+        type: String,
     }
 });
 

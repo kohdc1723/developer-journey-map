@@ -5,6 +5,7 @@ const Touchpoint = (props) => {
     const item = props.item;
     const index = props.index; 
     const borderColor = item.borderColor ? item.borderColor : "border-black";
+    const borderSize = item.borderSize ? item.borderSize : "border";
 
     return (
         <Draggable key={item._id} draggableId={item._id} index={index}>
@@ -15,8 +16,8 @@ const Touchpoint = (props) => {
                         {...provided.dragHandleProps}
                         ref={provided.innerRef}
                         className={
-                            { ...provided.draggableProps.style } + " " + borderColor +
-                            " select-none rounded-lg border my-1 text-sm px-1 w-fit h-fit min-h-[25px] ".concat(
+                            { ...provided.draggableProps.style } + " " + borderColor + " " + borderSize +
+                            " select-none rounded-lg my-1 text-sm px-1 w-fit h-fit min-h-[25px] ".concat(
                                 snapshot.isDragging
                                     ? "bg-gray-300"
                                     : "bg-white"

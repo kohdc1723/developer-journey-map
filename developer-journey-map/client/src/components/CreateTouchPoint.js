@@ -9,23 +9,34 @@ const options = [
   { value: 'border-fuchsia-700', label: 'Purple' },
 ]
 
+const borderOptions = [
+    { value: 'border', label: 'Small' },
+    { value: 'border-2', label: 'Medium' },
+    { value: 'border-4', label: 'Large' },
+    { value: 'border-8', label: 'Extra Large' },
+  ]
+
 function CreateTouchPoint({ columns, setModal, id, column }) {
     const [touchTitle, setTouchTitle] = useState(null);
     const [touchColor, setTouchColor] = useState("border-black");
+    const [touchBSize, setTouchBSize] = useState("border");
     function getTouchTitle(event) {
         setTouchTitle(event.target.value)
     }
     function setColor(selectedOption) {
         console.log("setColor", selectedOption);
         setTouchColor(selectedOption.value);
-        console.log(touchColor)
+    }
+    function setSize(selectedOption) {
+        console.log("setSize", selectedOption);
+        setTouchBSize(selectedOption.value);
     }
     function addTouchPoint() {
         setModal({
             ...columns,
             [id]: {
                 ...column,
-                touchpoints: [...column.touchpoints, { _id: uuid(), title: touchTitle, borderColor: touchColor }],
+                touchpoints: [...column.touchpoints, { _id: uuid(), title: touchTitle, borderColor: touchColor, borderSize: touchBSize }],
                 createModal: false,
             },
         });
@@ -58,6 +69,10 @@ function CreateTouchPoint({ columns, setModal, id, column }) {
                     <p>Please select border color</p>
                 </div>
                 <Select options={options} onChange={setColor} placeholder="Black" className="py-2"/>
+                <div className="flex flex-[50%] justify-center items-center text-center text-3xl">
+                    <p>Please select border size</p>
+                </div>
+                <Select options={borderOptions} onChange={setSize} placeholder="Small" className="py-2"/>
                 <div className="flex flex-[20%] justify-center items-center">
                     <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
                         onClick={() => {
