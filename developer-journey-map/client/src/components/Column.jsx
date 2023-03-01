@@ -26,7 +26,7 @@ const Column = ({ id, column, columns, setColumns }) => {
               }`}
             >
               {column.touchpoints.map((item, index) => {
-                return <Touchpoint item={item} index={index} key={item.uuid} />;
+                return <Touchpoint item={item} index={index} key={item._id} />;
               })}
 
               <button

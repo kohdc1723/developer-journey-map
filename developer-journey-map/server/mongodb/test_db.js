@@ -1,162 +1,167 @@
 import { MongoClient } from "mongodb";
 import { v4 as uuid } from "uuid";
+import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const defaultColumn = [
     {
-        "colIndex": "0",
-        "name": "discover_internal",
-        "position": "internal",
-        "touchpoints": [
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "0",
+        position: "internal",
+        touchpoints: [
             {
-                "uuid": uuid(),
-                "content": "Dev Hub Landing Page"
+                _id: mongoose.Types.ObjectId(),
+                content: "Dev Hub Landing Page"
             },
             {
-                "uuid": uuid(),
-                "content": "Newsletter"
+                _id: mongoose.Types.ObjectId(),
+                content: "Newsletter"
             }
         ]
     },
     {
-        "colIndex": "1",
-        "name": "evaluate_internal",
-        "position": "internal",
-        "touchpoints": [
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "1",
+        position: "internal",
+        touchpoints: [
             {
-                "uuid": uuid(),
-                "content": "Docs Landing Page"
+                _id: mongoose.Types.ObjectId(),
+                content: "Docs Landing Page"
             },
             {
-                "uuid": uuid(),
-                "content": "FAQs"
+                _id: mongoose.Types.ObjectId(),
+                content: "FAQs"
             }
         ]
     },
     {
-        "colIndex": "2",
-        "name": "learn_internal",
-        "position": "internal",
-        "touchpoints": [
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "2",
+        position: "internal",
+        touchpoints: [
             {
-                "uuid": uuid(),
-                "content": "Code Samples"
+                _id: mongoose.Types.ObjectId(),
+                content: "Code Samples"
             },
             {
-                "uuid": uuid(),
-                "content": "Tutorials"
+                _id: mongoose.Types.ObjectId(),
+                content: "Tutorials"
             }
         ]
     },
     {
-        "colIndex": "3",
-        "name": "build_internal",
-        "position": "internal",
-        "touchpoints": [
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "3",
+        position: "internal",
+        touchpoints: [
             {
-                "uuid": uuid(),
-                "content": "Change Log"
+                _id: mongoose.Types.ObjectId(),
+                content: "Change Log"
             },
             {
-                "uuid": uuid(),
+                _id: mongoose.Types.ObjectId(),
                 "content": "Sandbox"
             }
         ]
     },
     {
-        "colIndex": "4",
-        "name": "scale_internal",
-        "position": "internal",
-        "touchpoints": [
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "4",
+        position: "internal",
+        touchpoints: [
             {
-                "uuid": uuid(),
-                "content": "Showcase"
+                _id: mongoose.Types.ObjectId(),
+                content: "Showcase"
             },
             {
-                "uuid": uuid(),
-                "content": "Certitication"
+                _id: mongoose.Types.ObjectId(),
+                content: "Certitication"
             }
         ]
     },
     {
-        "colIndex": "5",
-        "name": "discover_external",
-        "position": "external",
-        "touchpoints": [
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "5",
+        position: "external",
+        touchpoints: [
             {
-                "uuid": uuid(),
-                "content": "Syndication"
+                _id: mongoose.Types.ObjectId(),
+                content: "Syndication"
             },
             {
-                "uuid": uuid(),
-                "content": "Referrals"
+                _id: mongoose.Types.ObjectId(),
+                content: "Referrals"
             }
         ]
     },
     {
-        "colIndex": "6",
-        "name": "evaluate_external",
-        "position": "external",
-        "touchpoints": [
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "6",
+        position: "external",
+        touchpoints: [
             {
-                "uuid": uuid(),
-                "content": "GitHub"
+                _id: mongoose.Types.ObjectId(),
+                content: "GitHub"
             },
             {
-                "uuid": uuid(),
-                "content": "Stack Overflow"
+                _id: mongoose.Types.ObjectId(),
+                content: "Stack Overflow"
             }
         ]
     },
     {
-        "colIndex": "7",
-        "name": "learn_external",
-        "position": "external",
-        "touchpoints": [
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "7",
+        position: "external",
+        touchpoints: [
             {
-                "uuid": uuid(),
-                "content": "Technology Dependencies"
+                _id: mongoose.Types.ObjectId(),
+                content: "Technology Dependencies"
             }
         ]
     },
     {
-        "colIndex": "8",
-        "name": "build_external",
-        "position": "external",
-        "touchpoints": []
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "8",
+        position: "external",
+        touchpoints: []
     },
     {
-        "colIndex": "9",
-        "name": "scale_external",
-        "position": "external",
-        "touchpoints": []
+        _id: mongoose.Types.ObjectId(),
+        colIndex: "9",
+        position: "external",
+        touchpoints: []
     }
 ];
 
 const testdb = [
     {
+        _id: mongoose.Types.ObjectId(),
         uid: "1",
+        lastModified: new Date(),
         title: "Map1",
-        lastModified: new Date(),
         columns: defaultColumn
     },
     {
+        _id: mongoose.Types.ObjectId(),
         uid: "2",
+        lastModified: new Date(),
         title: "Map2",
-        lastModified: new Date(),
         columns: defaultColumn
     },
     {
+        _id: mongoose.Types.ObjectId(),
         uid: "2",
-        title: "Map22",
         lastModified: new Date(),
+        title: "Map22",
         columns: defaultColumn
     },
     {
+        _id: mongoose.Types.ObjectId(),
         uid: "3",
-        title: "Map3",
         lastModified: new Date(),
+        title: "Map3",
         columns: defaultColumn
     },
 ];

@@ -4,7 +4,7 @@ import "../assets/styles/map.css";
 
 const Touchpoint = ({ item, index }) => {
   return (
-    <Draggable key={item.uuid} draggableId={item.uuid} index={index}>
+    <Draggable key={item._id} draggableId={item._id} index={index}>
       {(provided, snapshot) => {
         return (
           <div
