@@ -5,7 +5,8 @@ import Select from 'react-select'
 const options = [
   { value: 'border-yellow-300', label: 'Yellow' },
   { value: 'border-green-600', label: 'Green' },
-  { value: 'border-red-600', label: 'Red' }
+  { value: 'border-red-600', label: 'Red' },
+  { value: 'border-fuchsia-700', label: 'Purple' },
 ]
 
 function CreateTouchPoint({ columns, setModal, id, column }) {
