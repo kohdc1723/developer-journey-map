@@ -4,7 +4,7 @@ import { Touchpoint } from "../components";
 import CreateTouchPoint from "../components/CreateTouchPoint";
 import "../assets/styles/map.css";
 
-const Column = ({ id, column, columns, setColumns }) => {
+const Column = ({ id, column, columns, setColumns, updateNode }) => {
   return (
     <div key={id} className="grid-cell">
       {column.createModal && (
