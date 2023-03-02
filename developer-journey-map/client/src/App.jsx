@@ -34,15 +34,15 @@ const App = () => {
 
     return (
         <BrowserRouter>
-            <Navbar user={user} />
-            <main className="w-full min-h-[calc(100vh-100px)] bg-white">
+            {/* <Navbar user={user} /> */}
+            {/* <main className="w-full min-h-[calc(100vh-100px)]"> */}
                 <Routes>
                     <Route path="/login" element={user ? <Navigate to="/dashboard/:uid" /> : <Login />} />
                     <Route path="/dashboard/:uid" element={user ? <Dashboard /> : <Navigate to="/login" />} />
                     <Route path="/map/:id" element={user ? <Map /> : <Navigate to="/login" />} />
                 </Routes>
-            </main>
-            <Footer />
+            {/* </main> */}
+            {/* <Footer /> */}
         </BrowserRouter>
     );
 }

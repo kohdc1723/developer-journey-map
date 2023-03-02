@@ -1,3 +1,8 @@
+body {
+    font-family: "Avenir Next Condensed re", sans-serif;
+    font-weight: 400;
+}
+
 .navbar {
     height: 50px;
     background-color: #91C859;
