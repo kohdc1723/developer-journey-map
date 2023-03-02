@@ -3,6 +3,10 @@ body {
     font-weight: 400;
 }
 
+.main {
+    height: calc(100vh - 100px);
+}
+
 .navbar {
     height: 50px;
     background-color: #91C859;

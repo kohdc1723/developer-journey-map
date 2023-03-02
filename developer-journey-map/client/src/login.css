@@ -1,5 +1,4 @@
 .login {
-    /* height: calc(100vh - 100px); */
     height: 100vh;
     display: flex;
     align-items: center;
@@ -33,7 +32,7 @@
     height: 65%;
 }
 
-.left a {
+.copyright {
     margin-bottom: 40px;
     font-size: 2px;
     color: #63883D;
@@ -109,18 +108,18 @@
     color: #2E352F;
     font-weight: bold;
     font-size: 10px;
-    width: 45%; 
-    text-align: center; 
-    border-bottom: 1px solid #2E352F; 
+    width: 45%;
+    text-align: center;
+    border-bottom: 1px solid #2E352F;
     line-height: 0.1em;
     margin: 10px 0 20px;
     margin-bottom: 50px;
 }
- 
-.loginSubtitle span { 
-     background:#fff; 
-     padding:0 10px; 
- }
+
+.loginSubtitle span {
+    background: #fff;
+    padding: 0 10px;
+}
 
 .loginButton {
     width: 240px;

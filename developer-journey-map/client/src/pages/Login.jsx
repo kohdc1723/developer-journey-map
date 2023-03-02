@@ -28,10 +28,10 @@ const Login = () => {
                         <h1>Revere Communications</h1>
                         <p>We aim to improve the experience developers go through in discovering and building
                             with new tools by creating an online interactive version of our Developer Journey Map.</p>
-                        <button>LEARN MORE</button>
+                        <button><a href="https://www.reverecommunications.com/about">LEARN MORE</a></button>
                     </div>
                     <img src={LoginImage} alt="" />
-                    <a href="https://storyset.com/nature">Nature illustrations by Storyset</a>
+                    <a className='copyright' href="https://storyset.com/nature">Nature illustrations by Storyset</a>
                 </div>
                 <div className='right'>
                     <div className='companyLogo'>
