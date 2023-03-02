@@ -14,7 +14,7 @@
 }
 
 .heading-left {
-    background-color: var(--rev-dark-green);
+    background-color: var(--rev-black);
     color: var(--rev-white);
     text-align: center;
     padding: 5px;
@@ -32,7 +32,7 @@
 }
 
 .heading-top {
-    background-color: var(--rev-dark-green);
+    background-color: var(--rev-black);
     color: var(--rev-white);
     text-align: center;
     padding: 5px;
@@ -46,7 +46,7 @@
 }
 
 .droppable-cell {
-    padding-bottom: 30px;
+    padding-bottom: 50px;
 }
 
 .droppable-field {

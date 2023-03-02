@@ -51,24 +51,40 @@ const onDragEnd = (result, columns, setColumns) => {
 const Map = () => {
   /* Define states */
   const { id } = useParams();
-  const [title, setTitle] = useState("Title");
+
+  const [title, setTitle] = useState("Map");
   const [titleEditable, setTitleEditable] = useState(false);
+
   const [qstColumns, setQstColumns] = useState([]);
   const [columns, setColumns] = useState([]);
 
-  const handleTitleBlur = (e) => {
+  const handleTitleBlur = async (e) => {
+    e.preventDefault();
     const value = e.target.value.trim();
 
     if (!value) {
       setTitle("Title");
     } else {
-      setTitle(e.target.value);
+      setTitle(value);
     }
+
+    const response = await fetch(`http://localhost:3800/api/map/title/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: value
+      })
+    });
+
+    await response.json();
 
     setTitleEditable(false);
   }
 
   const handleTitleClick = (e) => {
+    e.preventDefault();
     setTitleEditable(true);
   }
 
@@ -86,23 +102,24 @@ const Map = () => {
     loadMap();
   }, [id]);
 
-  useEffect(() => {
-    const updateTitle = async () => {
-      const response = await fetch(`http://localhost:3800/api/map/title/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          title: title
-        })
-      })
+  // useEffect(() => {
+  //   const updateTitle = async () => {
+  //     const response = await fetch(`http://localhost:3800/api/map/title/${id}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: JSON.stringify({
+  //         title: title
+  //       })
+  //     });
 
-      await response.json();
-    }
+  //     const updatedTitle = await response.json();
+  //     console.log("updated", updatedTitle);
+  //   }
 
-    updateTitle();
-  })
+  //   updateTitle();
+  // }, [title]);
 
   /* This is called whenever columns state change */
   useEffect(() => {
@@ -139,7 +156,7 @@ const Map = () => {
     }
 
     updateTimestamp();
-  }, [columns]);
+  }, [columns, id]);
 
   return (
     <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
@@ -175,11 +192,11 @@ const Map = () => {
         {qstColumns
           .sort((a, b) => a.qstColIndex - b.qstColIndex)
           .map(qstColumn => (
-            <div className="grid-cell">
+            <div className="grid-cell" key={qstColumn._id}>
               {qstColumn.questions
                 .sort((a, b) => a.qstIndex - b.qstIndex)
                 .map((qst, index) => (
-                  <div>{`${index + 1}. ${qst.question}`}</div>
+                  <div key={qst._id}>{`${index + 1}. ${qst.question}`}</div>
                 ))
               }
             </div>

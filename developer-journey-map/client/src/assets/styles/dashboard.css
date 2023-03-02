@@ -2,6 +2,7 @@
 
 #title {
     font-size: x-large;
+    margin-bottom: 10px;
 }
 
 #dashboard-flex-layout {
@@ -9,10 +10,33 @@
     gap: 15px;
 }
 
-.map {
-    background-color: var(--rev-dark-green);
-    color: var(--rev-white);
+.map-item {
+    color: var(--rev-black);
     text-align: center;
+    border: 1px solid var(--rev-black);
     border-radius: 10px;
     padding: 10px;
+    display: flex;
+    z-index: 1;
+}
+
+.map-item:hover {
+    border: 2px solid var(--rev-dark-green);
+}
+
+.flex-buttons {
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+.button {
+    background-color: var(--rev-green);
+    color: var(--rev-white);
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: var(--rev-dark-green);
 }

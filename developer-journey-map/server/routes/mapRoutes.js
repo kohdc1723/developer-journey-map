@@ -32,6 +32,7 @@ router.route("/timestamp/:id").put(async (req, res) => {
     }
 });
 
+// update a map's title
 router.route("/title/:id").put(async (req, res) => {
     const id = req.params.id;
     const title = req.body.title;
