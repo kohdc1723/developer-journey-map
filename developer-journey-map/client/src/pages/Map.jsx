@@ -79,6 +79,7 @@ const Map = () => {
       const y = position.top + scrollTop - 75 + (position.height / 2);
       ns.push({id: `${id}`, type: 'touchpointNode', position: { x: x, y: y }});
     });
+    requestAnimationFrame(updateNode);
     return [...ns]
   }), []);
   const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'arrowEdge' }, eds)), []);
@@ -163,11 +164,21 @@ const Map = () => {
         body: JSON.stringify(timestamp)
       });
       await response.json();
-      updateNode();
+      
     }
 
     updateTimestamp();
   }, [columns]);
+
+  /* Every frame, reposition arrows and handles to fit corresponding touchpoints */
+  useEffect(() => {
+    requestAnimationFrame(updateNode);
+
+    return () => {
+      // Stop the animation when the component unmounts
+      cancelAnimationFrame(updateNode);
+    };
+  }, []);
 
   return (
     <ReactFlow
