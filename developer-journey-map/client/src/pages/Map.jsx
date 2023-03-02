@@ -102,25 +102,6 @@ const Map = () => {
     loadMap();
   }, [id]);
 
-  // useEffect(() => {
-  //   const updateTitle = async () => {
-  //     const response = await fetch(`http://localhost:3800/api/map/title/${id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json"
-  //       },
-  //       body: JSON.stringify({
-  //         title: title
-  //       })
-  //     });
-
-  //     const updatedTitle = await response.json();
-  //     console.log("updated", updatedTitle);
-  //   }
-
-  //   updateTitle();
-  // }, [title]);
-
   /* This is called whenever columns state change */
   useEffect(() => {
     // auto-update the database
