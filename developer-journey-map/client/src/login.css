@@ -34,7 +34,7 @@
 
 .copyright {
     margin-bottom: 40px;
-    font-size: 2px;
+    font-size: 7px;
     color: #63883D;
 }
 
@@ -52,13 +52,13 @@
 }
 
 .intro p {
-    font-size: 5px;
+    font-size: 10px;
     color: #63883D;
     margin-bottom: 5px;
 }
 
 .intro button {
-    font-size: 5px;
+    font-size: 8px;
     padding: 5px 5px;
     border-radius: 5px;
     border-color: #2E352F;
