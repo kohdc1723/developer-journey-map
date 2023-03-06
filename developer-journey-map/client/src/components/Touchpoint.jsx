@@ -13,10 +13,12 @@ const Touchpoint = (props) => {
     // Our state to check if we want to show our modal
     const [openModal, setOpenModal] = useState(false);
 
+
     return (
         <Draggable key={item._id} draggableId={item._id} index={index}>
             {(provided, snapshot) => (
                 <div
+            id={item._id}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}

@@ -1,9 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import "../index.css";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
+
+import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
+import 'reactflow/dist/style.css';
+import ArrowEdge from "../components/ArrowEdge";
+import TouchpointNode from "../components/TouchpointNode";
+
 import "../assets/styles/map.css";
+
+const nodeTypes = {
+  touchpointNode: TouchpointNode,
+};
+
+const edgeTypes = {
+  arrowEdge: ArrowEdge,
+};
 
 // on drag handler
 const onDragEnd = (result, columns, setColumns) => {
@@ -57,6 +71,25 @@ const Map = () => {
 
   const [qstColumns, setQstColumns] = useState([]);
   const [columns, setColumns] = useState([]);
+  const [dragging, setDragging] = useState(false);
+
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const updateNode = useCallback(() => setNodes((ns) => {
+    ns = [];
+    Array.from(document.querySelectorAll('.touchpoint, .touchpoint-on-dragging')).forEach((node) => {
+      const id = node.id;
+      const position = document.getElementById(id).getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const x = position.left - 20;
+      const y = position.top + scrollTop - 75 + (position.height / 2);
+      ns.push({id: `${id}`, type: 'touchpointNode', position: { x: x, y: y }});
+    });
+    //console.log(dragging.valueOf());
+    requestAnimationFrame(updateNode);
+    return [...ns]
+  }), []);
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'arrowEdge' }, eds)), []);
 
   const handleTitleBlur = async (e) => {
     e.preventDefault();
@@ -100,6 +133,7 @@ const Map = () => {
     };
     
     loadMap();
+    requestAnimationFrame(updateNode);
   }, [id]);
 
   /* This is called whenever columns state change */
@@ -134,40 +168,71 @@ const Map = () => {
         body: JSON.stringify(timestamp)
       });
       await response.json();
+      
     }
 
     updateTimestamp();
   }, [columns, id]);
 
   return (
-    <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
-      {titleEditable ? (
-        <input
-          className="title"
-          type="text"
-          onBlur={handleTitleBlur}
-          defaultValue={title}
-          autoFocus
-          required
-        />
-      ) : (
-        <h2 className="title" onClick={handleTitleClick}>{title}</h2>
-      )}
-
+    <ReactFlow
+      nodes={nodes}
+      onNodesChange={onNodesChange}
+      nodeTypes={nodeTypes}
+      edges={edges}
+      edgeTypes={edgeTypes}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      panOnDrag={false}
+      zoomOnScroll={false}
+      preventScrolling={false}
+      autoPanOnConnect={false}
+      autoPanOnNodeDrag={false}
+      zoomOnDoubleClick={false}
+      disableKeyboardA11y={true}
+      zoomActivationKeyCode={null}
+      panActivationKeyCode={null}
+      selectionKeyCode={null}
+      multiSelectionKeyCode={null}
+      deleteKeyCode={null}
+    >
+      <DragDropContext
+        onDragStart={() => {
+          console.log('drag start');
+          setDragging(true);
+        }}
+        onDragEnd={(result) => {
+          console.log('drag end');
+          setDragging(false);
+          onDragEnd(result, columns, setColumns)
+        }}>
+        {titleEditable ? (
+          <input
+            className="title"
+            type="text"
+            onBlur={handleTitleBlur}
+            defaultValue={title}
+            autoFocus
+            required
+          />
+        ) : (
+          <h2 className="title" onClick={handleTitleClick}>{title}</h2>
+        )}
+  
       <div id="grid-layout-map">
-        <h3 className="heading-left heading-top-rounded">STAGE</h3>
-        <h3 className="heading-top">DISCOVER</h3>
-        <h3 className="heading-top">EVALUATE</h3>
-        <h3 className="heading-top">LEARN</h3>
-        <h3 className="heading-top">BUILD</h3>
-        <h3 className="heading-top">SCALE</h3>
+          <h3 className="heading-left heading-top-rounded">STAGE</h3>
+          <h3 className="heading-top">DISCOVER</h3>
+          <h3 className="heading-top">EVALUATE</h3>
+          <h3 className="heading-top">LEARN</h3>
+          <h3 className="heading-top">BUILD</h3>
+          <h3 className="heading-top">SCALE</h3>
 
-        <h3 className="heading-left">GOALS / NEEDS</h3>
-        <div className="grid-cell">Is this of use to me?</div>
-        <div className="grid-cell">Will it meet my needs?</div>
-        <div className="grid-cell">How does it work?</div>
-        <div className="grid-cell">Can I build a proof of concept?</div>
-        <div className="grid-cell">Can I build to scale?</div>
+          <h3 className="heading-left">GOALS / NEEDS</h3>
+          <div className="grid-cell">Is this of use to me?</div>
+          <div className="grid-cell">Will it meet my needs?</div>
+          <div className="grid-cell">How does it work?</div>
+          <div className="grid-cell">Can I build a proof of concept?</div>
+          <div className="grid-cell">Can I build to scale?</div>
 
         <h3 className="heading-left">QUESTIONS</h3>
         {qstColumns
@@ -184,35 +249,38 @@ const Map = () => {
           ))
         }
 
-        <h3 className="heading-left">INTERNAL TOUCHPOINTS</h3>
-        {Object.entries(columns)
-          .filter(([id, column]) => column.position === "internal")
-          .map(([id, column]) => (
-            <Column
-              id={id}
-              column={column}
-              columns={columns}
-              setColumns={setColumns}
-              key={id}
-            />
-          ))
+          <h3 className="heading-left">INTERNAL TOUCHPOINTS</h3>
+          {Object.entries(columns)
+            .filter(([id, column]) => column.position === "internal")
+            .map(([id, column]) => (
+              <Column
+                id={id}
+                column={column}
+                columns={columns}
+                setColumns={setColumns}
+                updateNode={updateNode}
+                key={id}
+              />
+            ))
         }
 
-        <h3 className="heading-left heading-bottom-rounded">EXTERNAL TOUCHPOINTS</h3>
-        {Object.entries(columns)
-          .filter(([id, column]) => column.position === "external")
-          .map(([id, column]) => (
-            <Column
-              id={id}
-              column={column}
-              columns={columns}
-              setColumns={setColumns}
-              key={id}
-            />
-          ))
+          <h3 className="heading-left heading-bottom-rounded">EXTERNAL TOUCHPOINTS</h3>
+          {Object.entries(columns)
+            .filter(([id, column]) => column.position === "external")
+            .map(([id, column]) => (
+              <Column
+                id={id}
+                column={column}
+                columns={columns}
+                setColumns={setColumns}
+                updateNode={updateNode}
+                key={id}
+              />
+            ))
         }
-      </div>
-    </DragDropContext>
+        </div>
+      </DragDropContext>
+    </ReactFlow>
   );
 };
 
