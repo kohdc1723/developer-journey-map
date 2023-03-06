@@ -11,14 +11,17 @@ const TouchPointModalInfo = ({ open, onClose, title, text }) => {
                 }}
                 className='fixed flex max-w-[40%] w-full h-[50%] top-[30%] left-[30%] bg-[#ffffff]'
             >
-                <div >
-                    {title}
-                </div>
-                {text && (
-                    <div >
-                        {parse(text)}
+                <div className='flex flex-col w-full justify-evenly bg-white'>
+                    <div className='flex flex-row justify-center font-bold text-[30px]'>
+                        {title}
                     </div>
-                )}
+                    {text && (
+                        <div className='flex flex-row justify-center'>
+                            {parse(text)}
+                        </div>
+                    )}
+                </div>
+
 
             </div>
         </div>
