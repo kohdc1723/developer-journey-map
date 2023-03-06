@@ -3,12 +3,13 @@ import { useParams } from "react-router-dom";
 import "../index.css";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
-import "../assets/styles/map.css";
 
 import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
 import 'reactflow/dist/style.css';
 import ArrowEdge from "../components/ArrowEdge";
 import TouchpointNode from "../components/TouchpointNode";
+
+import "../assets/styles/map.css";
 
 const nodeTypes = {
   touchpointNode: TouchpointNode,

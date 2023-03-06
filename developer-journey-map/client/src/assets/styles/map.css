@@ -102,6 +102,10 @@
     background: transparent;
 }
 
+.react-flow__pane {
+    cursor: default;
+}
+
 /* .react-flow .react-flow__handle {
     width: 10px;
     height: 10px;
