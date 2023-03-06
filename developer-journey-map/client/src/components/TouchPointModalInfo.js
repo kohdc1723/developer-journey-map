@@ -2,6 +2,7 @@ import React from 'react'
 import parse from 'html-react-parser';
 
 const TouchPointInfoModal = ({ open, onClose, title, text }) => {
+    // if modal state is not true return nothing else return the modal view with data
     if (!open) return null;
     return (
         <div onClick={onClose} className='fixed flex bg-black/50 w-full h-full z-10 top-[0%] left-[0%]'>

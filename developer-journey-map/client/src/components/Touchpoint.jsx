@@ -7,8 +7,10 @@ import Hamburger from '../images/hamburger.png'
 const Touchpoint = (props) => {
     const item = props.item;
     const index = props.index;
+    // if border color or size do not exist set to default border-black or border size border respectively
     const borderColor = item.borderColor ? item.borderColor : "border-black";
     const borderSize = item.borderSize ? item.borderSize : "border";
+    // Our state to check if we want to show our modal
     const [openModal, setOpenModal] = useState(false);
 
     return (
