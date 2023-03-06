@@ -93,11 +93,6 @@
     opacity: 50%;
 }
 
-.hehehe {
-    position: relative;
-    z-index: 4;
-}
-
 .touchpoint-node {
     position: relative;
     height: 10px;
@@ -106,3 +101,8 @@
     border: none;
     background: transparent;
 }
+
+/* .react-flow .react-flow__handle {
+    width: 10px;
+    height: 10px;
+} */
