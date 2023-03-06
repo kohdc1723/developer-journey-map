@@ -67,10 +67,12 @@ const Map = () => {
   const [title, setTitle] = useState("Title");
   const [titleEditable, setTitleEditable] = useState(false);
   const [columns, setColumns] = useState([]);
+  const [dragging, setDragging] = useState(false);
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const updateNode = useCallback(() => setNodes((ns) => {
+    ns = [];
     Array.from(document.querySelectorAll('.touchpoint, .touchpoint-on-dragging')).forEach((node) => {
       const id = node.id;
       const position = document.getElementById(id).getBoundingClientRect();
@@ -79,6 +81,7 @@ const Map = () => {
       const y = position.top + scrollTop - 75 + (position.height / 2);
       ns.push({id: `${id}`, type: 'touchpointNode', position: { x: x, y: y }});
     });
+    //console.log(dragging.valueOf());
     requestAnimationFrame(updateNode);
     return [...ns]
   }), []);
@@ -112,6 +115,7 @@ const Map = () => {
     };
     
     loadMap();
+    requestAnimationFrame(updateNode);
   }, [id]);
 
   useEffect(() => {
@@ -170,16 +174,6 @@ const Map = () => {
     updateTimestamp();
   }, [columns]);
 
-  /* Every frame, reposition arrows and handles to fit corresponding touchpoints */
-  useEffect(() => {
-    requestAnimationFrame(updateNode);
-
-    return () => {
-      // Stop the animation when the component unmounts
-      cancelAnimationFrame(updateNode);
-    };
-  }, []);
-
   return (
     <ReactFlow
       nodes={nodes}
@@ -202,7 +196,16 @@ const Map = () => {
       multiSelectionKeyCode={null}
       deleteKeyCode={null}
     >
-      <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
+      <DragDropContext
+        onDragStart={() => {
+          console.log('drag start');
+          setDragging(true);
+        }}
+        onDragEnd={(result) => {
+          console.log('drag end');
+          setDragging(false);
+          onDragEnd(result, columns, setColumns)
+        }}>
         {titleEditable ? (
           <input
             className="title"

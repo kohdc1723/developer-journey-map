@@ -101,7 +101,8 @@
 .touchpoint-node {
     position: relative;
     height: 10px;
-    width: 124.11458587646484px;
+    width: 123px;
+    /* width: 192.4px; */
     border: none;
     background: transparent;
 }
