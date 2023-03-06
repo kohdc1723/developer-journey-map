@@ -1,7 +1,7 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { Touchpoint } from "../components";
-import CreateTouchPoint from "../components/CreateTouchPoint";
+import CreateTouchPointModal from "../components/CreateTouchPointModal";
 
 const Column = (props) => {
 	const id = props.id;
@@ -12,7 +12,7 @@ const Column = (props) => {
 	return (
 		<div key={id} className="py-1 m-1">
 			{column.createModal && (
-				<CreateTouchPoint
+				<CreateTouchPointModal
 					setModal={setColumns}
 					id={id}
 					column={column}

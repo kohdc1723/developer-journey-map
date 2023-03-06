@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import TouchPointModalInfo from './TouchPointModalInfo';
+import Hamburger from '../images/hamburger.png'
 
 
 const Touchpoint = (props) => {
@@ -26,15 +27,19 @@ const Touchpoint = (props) => {
                         )
                     }
                 >
-                    <button className="block"
-                        onClick={() => setOpenModal(true)}>
-                        Open Touchpoint</button>
-                    <TouchPointModalInfo
-                        open={openModal}
-                        onClose={() => setOpenModal(false)}
-                        title={item.title}
-                        text={item.text} />
-                    {item.title}
+                    <div className='flex flex-row justify-center items-center'>
+                        <TouchPointModalInfo
+                            open={openModal}
+                            onClose={() => setOpenModal(false)}
+                            title={item.title}
+                            text={item.text} />
+                        <div>{item.title}</div>
+                        <button className="relative left-[10px] bottom-[7px] z-1"
+                            onClick={() => setOpenModal(true)}>
+                            <img src={Hamburger} alt="Hamburger" className='w-[15px]' />
+                        </button>
+                    </div>
+
                 </div>
             )}
         </Draggable>
