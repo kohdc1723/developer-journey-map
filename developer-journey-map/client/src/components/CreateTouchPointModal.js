@@ -72,7 +72,7 @@ function CreateTouchPointModal({ columns, setModal, id, column }) {
             <div onClick={(e) => {
                 e.stopPropagation();
             }}
-                className="fixed flex flex-col max-w-[50%] w-full h-auto top-[10%] left-[25%] bg-[#ffffff] rounded-xl shadow-2xl shadow-slate-400">
+                className="fixed flex flex-col justify-evenly max-w-[50%] w-full h-auto top-[10%] left-[25%] bg-[#ffffff] rounded-xl shadow-2xl shadow-slate-400 py-5 px-5">
                 {/* <div className="flex flex-row-reverse">
                     <button className='border-none text-2xl cursor-pointer p-3'
                         onClick={() => {
@@ -88,21 +88,13 @@ function CreateTouchPointModal({ columns, setModal, id, column }) {
                         X
                     </button>
                 </div> */}
-                <div className="flex flex-row justify-center items-center text-center text-3xl">
-                    <p>Please input touchpoint item</p>
+                <div className="flex flex-row justify-center text-center text-3xl">
+                    <p>Touchpoint Title:</p>
                 </div>
-                <div className="flex flex-row justify-center items-center text-center text-3xl">
+                <div className="flex flex-row justify-center text-center text-3xl">
                     <input className="border-2 border-black" type="text" onChange={getTouchTitle} />
                 </div>
-                <div className="flex flex-row justify-center items-center text-center text-3xl">
-                    <p>Please select border color</p>
-                </div>
-                <Select options={options} onChange={setColor} placeholder="Black" className="py-2" />
-                <div className="flex flex-row justify-center items-center text-center text-3xl">
-                    <p>Please select border size</p>
-                </div>
-                <Select options={borderOptions} onChange={setSize} placeholder="Small" className="py-2" />
-                <div className="editor flex-row justify-center items-center">
+                <div className="editor flex-row justify-center py-2">
                     <CKEditor
                         editor={Editor}
                         config={editorConfiguration}
@@ -113,7 +105,17 @@ function CreateTouchPointModal({ columns, setModal, id, column }) {
                         }}
                     />
                 </div>
-                <div className="flex flex-[20%] justify-center items-center">
+                <div className="flex flex-row justify-around text-center text-xl">
+                    <div className="flex flex-col justify-center text-center">
+                        <p>Border Color:</p>
+                        <Select options={options} onChange={setColor} placeholder="Black" className="py-2" />
+                    </div>
+                    <div className="flex flex-col justify-center text-center">
+                        <p>Border Size:</p>
+                        <Select options={borderOptions} onChange={setSize} placeholder="Small" className="py-2" />
+                    </div>
+                </div>
+                <div className="flex flex-row justify-center">
                     <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
                         onClick={() => {
                             setModal({
