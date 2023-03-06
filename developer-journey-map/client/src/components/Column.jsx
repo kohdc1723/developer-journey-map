@@ -2,16 +2,12 @@ import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { Touchpoint } from "../components";
 import CreateTouchPointModal from "../components/CreateTouchPointModal";
+import "../assets/styles/map.css";
 
-const Column = (props) => {
-	const id = props.id;
-	const column = props.column;
-	const columns = props.columns;
-	const setColumns = props.setColumns;
-
-	return (
-		<div key={id} className="py-1 m-1">
-			{column.createModal && (
+const Column = ({ id, column, columns, setColumns }) => {
+  return (
+    <div key={id} className="grid-cell droppable-cell">
+      {column.createModal && (
 				<CreateTouchPointModal
 					setModal={setColumns}
 					id={id}
@@ -20,37 +16,41 @@ const Column = (props) => {
 				/>
 			)}
 
-			<Droppable droppableId={id}>
-				{(provided, snapshot) => {
-					return (
-						<div
-							{...provided.droppableProps}
-							ref={provided.innerRef}
-							className={"relative min-h-[150px] pb-8 rounded-lg ".concat(
-								snapshot.isDraggingOver ? " bg-gray-100" : " bg-white"
-							)}
-						>
-							{column.touchpoints.map((item, index) => {
-								return <Touchpoint item={item} index={index} key={index}/>;
-							})}
+      <Droppable droppableId={id}>
+        {(provided, snapshot) => {
+          return (
+            <div {...provided.droppableProps}
+              ref={provided.innerRef}
+              className={`${
+                snapshot.isDraggingOver ? "droppable-field-on-dragging" : "droppable-field"
+              }`}
+            >
+              {column.touchpoints.map((item, index) => {
+                return <Touchpoint item={item} index={index} key={item._id} />;
+              })}
 
-							<button onClick={() => {
-								setColumns({
-									...columns,
-									[id]: {
-										...column,
-										createModal: true,
-									},
-								});
-							}} className="my-1 text-gray-500 text-center w-full border border-gray-500 rounded-lg absolute bottom-0">+</button>
+              {provided.placeholder}
+            </div>
+          );
+        }}
+      </Droppable>
 
-							{provided.placeholder}
-						</div>
-					);
-				}}
-			</Droppable>
-		</div>
-	);
+      <button
+        className="add-button"
+        onClick={() => {
+          setColumns({
+            ...columns,
+            [id]: {
+              ...column,
+              createModal: true,
+            }
+          });
+        }}
+      >
+        +
+      </button>
+    </div>
+  );
 };
 
 export default Column;

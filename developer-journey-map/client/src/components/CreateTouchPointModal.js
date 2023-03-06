@@ -62,7 +62,7 @@ function CreateTouchPointModal({ columns, setModal, id, column }) {
             ...columns,
             [id]: {
                 ...column,
-                touchpoints: [...column.touchpoints, { _id: uuid(), title: touchTitle, borderColor: touchColor, borderSize: touchBSize, text: touchText }],
+                touchpoints: [...column.touchpoints, { title: touchTitle, borderColor: touchColor, borderSize: touchBSize, text: touchText }],
                 createModal: false,
             },
         });

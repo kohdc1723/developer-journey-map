@@ -20,14 +20,15 @@ const Touchpoint = (props) => {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
-                    className={
-                        { ...provided.draggableProps.style } + " " + borderColor + " " + borderSize +
-                        " select-none rounded-lg my-1 text-sm px-1 w-fit h-fit min-h-[25px] ".concat(
-                            snapshot.isDragging
-                                ? "bg-gray-300"
-                                : "bg-white"
-                        )
-                    }
+                    // className={
+                    //     { ...provided.draggableProps.style } + " " + borderColor + " " + borderSize +
+                    //     " select-none rounded-lg my-1 text-sm px-1 w-fit h-fit min-h-[25px] ".concat(
+                    //         snapshot.isDragging
+                    //             ? "opacity-50"
+                    //             : ""
+                    //     )
+                    // }
+                    className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
                 >
                     <div className='flex flex-row justify-center items-center'>
                         <TouchPointModalInfo
@@ -46,6 +47,29 @@ const Touchpoint = (props) => {
             )}
         </Draggable>
     )
-}
+};
+
+// import React from "react";
+// import { Draggable } from "react-beautiful-dnd";
+// import "../assets/styles/map.css";
+
+// const Touchpoint = ({ item, index }) => {
+//   return (
+//     <Draggable key={item._id} draggableId={item._id} index={index}>
+//       {(provided, snapshot) => {
+//         return (
+//           <div
+//             {...provided.draggableProps}
+//             {...provided.dragHandleProps}
+//             ref={provided.innerRef}
+//             className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
+//           >
+//             {item.content}
+//           </div>
+//         );
+//       }}
+//     </Draggable>
+//   );
+// };
 
 export default Touchpoint;

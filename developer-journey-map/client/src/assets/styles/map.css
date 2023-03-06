@@ -1,0 +1,93 @@
+@import url("./color-palette.css");
+
+.title {
+    font-size: x-large;
+    margin-bottom: 10px;
+    min-width: fit-content;
+}
+
+#grid-layout-map {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(5, auto);
+    grid-auto-rows: max-content;
+}
+
+.heading-left {
+    background-color: var(--rev-black);
+    color: var(--rev-white);
+    text-align: center;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.heading-top-rounded {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.heading-bottom-rounded {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.heading-top {
+    background-color: var(--rev-black);
+    color: var(--rev-white);
+    text-align: center;
+    padding: 5px;
+}
+
+.grid-cell {
+    position: relative;
+    padding: 3px;
+    margin: 3px;
+    font-size: small;
+}
+
+.droppable-cell {
+    padding-bottom: 50px;
+}
+
+.droppable-field {
+    min-height: 150px;
+    border-radius: 10px;
+}
+
+.droppable-field-on-dragging {
+    min-height: 150px;
+    border-radius: 10px;
+    opacity: 50%;
+}
+
+.add-button {
+    width: 100%;
+    margin-bottom: 10px;
+    color: gray;
+    text-align: center;
+    position: absolute;
+    bottom: 0px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px lightgray;
+}
+
+.touchpoint {
+    width: fit-content;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1.5px solid black;
+    border-radius: 5px;
+    font-size: small;
+    user-select: none;
+}
+
+.touchpoint-on-dragging {
+    width: fit-content;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1.5px solid black;
+    border-radius: 5px;
+    font-size: small;
+    user-select: none;
+    opacity: 50%;
+}
