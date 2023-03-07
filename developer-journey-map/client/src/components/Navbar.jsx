@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import LoginImage from '../img/user.png'
+import LoginImage from '../assets/img/user.png'
 
 const Navbar = ({ user }) => {
 

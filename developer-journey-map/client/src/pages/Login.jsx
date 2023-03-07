@@ -1,10 +1,10 @@
 import React from 'react'
-import Google from '../img/google.png'
-import Github from '../img/github.png'
-import Linkedin from '../img/linkedin.png'
-import LoginImage from '../img/login.png'
-import Logo from '../img/logo.png'
-import "../login.css"
+import Google from '../assets/img/google.png'
+import Github from '../assets/img/github.png'
+import Linkedin from '../assets/img/linkedin.png'
+import LoginImage from '../assets/img/login.png'
+import Logo from '../assets/img/logo.png'
+import "../assets/styles/login.css"
 
 const Login = () => {
 

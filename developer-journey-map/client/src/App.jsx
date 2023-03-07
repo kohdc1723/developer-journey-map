@@ -1,9 +1,8 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Map, Login, Dashboard } from "./pages";
 import "./assets/styles/app.css";
 import "./index.css";
-import "./app.css"
 import { useEffect, useState } from 'react';
 
 const App = () => {
@@ -33,21 +32,13 @@ const App = () => {
 
     return (
         <BrowserRouter>
-            <header id="header">
-                <Link to="/dashboard">Home</Link>
-                <Link to="/login">Login</Link>
-            </header>
-            <main id="main">
-                <Routes>
-                    <Route path="/login" element={user ? <Navigate to="/dashboard/:uid" /> : <Login />} />
-                    <Route path="/dashboard/:uid" element={user ? <Dashboard /> : <Navigate to="/login" />} />
-                    <Route path="/map/:id" element={user ? <Map /> : <Navigate to="/login" />} />
-                </Routes>
-            </main>
-            <footer id="footer">
-                <div>@DevRelBook | www.devrelbook.com | info@devrelbook.com</div>
-                <div>Logo</div>
-            </footer>
+            <Routes>
+                <Route path="/login" element={user ? <Navigate to="/dashboard/:uid" /> : <Login />} />
+                {/* <Route path="/dashboard/:uid" element={user ? <Dashboard /> : <Navigate to="/login" />} /> */}
+                <Route path="/dashboard/:uid" element={<Dashboard />} />
+                {/* <Route path="/map/:id" element={user ? <Map /> : <Navigate to="/login" />} /> */}
+                <Route path="/map/:id" element={<Map />} />
+            </Routes>
         </BrowserRouter>
     );
 }

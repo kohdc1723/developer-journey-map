@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
+import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
 import { useParams } from "react-router-dom";
-import "../index.css";
 import { DragDropContext } from "react-beautiful-dnd";
-import { useParams } from "react-router-dom";
 import { Column } from "../components";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-
-import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
-import 'reactflow/dist/style.css';
 import ArrowEdge from "../components/ArrowEdge";
 import TouchpointNode from "../components/TouchpointNode";
-
+import 'reactflow/dist/style.css';
+import "../index.css";
 import "../assets/styles/map.css";
 
 const nodeTypes = {

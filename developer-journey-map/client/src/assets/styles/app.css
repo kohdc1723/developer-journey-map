@@ -1,30 +1,53 @@
-@import url("./color-palette.css");
-
-#header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    background-color: var(--rev-green);
-    padding-left: 20px;
-    padding-right: 20px;
+body {
+    font-family: "Avenir Next Condensed re", sans-serif;
+    font-weight: 400;
 }
 
-#main {
-    width: 100%;
+.main {
     min-height: calc(100vh - 100px);
-    background-color: var(--rev-white);
     padding: 20px;
 }
 
-#footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;  
-    width: 100%;
+.navbar {
     height: 50px;
-    background-color: var(--rev-green);
-    padding-left: 20px;
-    padding-right: 20px;
+    background-color: #91C859;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 40%;
+}
+
+.list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+}
+
+.listItem {
+    margin-left: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: white;
+}
+
+.footer {
+    height: 50px;
+    background-color: #91C859;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }

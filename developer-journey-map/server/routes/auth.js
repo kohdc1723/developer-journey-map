@@ -24,7 +24,7 @@ router.get('/login/failed', (req, res) => {
 
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect(CLIENT_URL);
+    res.redirect("http://localhost:3000/login");
 });
 
 // google
