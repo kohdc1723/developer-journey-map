@@ -102,7 +102,7 @@
 }
 
 .react-flow__renderer {
-    z-index: 1 !important;
+    z-index: 0 !important;
     cursor: default;
 }
 
