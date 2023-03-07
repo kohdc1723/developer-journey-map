@@ -158,6 +158,12 @@ const Map = () => {
 
 		loadMap();
 		requestAnimationFrame(updateNode);
+    window.addEventListener('resize', () => {
+      const width = Array.from(document.querySelectorAll('.touchpoint, .touchpoint-on-dragging'))[0].getBoundingClientRect().width;
+      Array.from(document.querySelectorAll('.touchpoint-node')).forEach((node) => {
+        node.style.width = `${width}px`;
+      });
+    })
 	}, [id]);
 
 	/* This is called whenever columns state change */
