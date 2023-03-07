@@ -20,7 +20,7 @@ function checkUser(profile, done) {
             console.log(err);
             done(err);
         } else if (existingUser) {
-            console.log('User with this id already exists.');
+            console.log('Welcome back!');
             done(null, profile);
         } else {
             const newUser = new User({

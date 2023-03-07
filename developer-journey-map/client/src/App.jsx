@@ -33,9 +33,8 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/login" element={user ? <Navigate to="/dashboard/:uid" /> : <Login />} />
-                {/* <Route path="/dashboard/:uid" element={user ? <Dashboard /> : <Navigate to="/login" />} /> */}
-                <Route path="/dashboard/:uid" element={<Dashboard />} />
+                <Route path="/login" element={user ? <Navigate to={`/dashboard/${user.id}`} /> : <Login />} />
+                <Route path="/dashboard/:uid" element={user ? <Dashboard /> : <Navigate to="/login" />} />
                 {/* <Route path="/map/:id" element={user ? <Map /> : <Navigate to="/login" />} /> */}
                 <Route path="/map/:id" element={<Map />} />
             </Routes>
