@@ -220,19 +220,19 @@ const Map = () => {
         )}
   
       <div id="grid-layout-map">
-          <h3 className="heading-left heading-top-rounded">STAGE</h3>
-          <h3 className="heading-top">DISCOVER</h3>
-          <h3 className="heading-top">EVALUATE</h3>
-          <h3 className="heading-top">LEARN</h3>
-          <h3 className="heading-top">BUILD</h3>
-          <h3 className="heading-top">SCALE</h3>
+        <h3 className="heading-left heading-top-rounded">STAGE</h3>
+        <h3 className="heading-top">DISCOVER</h3>
+        <h3 className="heading-top">EVALUATE</h3>
+        <h3 className="heading-top">LEARN</h3>
+        <h3 className="heading-top">BUILD</h3>
+        <h3 className="heading-top">SCALE</h3>
 
-          <h3 className="heading-left">GOALS / NEEDS</h3>
-          <div className="grid-cell">Is this of use to me?</div>
-          <div className="grid-cell">Will it meet my needs?</div>
-          <div className="grid-cell">How does it work?</div>
-          <div className="grid-cell">Can I build a proof of concept?</div>
-          <div className="grid-cell">Can I build to scale?</div>
+        <h3 className="heading-left">GOALS / NEEDS</h3>
+        <div className="grid-cell">Is this of use to me?</div>
+        <div className="grid-cell">Will it meet my needs?</div>
+        <div className="grid-cell">How does it work?</div>
+        <div className="grid-cell">Can I build a proof of concept?</div>
+        <div className="grid-cell">Can I build to scale?</div>
 
         <h3 className="heading-left">QUESTIONS</h3>
         {qstColumns
@@ -258,7 +258,6 @@ const Map = () => {
                 column={column}
                 columns={columns}
                 setColumns={setColumns}
-                updateNode={updateNode}
                 key={id}
               />
             ))
@@ -273,7 +272,6 @@ const Map = () => {
                 column={column}
                 columns={columns}
                 setColumns={setColumns}
-                updateNode={updateNode}
                 key={id}
               />
             ))

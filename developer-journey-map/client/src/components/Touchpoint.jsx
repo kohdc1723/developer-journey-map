@@ -39,7 +39,7 @@ const Touchpoint = (props) => {
                             title={item.title}
                             text={item.text} />
                         <div>{item.title}</div>
-                        <button className="relative left-[10px] bottom-[7px] z-1"
+                        <button className="relative left-[10px] bottom-[7px] z-0"
                             onClick={() => setOpenModal(true)}>
                             <img src={Hamburger} alt="Hamburger" className='w-[15px]' />
                         </button>

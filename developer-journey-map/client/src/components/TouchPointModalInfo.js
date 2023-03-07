@@ -10,7 +10,7 @@ const TouchPointInfoModal = ({ open, onClose, title, text }) => {
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
-                className='fixed flex max-w-[40%] w-full h-[50%] top-[30%] left-[30%] bg-[#ffffff]'
+                className='fixed flex max-w-[40%] w-full h-[50%] top-[30%] left-[30%] bg-[#ffffff] z-10'
             >
                 <div className='flex flex-col w-full justify-around bg-white'>
                     <div className='flex flex-row justify-center font-bold text-[30px]'>

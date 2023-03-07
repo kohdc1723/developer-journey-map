@@ -93,6 +93,7 @@
     font-size: small;
     user-select: none;
     opacity: 50%;
+    z-index: 4;
 }
 
 .touchpoint-node {
