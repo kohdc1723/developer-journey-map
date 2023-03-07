@@ -69,7 +69,6 @@
     bottom: 0px;
     border-radius: 5px;
     box-shadow: 1px 1px 2px lightgray;
-    z-index: 4;
 }
 
 .touchpoint {
@@ -81,7 +80,6 @@
     font-size: small;
     user-select: none;
     position: relative;
-    z-index: 4;
 }
 
 .touchpoint-on-dragging {
@@ -93,19 +91,18 @@
     font-size: small;
     user-select: none;
     opacity: 50%;
-    z-index: 4;
 }
 
 .touchpoint-node {
     position: relative;
     height: 10px;
-    width: 123px;
-    /* width: 192.4px; */
+    width: 100px;
     border: none;
     background: transparent;
 }
 
-.react-flow__pane {
+.react-flow__renderer {
+    z-index: 0 !important;
     cursor: default;
 }
 
