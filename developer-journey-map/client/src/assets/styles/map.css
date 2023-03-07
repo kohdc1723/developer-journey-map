@@ -102,11 +102,12 @@
 }
 
 .react-flow__renderer {
-    z-index: 0 !important;
+    z-index: 1 !important;
     cursor: default;
 }
 
-/* .react-flow .react-flow__handle {
-    width: 10px;
-    height: 10px;
-} */
+.react-flow .react-flow__handle {
+    z-index: 5 !important;
+    width: 8px;
+    height: 9px;
+}

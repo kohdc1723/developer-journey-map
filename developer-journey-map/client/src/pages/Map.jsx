@@ -93,8 +93,14 @@ const Map = () => {
 	}), []);
 	const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'arrowEdge' }, eds)), []);
   const updateHandles = () => {
-    const width = Array.from(document.querySelectorAll('.touchpoint, .touchpoint-on-dragging'))[0].getBoundingClientRect().width;
-    Array.from(document.querySelectorAll('.touchpoint-node')).forEach((node) => {
+    const touchpoints = Array.from(document.querySelectorAll('.touchpoint, .touchpoint-on-dragging'));
+    const nodes = Array.from(document.querySelectorAll('.touchpoint-node'));
+    if (!touchpoints.length || !nodes.length) {
+      requestAnimationFrame(updateHandles);
+      return;
+    };
+    const width = touchpoints[0].getBoundingClientRect().width;
+    nodes.forEach((node) => {
       node.style.width = `${width}px`;
     });
   }
@@ -164,6 +170,7 @@ const Map = () => {
 
 		loadMap();
 		requestAnimationFrame(updateNode);
+    requestAnimationFrame(updateHandles);
     window.addEventListener('resize', updateHandles);
 	}, [id]);
 
