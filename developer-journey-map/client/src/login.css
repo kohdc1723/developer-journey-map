@@ -1,0 +1,161 @@
+.login {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #cfe7b6;
+}
+
+.wrapper {
+    width: 80%;
+    height: 80%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.left {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    background-color: #91C859;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.left img {
+    width: 65%;
+    height: 65%;
+}
+
+.copyright {
+    margin-bottom: 40px;
+    font-size: 7px;
+    color: #63883D;
+}
+
+.intro {
+    width: 50%;
+    margin-right: 30%;
+    margin-bottom: 40px;
+}
+
+.intro h1 {
+    color: #2E352F;
+    font-size: 10px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.intro p {
+    font-size: 10px;
+    color: #63883D;
+    margin-bottom: 5px;
+}
+
+.intro button {
+    font-size: 8px;
+    padding: 5px 5px;
+    border-radius: 5px;
+    border-color: #2E352F;
+    background-color: #63883D;
+    color: white;
+}
+
+.right {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.companyLogo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoName {
+    color: #2E352F;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logoImg {
+    width: 30%;
+    height: 30%;
+    margin-bottom: 20px;
+}
+
+.loginTitle {
+    margin-bottom: 40px;
+    color: #91C859;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.loginSubtitle {
+    color: #2E352F;
+    font-weight: bold;
+    font-size: 10px;
+    width: 45%;
+    text-align: center;
+    border-bottom: 1px solid #2E352F;
+    line-height: 0.1em;
+    margin: 10px 0 20px;
+    margin-bottom: 50px;
+}
+
+.loginSubtitle span {
+    background: #fff;
+    padding: 0 10px;
+}
+
+.loginButton {
+    width: 240px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.google {
+    background-color: #DB4437;
+}
+
+.github {
+    background-color: #171515;
+}
+
+.linkedin {
+    background-color: #0e76a8;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 20px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.gh {
+    background-color: #171515;
+}
+
+.li {
+    background-color: #0e76a8;
+}

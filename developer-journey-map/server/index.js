@@ -1,14 +1,19 @@
 import express from "express";
 import cors from "cors";
 import connectDb from "./mongodb/connect.js";
-import mapRoutes from "./routes/mapRoutes.js";
+import columnRoutes from "./routes/columnRoutes.js";
 import mapsRoutes from "./routes/mapsRoutes.js";
+import mapRoutes from "./routes/mapRoutes.js";
+import cookieSession from "cookie-session";
+import "./passport.js";
+import passport from "passport";
+import authRoutes from "./routes/auth.js";
 import * as dotenv from "dotenv";
+
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
 
 app.use("/api/map", mapRoutes);
@@ -17,6 +22,14 @@ app.use("/api/maps", mapsRoutes);
 app.get("/", (req, res) => {
     res.send("Hello, World!");
 });
+app.use(cookieSession({ name: "session", keys: ["journeymap"], maxAge: 24 * 60 * 60 * 100 }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cors({ origin: "http://localhost:3000", methods: "GET,POST,PUT,DELETE", credentials: true }));
+app.use("/api/column", columnRoutes);
+app.use("/api/maps", mapsRoutes);
+app.use("/api/map", mapRoutes);
+app.use("/auth", authRoutes);
 
 const connectServer = (port) => {
     app.listen(port, () => {
