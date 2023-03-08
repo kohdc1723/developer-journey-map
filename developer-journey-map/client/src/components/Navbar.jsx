@@ -14,7 +14,7 @@ const Navbar = ({ user }) => {
                 <ul className="list">
                     <li className="listItem">
                         {user.photos.length > 0 ? (
-                            <img src={user.photos[0].value} alt="" className="avatar" />
+                            <img src={user.photos[0].value} referrerPolicy="no-referrer" alt="" className="avatar" />
                         ) : (
                             <img src={LoginImage} alt="" className="avatar" />
                         )}
