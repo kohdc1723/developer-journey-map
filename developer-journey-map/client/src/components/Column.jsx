@@ -1,26 +1,11 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { Touchpoint } from "../components";
-import CreateTouchPointModal from "../components/CreateTouchPointModal";
 import "../assets/styles/map.css";
 
-const Column = ({ id, column, columns, setColumns, openModalWithItem }) => {
+const Column = ({ id, column, columns, setColumns, openModalWithItem, openCreateTouchpointModal }) => {
   return (
     <div key={id} className="grid-cell droppable-cell">
-      {column.createModal && (
-				<CreateTouchPointModal
-					setModal={setColumns}
-					id={id}
-					column={column}
-					columns={columns}
-				/>
-			)}
-      {/* <TouchPointModalInfo
-        open={openModal}
-        onClose={() => setOpenModal(false)}
-        title={item.title}
-        text={item.text} /> */}
-
       <Droppable droppableId={id}>
         {(provided, snapshot) => {
           return (
@@ -43,13 +28,7 @@ const Column = ({ id, column, columns, setColumns, openModalWithItem }) => {
       <button
         className="add-button"
         onClick={() => {
-          setColumns({
-            ...columns,
-            [id]: {
-              ...column,
-              createModal: true,
-            }
-          });
+          openCreateTouchpointModal({id: id, column: column, columns: columns, setColumns: setColumns});
         }}
       >
         +

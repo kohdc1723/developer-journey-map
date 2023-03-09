@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import ArrowEdge from "../components/ArrowEdge";
 import TouchpointNode from "../components/TouchpointNode";
 import TouchPointModalInfo from "../components/TouchPointModalInfo";
+import CreateTouchPointModal from "../components/CreateTouchPointModal";
 import 'reactflow/dist/style.css';
 import "../index.css";
 import "../assets/styles/map.css";
@@ -80,6 +81,12 @@ const Map = () => {
 		setOpenModal(true);
 		setTouchpointItem(item);
 	};
+	const [openCTPModal, setOpenCTPModal] = useState(false);
+	const [columnInfo, setColumnInfo] = useState({});
+	const openCreateTouchpointModal = (info) => {
+		setOpenCTPModal(true);
+		setColumnInfo(info);
+	}
 	const [dragging, setDragging] = useState(false);
 
 	const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -227,6 +234,11 @@ const Map = () => {
 					onClose={() => setOpenModal(false)}
 					item={touchpointItem}
 					onItemChange={setTouchpointItem} />
+				<CreateTouchPointModal
+					open={openCTPModal}
+					onClose={() => setOpenCTPModal(false)}
+					item={columnInfo}
+					onItemChange={setColumnInfo} />
 				<ReactFlow
 					nodes={nodes}
 					onNodesChange={onNodesChange}
@@ -311,6 +323,7 @@ const Map = () => {
 										columns={columns}
 										setColumns={setColumns}
 										openModalWithItem={openModalWithItem}
+										openCreateTouchpointModal={openCreateTouchpointModal}
 										key={id}
 									/>
 								))
@@ -326,6 +339,7 @@ const Map = () => {
 										columns={columns}
 										setColumns={setColumns}
 										openModalWithItem={openModalWithItem}
+										openCreateTouchpointModal={openCreateTouchpointModal}
 										key={id}
 									/>
 								))

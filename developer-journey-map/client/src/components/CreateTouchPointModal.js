@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { v4 as uuid } from "uuid";
 import Select from 'react-select';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
@@ -36,7 +36,11 @@ const editorConfiguration = {
         'redo'],
 };
 
-function CreateTouchPointModal({ columns, setModal, id, column }) {
+function CreateTouchPointModal({ open, onClose, item, onItemChange }) {
+    const handleInputChange = useCallback(event => {
+        onItemChange(event.target.value)
+    }, [onItemChange])
+
     // Saved state for touchpoint title
     const [touchTitle, setTouchTitle] = useState(null);
     // Saved state for touchpoint border color
@@ -59,15 +63,18 @@ function CreateTouchPointModal({ columns, setModal, id, column }) {
     // This procs the useEffect to save touchpoint to MongoDb
     function addTouchPoint() {
         // This is essentially the setColumns function just renamed
-        setModal({
-            ...columns,
-            [id]: {
-                ...column,
-                touchpoints: [...column.touchpoints, { _id: new mongoose.Types.ObjectId, title: touchTitle, borderColor: touchColor, borderSize: touchBSize, text: touchText }],
+        item.setColumns({
+            ...item.columns,
+            [item.id]: {
+                ...item.column,
+                touchpoints: [...item.column.touchpoints, { _id: new mongoose.Types.ObjectId, title: touchTitle, borderColor: touchColor, borderSize: touchBSize, text: touchText }],
                 createModal: false,
             },
         });
     }
+    console.log(item);
+    // if modal state is not true return nothing else return the modal view with data
+    if (!open) return null;
     return (
         /* 
         This outer div is the greyed out region of the modal that spans the entire screen.
@@ -75,16 +82,7 @@ function CreateTouchPointModal({ columns, setModal, id, column }) {
         createModal to false. This attribute is temporary because the schema doesn't have it
         so it is not save to MongoDb but is still used to open individual touchpoint modals.
         */
-        <div className='fixed flex bg-black/50 w-full h-full z-10 top-[0%] left-[0%]'
-            onClick={() => {
-                setModal({
-                    ...columns,
-                    [id]: {
-                        ...column,
-                        createModal: false,
-                    },
-                });
-            }}>
+        <div onClick={onClose} className='fixed flex bg-black/50 w-full h-full z-10 top-[0%] left-[0%]'>
             {/* Need this to close out child elements when clicking on grey region */}
             <div onClick={(e) => {
                 e.stopPropagation();
@@ -135,20 +133,14 @@ function CreateTouchPointModal({ columns, setModal, id, column }) {
                 </div>
                 <div className="flex flex-row justify-center">
                     <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
-                        onClick={() => {
-                            setModal({
-                                ...columns,
-                                [id]: {
-                                    ...column,
-                                    createModal: false,
-                                },
-                            });
-                        }}
+                        onClick={onClose} 
                         id="cancelBtn"
                     >
                         Cancel
                     </button>
-                    <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer' onClick={() => {
+                    <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer'
+                    onClick={() => {
+                        onClose();
                         addTouchPoint();
                     }}>Submit</button>
                 </div>
