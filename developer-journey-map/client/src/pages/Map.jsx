@@ -79,7 +79,7 @@ const Map = () => {
 	const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 	const updateNode = useCallback(() => setNodes((ns) => {
 		ns = [];
-		Array.from(document.querySelectorAll('.touchpoint, .touchpoint-on-dragging')).forEach((node) => {
+		Array.from(document.querySelectorAll('.touchpoint')).forEach((node) => {
 			const id = node.id;
 			const position = document.getElementById(id).getBoundingClientRect();
 			const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -93,7 +93,7 @@ const Map = () => {
 	}), []);
 	const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'arrowEdge' }, eds)), []);
   const updateHandles = () => {
-    const touchpoints = Array.from(document.querySelectorAll('.touchpoint, .touchpoint-on-dragging'));
+    const touchpoints = Array.from(document.querySelectorAll('.touchpoint'));
     const nodes = Array.from(document.querySelectorAll('.touchpoint-node'));
     if (!touchpoints.length || !nodes.length) {
       requestAnimationFrame(updateHandles);

@@ -22,15 +22,15 @@ const Touchpoint = (props) => {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
-                    // className={
-                    //     { ...provided.draggableProps.style } + " " + borderColor + " " + borderSize +
-                    //     " select-none rounded-lg my-1 text-sm px-1 w-fit h-fit min-h-[25px] ".concat(
-                    //         snapshot.isDragging
-                    //             ? "opacity-50"
-                    //             : ""
-                    //     )
-                    // }
-                    className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
+                    className={
+                        { ...provided.draggableProps.style } + " " + borderColor + " " + borderSize +
+                        " touchpoint relative select-none rounded-lg my-1 text-sm px-1 w-100% h-fit min-h-[25px] ".concat(
+                            snapshot.isDragging
+                                ? "opacity-50"
+                                : ""
+                        )
+                    }
+                    // className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
                 >
                     <div className='flex flex-row justify-center items-center'>
                         <TouchPointModalInfo
