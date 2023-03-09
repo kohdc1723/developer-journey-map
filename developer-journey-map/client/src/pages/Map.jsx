@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ArrowEdge from "../components/ArrowEdge";
 import TouchpointNode from "../components/TouchpointNode";
+import TouchPointModalInfo from "../components/TouchPointModalInfo";
 import 'reactflow/dist/style.css';
 import "../index.css";
 import "../assets/styles/map.css";
@@ -73,6 +74,12 @@ const Map = () => {
 
 	const [qstColumns, setQstColumns] = useState([]);
 	const [columns, setColumns] = useState([]);
+	const [openModal, setOpenModal] = useState(false);
+	const [touchpointItem, setTouchpointItem] = useState({});
+	const openModalWithItem = (item) => {
+		setOpenModal(true);
+		setTouchpointItem(item);
+	};
 	const [dragging, setDragging] = useState(false);
 
 	const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -187,8 +194,8 @@ const Map = () => {
 			});
 
 			await response.json();
+			updateHandles();
 		};
-
 		updateColumns();
 	}, [columns, id]);
 
@@ -207,8 +214,7 @@ const Map = () => {
 			});
 			await response.json();
 
-		}
-
+		};
 		updateTimestamp();
 	}, [columns, id]);
 
@@ -216,6 +222,11 @@ const Map = () => {
 		<>
 			<Navbar user={user} />
 			<div className="main">
+				<TouchPointModalInfo
+					open={openModal}
+					onClose={() => setOpenModal(false)}
+					item={touchpointItem}
+					onItemChange={setTouchpointItem} />
 				<ReactFlow
 					nodes={nodes}
 					onNodesChange={onNodesChange}
@@ -299,6 +310,7 @@ const Map = () => {
 										column={column}
 										columns={columns}
 										setColumns={setColumns}
+										openModalWithItem={openModalWithItem}
 										key={id}
 									/>
 								))
@@ -313,6 +325,7 @@ const Map = () => {
 										column={column}
 										columns={columns}
 										setColumns={setColumns}
+										openModalWithItem={openModalWithItem}
 										key={id}
 									/>
 								))

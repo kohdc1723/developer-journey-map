@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import parse from 'html-react-parser';
 
-const TouchPointInfoModal = ({ open, onClose, title, text }) => {
+const TouchPointInfoModal = ({ open, onClose, item, onItemChange }) => {
+
+    const handleInputChange = useCallback(event => {
+        onItemChange(event.target.value)
+    }, [onItemChange])
+
     // if modal state is not true return nothing else return the modal view with data
     if (!open) return null;
     return (
@@ -14,11 +19,11 @@ const TouchPointInfoModal = ({ open, onClose, title, text }) => {
             >
                 <div className='flex flex-col w-full justify-around bg-white'>
                     <div className='flex flex-row justify-center font-bold text-[30px]'>
-                        {title}
+                        {item.title}
                     </div>
-                    {text && (
+                    {item.text && (
                         <div className='flex flex-row justify-center'>
-                            {parse(text)}
+                            {parse(item.text)}
                         </div>
                     )}
                     <div className="flex flex-row justify-center items-center">

@@ -4,7 +4,7 @@ import { Touchpoint } from "../components";
 import CreateTouchPointModal from "../components/CreateTouchPointModal";
 import "../assets/styles/map.css";
 
-const Column = ({ id, column, columns, setColumns }) => {
+const Column = ({ id, column, columns, setColumns, openModalWithItem }) => {
   return (
     <div key={id} className="grid-cell droppable-cell">
       {column.createModal && (
@@ -31,7 +31,7 @@ const Column = ({ id, column, columns, setColumns }) => {
               }`}
             >
               {column.touchpoints.map((item, index) => {
-                return <Touchpoint item={item} index={index} key={item._id} />;
+                return <Touchpoint item={item} index={index} key={item._id} openModalWithItem={openModalWithItem} />;
               })}
 
               {provided.placeholder}
