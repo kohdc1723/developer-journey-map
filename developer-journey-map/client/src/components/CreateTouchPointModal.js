@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 import Select from 'react-select';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import Editor from 'ckeditor5-custom-build'
+import mongoose from 'mongoose';
 
 // Provides selection for touchpoint border color. The value is the tailwind css and the label is what is shown in the select.
 const options = [
@@ -62,7 +63,7 @@ function CreateTouchPointModal({ columns, setModal, id, column }) {
             ...columns,
             [id]: {
                 ...column,
-                touchpoints: [...column.touchpoints, { title: touchTitle, borderColor: touchColor, borderSize: touchBSize, text: touchText }],
+                touchpoints: [...column.touchpoints, { _id: new mongoose.Types.ObjectId, title: touchTitle, borderColor: touchColor, borderSize: touchBSize, text: touchText }],
                 createModal: false,
             },
         });

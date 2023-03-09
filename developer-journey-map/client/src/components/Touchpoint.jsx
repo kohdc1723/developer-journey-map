@@ -4,6 +4,7 @@ import TouchPointModalInfo from './TouchPointModalInfo';
 import Hamburger from '../images/hamburger.png'
 
 
+
 const Touchpoint = (props) => {
     const item = props.item;
     const index = props.index;
@@ -15,7 +16,7 @@ const Touchpoint = (props) => {
 
 
     return (
-        <Draggable key={item._id} draggableId={item._id} index={index}>
+        <Draggable key={item._id} draggableId={item._id.toString()} index={index}>
             {(provided, snapshot) => (
                 <div
             id={item._id}
@@ -24,10 +25,10 @@ const Touchpoint = (props) => {
                     ref={provided.innerRef}
                     className={
                         { ...provided.draggableProps.style } + " " + borderColor + " " + borderSize +
-                        " touchpoint relative select-none rounded-lg my-1 text-sm px-1 w-100% h-fit min-h-[25px] ".concat(
+                        " touchpoint relative select-none rounded-lg my-1 text-sm px-1 h-fit min-h-[25px] ".concat(
                             snapshot.isDragging
-                                ? "opacity-50"
-                                : ""
+                                ? "opacity-50 w-fit"
+                                : "w-full relative"
                         )
                     }
                     // className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
