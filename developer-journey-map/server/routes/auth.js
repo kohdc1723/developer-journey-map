@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 
 const router = express.Router();
-const CLIENT_URL = "http://localhost:3000/dashboard/:uid"
+const DASHBOARD_URL = "http://localhost:3000/dashboard/:uid"
 
 router.get('/login/success', (req, res) => {
     if (req.user) {
@@ -31,7 +31,7 @@ router.get('/logout', (req, res) => {
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
 
 router.get('/google/callback', passport.authenticate('google', {
-    successRedirect: CLIENT_URL,
+    successRedirect: DASHBOARD_URL,
     failureRedirect: '/login/failed'
 }));
 
@@ -39,7 +39,7 @@ router.get('/google/callback', passport.authenticate('google', {
 router.get('/github', passport.authenticate('github', { scope: ['profile'] }));
 
 router.get('/github/callback', passport.authenticate('github', {
-    successRedirect: CLIENT_URL,
+    successRedirect: DASHBOARD_URL,
     failureRedirect: '/login/failed'
 }));
 
@@ -47,7 +47,7 @@ router.get('/github/callback', passport.authenticate('github', {
 router.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_emailaddress', 'r_liteprofile'] }));
 
 router.get('/linkedin/callback', passport.authenticate('linkedin', {
-    successRedirect: CLIENT_URL,
+    successRedirect: DASHBOARD_URL,
     failureRedirect: '/login/failed'
 }));
 

@@ -9,7 +9,7 @@ const Navbar = ({ user }) => {
 
     return (
         <div className="navbar">
-            <span className="logo">Interactive Developer Journey Map</span>
+            <a className="logo" href="http://localhost:3000/dashboard/:uid">Interactive Developer Journey Map</a>
             {user ? (
                 <ul className="list">
                     <li className="listItem">
