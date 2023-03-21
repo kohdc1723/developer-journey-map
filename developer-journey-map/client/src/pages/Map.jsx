@@ -9,6 +9,7 @@ import ArrowEdge from "../components/ArrowEdge";
 import TouchpointNode from "../components/TouchpointNode";
 import TouchPointModalInfo from "../components/TouchPointModalInfo";
 import CreateTouchPointModal from "../components/CreateTouchPointModal";
+import EditDeleteTouchPointModal from "../components/EditeDeleteTouchPointModal";
 import 'reactflow/dist/style.css';
 import "../index.css";
 import "../assets/styles/map.css";
@@ -86,6 +87,12 @@ const Map = () => {
 	const openCreateTouchpointModal = (info) => {
 		setOpenCTPModal(true);
 		setColumnInfo(info);
+	}
+	// these state manages the EditDeleteTouchPointModal
+	const [openEDTPModal, setOpenEDTPModal] = useState(false);
+	const openEditDeleteModalWithItem = (item) => {
+		setOpenEDTPModal(true);
+		setTouchpointItem(item);
 	}
 	const [dragging, setDragging] = useState(false);
 
@@ -233,12 +240,19 @@ const Map = () => {
 					open={openModal}
 					onClose={() => setOpenModal(false)}
 					item={touchpointItem}
-					onItemChange={setTouchpointItem} />
+					onItemChange={setTouchpointItem}
+					mapID={id} />
 				<CreateTouchPointModal
 					open={openCTPModal}
 					onClose={() => setOpenCTPModal(false)}
 					item={columnInfo}
 					onItemChange={setColumnInfo} />
+				<EditDeleteTouchPointModal
+					open={openEDTPModal}
+					onClose={() => setOpenEDTPModal(false)}
+					item={touchpointItem}
+					onItemChange={setTouchpointItem}
+					mapID={id} />
 				<ReactFlow
 					nodes={nodes}
 					onNodesChange={onNodesChange}

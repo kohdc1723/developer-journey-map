@@ -19,11 +19,11 @@ const TouchPointInfoModal = ({ open, onClose, item, onItemChange }) => {
             >
                 <div className='flex flex-col w-full justify-around bg-white'>
                     <div className='flex flex-row justify-center font-bold text-[30px]'>
-                        {item.title}
+                        {item.item.title}
                     </div>
-                    {item.text && (
+                    {item.item.text && (
                         <div className='flex flex-row justify-center'>
-                            {parse(item.text)}
+                            {parse(item.item.text)}
                         </div>
                     )}
                     <div className="flex flex-row justify-center items-center">
