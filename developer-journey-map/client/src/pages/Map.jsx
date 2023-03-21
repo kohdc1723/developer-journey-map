@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
+import { ReactToPrint } from 'react-to-print';
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
@@ -106,18 +107,18 @@ const Map = () => {
 		return [...ns]
 	}), []);
 	const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'arrowEdge' }, eds)), []);
-  const updateHandles = () => {
-    const touchpoints = Array.from(document.querySelectorAll('.touchpoint'));
-    const nodes = Array.from(document.querySelectorAll('.touchpoint-node'));
-    if (!touchpoints.length || !nodes.length) {
-      requestAnimationFrame(updateHandles);
-      return;
-    };
-    const width = touchpoints[0].getBoundingClientRect().width;
-    nodes.forEach((node) => {
-      node.style.width = `${width}px`;
-    });
-  }
+	const updateHandles = () => {
+		const touchpoints = Array.from(document.querySelectorAll('.touchpoint'));
+		const nodes = Array.from(document.querySelectorAll('.touchpoint-node'));
+		if (!touchpoints.length || !nodes.length) {
+			requestAnimationFrame(updateHandles);
+			return;
+		};
+		const width = touchpoints[0].getBoundingClientRect().width;
+		nodes.forEach((node) => {
+			node.style.width = `${width}px`;
+		});
+	}
 
 	const handleTitleBlur = async (e) => {
 		e.preventDefault();
@@ -184,8 +185,8 @@ const Map = () => {
 
 		loadMap();
 		requestAnimationFrame(updateNode);
-    requestAnimationFrame(updateHandles);
-    window.addEventListener('resize', updateHandles);
+		requestAnimationFrame(updateHandles);
+		window.addEventListener('resize', updateHandles);
 	}, [id]);
 
 	/* This is called whenever columns state change */
@@ -227,8 +228,19 @@ const Map = () => {
 
 	return (
 		<>
+			<div>
+				<ReactToPrint
+					trigger={() => {
+						return <button>Print</button>
+					}}
+					content={() => this.componentRef}
+					documentTitle="Touchpoint Map"
+					pageStyle="print"
+				/>
+			</div>
+
 			<Navbar user={user} />
-			<div className="main">
+			<div className="main" ref={el=>(this.componentRef=el)}>
 				<TouchPointModalInfo
 					open={openModal}
 					onClose={() => setOpenModal(false)}
@@ -282,7 +294,6 @@ const Map = () => {
 						) : (
 							<h2 className="title" onClick={handleTitleClick}>{title}</h2>
 						)}
-
 						<div id="grid-layout-map">
 							<h3 className="heading-left heading-top-rounded">STAGE</h3>
 							<h3 className="heading-top">DISCOVER</h3>
