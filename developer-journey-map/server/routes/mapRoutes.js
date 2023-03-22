@@ -77,14 +77,14 @@ router.route("/column/:id").put(async (req, res) => {
 // update touchpoint in a map with map _id == id
 router.route("/touchpoint/:id").put(async (req, res) => {
     const id = req.params.id;
-    const touchpoint = Object.values(req.body);
+    const touchpoint = req.body;
 
     const map = await Map.updateOne({ _id: id },
-        { $set: { "columns.$[].touchpoints.$[touchpoint].title": "TEST",
-        "columns.$[].touchpoints.$[touchpoint].borderColor": "border-fuchsia-700", 
-        "columns.$[].touchpoints.$[touchpoint].borderSize": "border-4", 
-        "columns.$[].touchpoints.$[touchpoint].text": "TEST",} },
-        { arrayFilters: [ { "touchpoint._id": "640943cb15aeae84edbf8a82" } ] });
+        { $set: { "columns.$[].touchpoints.$[touchpoint].title": touchpoint.title,
+        "columns.$[].touchpoints.$[touchpoint].borderColor": touchpoint.borderColor, 
+        "columns.$[].touchpoints.$[touchpoint].borderSize": touchpoint.borderSize, 
+        "columns.$[].touchpoints.$[touchpoint].text": touchpoint.text,} },
+        { arrayFilters: [ { "touchpoint._id": touchpoint._id } ] });
     res.send(map)
 
 });
