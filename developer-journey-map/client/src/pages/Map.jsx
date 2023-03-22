@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
+import { useReactToPrint } from "react-to-print";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
@@ -11,6 +12,7 @@ import TouchPointModalInfo from "../components/TouchPointModalInfo";
 import CreateTouchPointModal from "../components/CreateTouchPointModal";
 import EditDeleteTouchPointModal from "../components/EditDeleteTouchPointModal";
 import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
+import ExportIcon from '../assets/img/file.png'
 import 'reactflow/dist/style.css';
 import "../index.css";
 import "../assets/styles/map.css";
@@ -119,18 +121,18 @@ const Map = () => {
 		return [...ns]
 	}), []);
 	const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'arrowEdge' }, eds)), []);
-  const updateHandles = () => {
-    const touchpoints = Array.from(document.querySelectorAll('.touchpoint'));
-    const nodes = Array.from(document.querySelectorAll('.touchpoint-node'));
-    if (!touchpoints.length || !nodes.length) {
-      requestAnimationFrame(updateHandles);
-      return;
-    };
-    const width = touchpoints[0].getBoundingClientRect().width;
-    nodes.forEach((node) => {
-      node.style.width = `${width}px`;
-    });
-  }
+	const updateHandles = () => {
+		const touchpoints = Array.from(document.querySelectorAll('.touchpoint'));
+		const nodes = Array.from(document.querySelectorAll('.touchpoint-node'));
+		if (!touchpoints.length || !nodes.length) {
+			requestAnimationFrame(updateHandles);
+			return;
+		};
+		const width = touchpoints[0].getBoundingClientRect().width;
+		nodes.forEach((node) => {
+			node.style.width = `${width}px`;
+		});
+	}
 
 	const handleTitleBlur = async (e) => {
 		e.preventDefault();
@@ -161,6 +163,12 @@ const Map = () => {
 		e.preventDefault();
 		setTitleEditable(true);
 	}
+
+	const componentRef = useRef();
+	const handleExport = useReactToPrint({
+		content: () => componentRef.current,
+		documentTitle: "Developer Journey Map",
+	});
 
 	useEffect(() => {
 		const getUser = () => {
@@ -200,6 +208,7 @@ const Map = () => {
     requestAnimationFrame(updateHandles);
     window.addEventListener('resize', updateHandles);
 	}, [id, refreshMap]);
+
 
 	/* This is called whenever columns state change */
 	useEffect(() => {
@@ -241,8 +250,15 @@ const Map = () => {
 	return (
 		<>
 			<Navbar user={user} />
-			<div className="main">
-				<TouchPointModalInfo
+			<div className="content">
+				<div className="export">
+					<div className="exportButton" onClick={handleExport}>
+						<img src={ExportIcon} alt="exportIcon" className="exportIcon" />
+						Export
+					</div>
+				</div>
+				<div className="main" ref={componentRef}>
+					<TouchPointModalInfo
 					open={openModal}
 					onClose={() => setOpenModal(false)}
 					item={touchpointItem}
@@ -272,114 +288,114 @@ const Map = () => {
 					mapID={id} 
 					refreshMap={refreshMap} 
 					setRefreshMap={setRefreshMap} />
-				<ReactFlow
-					nodes={nodes}
-					onNodesChange={onNodesChange}
-					nodeTypes={nodeTypes}
-					edges={edges}
-					edgeTypes={edgeTypes}
-					onEdgesChange={onEdgesChange}
-					onConnect={onConnect}
-					panOnDrag={false}
-					zoomOnScroll={false}
-					preventScrolling={false}
-					autoPanOnConnect={false}
-					autoPanOnNodeDrag={false}
-					zoomOnDoubleClick={false}
-					disableKeyboardA11y={true}
-					zoomActivationKeyCode={null}
-					panActivationKeyCode={null}
-					selectionKeyCode={null}
-					multiSelectionKeyCode={null}
-					deleteKeyCode={null}
-				>
-					<DragDropContext
-						onDragStart={() => {
-							console.log('drag start');
-							setDragging(true);
-						}}
-						onDragEnd={(result) => {
-							console.log('drag end');
-							setDragging(false);
-							onDragEnd(result, columns, setColumns)
-						}}>
-						{titleEditable ? (
-							<input
-								className="title"
-								type="text"
-								onBlur={handleTitleBlur}
-								defaultValue={title}
-								autoFocus
-								required
-							/>
-						) : (
-							<h2 className="title" onClick={handleTitleClick}>{title}</h2>
-						)}
+					<ReactFlow
+						nodes={nodes}
+						onNodesChange={onNodesChange}
+						nodeTypes={nodeTypes}
+						edges={edges}
+						edgeTypes={edgeTypes}
+						onEdgesChange={onEdgesChange}
+						onConnect={onConnect}
+						panOnDrag={false}
+						zoomOnScroll={false}
+						preventScrolling={false}
+						autoPanOnConnect={false}
+						autoPanOnNodeDrag={false}
+						zoomOnDoubleClick={false}
+						disableKeyboardA11y={true}
+						zoomActivationKeyCode={null}
+						panActivationKeyCode={null}
+						selectionKeyCode={null}
+						multiSelectionKeyCode={null}
+						deleteKeyCode={null}
+					>
+						<DragDropContext
+							onDragStart={() => {
+								console.log('drag start');
+								setDragging(true);
+							}}
+							onDragEnd={(result) => {
+								console.log('drag end');
+								setDragging(false);
+								onDragEnd(result, columns, setColumns)
+							}}>
+							{titleEditable ? (
+								<input
+									className="title"
+									type="text"
+									onBlur={handleTitleBlur}
+									defaultValue={title}
+									autoFocus
+									required
+								/>
+							) : (
+								<h2 className="title" onClick={handleTitleClick}>{title}</h2>
+							)}
+							<div id="grid-layout-map">
+								<h3 className="heading-left heading-top-rounded">STAGE</h3>
+								<h3 className="heading-top">DISCOVER</h3>
+								<h3 className="heading-top">EVALUATE</h3>
+								<h3 className="heading-top">LEARN</h3>
+								<h3 className="heading-top">BUILD</h3>
+								<h3 className="heading-top">SCALE</h3>
 
-						<div id="grid-layout-map">
-							<h3 className="heading-left heading-top-rounded">STAGE</h3>
-							<h3 className="heading-top">DISCOVER</h3>
-							<h3 className="heading-top">EVALUATE</h3>
-							<h3 className="heading-top">LEARN</h3>
-							<h3 className="heading-top">BUILD</h3>
-							<h3 className="heading-top">SCALE</h3>
+								<h3 className="heading-left">GOALS / NEEDS</h3>
+								<div className="grid-cell">Is this of use to me?</div>
+								<div className="grid-cell">Will it meet my needs?</div>
+								<div className="grid-cell">How does it work?</div>
+								<div className="grid-cell">Can I build a proof of concept?</div>
+								<div className="grid-cell">Can I build to scale?</div>
 
-							<h3 className="heading-left">GOALS / NEEDS</h3>
-							<div className="grid-cell">Is this of use to me?</div>
-							<div className="grid-cell">Will it meet my needs?</div>
-							<div className="grid-cell">How does it work?</div>
-							<div className="grid-cell">Can I build a proof of concept?</div>
-							<div className="grid-cell">Can I build to scale?</div>
+								<h3 className="heading-left">QUESTIONS</h3>
+								{qstColumns
+									.sort((a, b) => a.qstColIndex - b.qstColIndex)
+									.map(qstColumn => (
+										<div className="grid-cell" key={qstColumn._id}>
+											{qstColumn.questions
+												.sort((a, b) => a.qstIndex - b.qstIndex)
+												.map((qst, index) => (
+													<div key={qst._id}>{`${index + 1}. ${qst.question}`}</div>
+												))
+											}
+										</div>
+									))
+								}
 
-							<h3 className="heading-left">QUESTIONS</h3>
-							{qstColumns
-								.sort((a, b) => a.qstColIndex - b.qstColIndex)
-								.map(qstColumn => (
-									<div className="grid-cell" key={qstColumn._id}>
-										{qstColumn.questions
-											.sort((a, b) => a.qstIndex - b.qstIndex)
-											.map((qst, index) => (
-												<div key={qst._id}>{`${index + 1}. ${qst.question}`}</div>
-											))
-										}
-									</div>
-								))
-							}
+								<h3 className="heading-left">INTERNAL TOUCHPOINTS</h3>
+								{Object.entries(columns)
+									.filter(([id, column]) => column.position === "internal")
+									.map(([id, column]) => (
+										<Column
+											id={id}
+											column={column}
+											columns={columns}
+											setColumns={setColumns}
+											openModalWithItem={openModalWithItem}
+											openCreateTouchpointModal={openCreateTouchpointModal}
+											key={id}
+										/>
+									))
+								}
 
-							<h3 className="heading-left">INTERNAL TOUCHPOINTS</h3>
-							{Object.entries(columns)
-								.filter(([id, column]) => column.position === "internal")
-								.map(([id, column]) => (
-									<Column
-										id={id}
-										column={column}
-										columns={columns}
-										setColumns={setColumns}
-										openModalWithItem={openModalWithItem}
-										openCreateTouchpointModal={openCreateTouchpointModal}
-										key={id}
-									/>
-								))
-							}
-
-							<h3 className="heading-left heading-bottom-rounded">EXTERNAL TOUCHPOINTS</h3>
-							{Object.entries(columns)
-								.filter(([id, column]) => column.position === "external")
-								.map(([id, column]) => (
-									<Column
-										id={id}
-										column={column}
-										columns={columns}
-										setColumns={setColumns}
-										openModalWithItem={openModalWithItem}
-										openCreateTouchpointModal={openCreateTouchpointModal}
-										key={id}
-									/>
-								))
-							}
-						</div>
-					</DragDropContext>
-				</ReactFlow>
+								<h3 className="heading-left heading-bottom-rounded">EXTERNAL TOUCHPOINTS</h3>
+								{Object.entries(columns)
+									.filter(([id, column]) => column.position === "external")
+									.map(([id, column]) => (
+										<Column
+											id={id}
+											column={column}
+											columns={columns}
+											setColumns={setColumns}
+											openModalWithItem={openModalWithItem}
+											openCreateTouchpointModal={openCreateTouchpointModal}
+											key={id}
+										/>
+									))
+								}
+							</div>
+						</DragDropContext>
+					</ReactFlow>
+				</div>
 			</div>
 			<Footer />
 		</>
