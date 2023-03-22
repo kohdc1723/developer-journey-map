@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react'
 import parse from 'html-react-parser';
 
-const TouchPointInfoModal = ({ open, onClose, item, onItemChange, openEDTPModal, setOpenEDTPModal, setEditDeleteTouchpointItem }) => {
+const TouchPointInfoModal = ({ open, onClose, item, onItemChange, setOpenEDTPModal, setEditDeleteTouchpointItem }) => {
     const handleInputChange = useCallback(event => {
         onItemChange(event.target.value)
     }, [onItemChange])

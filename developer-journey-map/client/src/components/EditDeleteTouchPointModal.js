@@ -21,7 +21,7 @@ const borderOptions = [
     { value: 'border-8', label: 'Extra Large' },
 ]
 
-function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID }) {
+function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID, refreshMap, setRefreshMap }) {
     const handleInputChange = useCallback(event => {
         onItemChange(event.target.value)
     }, [onItemChange])
@@ -83,15 +83,19 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID })
         setTouchBSize(selectedOption.value);
     }
     // This procs the useEffect to save touchpoint to MongoDb
-    function addTouchPoint() {
-        // This is essentially the setColumns function just renamed
-        item.setColumns({
-            ...item.columns,
-            [item.id]: {
-                ...item.column,
-                touchpoints: [...item.column.touchpoints, { _id: new mongoose.Types.ObjectId, title: touchTitle, borderColor: touchColor, borderSize: touchBSize, text: touchText }],
-                createModal: false,
+    const updateTouchpoint = async () => {
+        const response = await fetch(`http://localhost:3800/api/map/touchpoint/${mapID}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
             },
+            body: JSON.stringify({
+                _id: item._id,
+                title: touchTitle,
+                borderColor: touchColor,
+                borderSize: touchBSize,
+                text: touchText
+            })
         });
     }
     // if modal state is not true return nothing else return the modal view with data
@@ -161,9 +165,12 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID })
                     </button>
                     <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer'
                         onClick={() => {
+                            updateTouchpoint();
+                            setRefreshMap(!refreshMap)
                             onClose();
+                            
                             // addTouchPoint();
-                        }}>Different</button>
+                        }}>Edit</button>
                 </div>
             </div>
         </div>

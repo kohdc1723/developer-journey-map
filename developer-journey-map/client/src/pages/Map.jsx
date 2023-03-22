@@ -9,7 +9,7 @@ import ArrowEdge from "../components/ArrowEdge";
 import TouchpointNode from "../components/TouchpointNode";
 import TouchPointModalInfo from "../components/TouchPointModalInfo";
 import CreateTouchPointModal from "../components/CreateTouchPointModal";
-import EditDeleteTouchPointModal from "../components/EditeDeleteTouchPointModal";
+import EditDeleteTouchPointModal from "../components/EditDeleteTouchPointModal";
 import 'reactflow/dist/style.css';
 import "../index.css";
 import "../assets/styles/map.css";
@@ -70,6 +70,9 @@ const Map = () => {
 	const [user, setUser] = useState(null);
 
 	const { id } = useParams();
+
+	// quick way to check for a refresh on Map when updating db without changing columns
+	const [refreshMap, setRefreshMap] = useState(false);
 
 	const [title, setTitle] = useState("Map");
 	const [titleEditable, setTitleEditable] = useState(false);
@@ -191,10 +194,11 @@ const Map = () => {
 		};
 
 		loadMap();
+		console.log("loaded")
 		requestAnimationFrame(updateNode);
     requestAnimationFrame(updateHandles);
     window.addEventListener('resize', updateHandles);
-	}, [id]);
+	}, [id, refreshMap]);
 
 	/* This is called whenever columns state change */
 	useEffect(() => {
@@ -242,8 +246,6 @@ const Map = () => {
 					onClose={() => setOpenModal(false)}
 					item={touchpointItem}
 					onItemChange={setTouchpointItem}
-					mapID={id} 
-					openEDTPModal={openEDTPModal}
 					setOpenEDTPModal={setOpenEDTPModal}
 					setEditDeleteTouchpointItem={setEditDeleteTouchpointItem}
 					openEditDeleteModalWithItem={openEditDeleteModalWithItem} />
@@ -257,7 +259,9 @@ const Map = () => {
 					onClose={() => setOpenEDTPModal(false)}
 					item={editDeleteTouchpointItem}
 					onItemChange={setEditDeleteTouchpointItem}
-					mapID={id} />
+					mapID={id} 
+					refreshMap={refreshMap} 
+					setRefreshMap={setRefreshMap} />
 				<ReactFlow
 					nodes={nodes}
 					onNodesChange={onNodesChange}
