@@ -10,6 +10,8 @@ import ArrowEdge from "../components/ArrowEdge";
 import TouchpointNode from "../components/TouchpointNode";
 import TouchPointModalInfo from "../components/TouchPointModalInfo";
 import CreateTouchPointModal from "../components/CreateTouchPointModal";
+import EditDeleteTouchPointModal from "../components/EditDeleteTouchPointModal";
+import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
 import ExportIcon from '../assets/img/file.png'
 import 'reactflow/dist/style.css';
 import "../index.css";
@@ -72,6 +74,9 @@ const Map = () => {
 
 	const { id } = useParams();
 
+	// quick way to check for a refresh on Map when updating db without changing columns
+	const [refreshMap, setRefreshMap] = useState(false);
+
 	const [title, setTitle] = useState("Map");
 	const [titleEditable, setTitleEditable] = useState(false);
 
@@ -89,6 +94,14 @@ const Map = () => {
 		setOpenCTPModal(true);
 		setColumnInfo(info);
 	}
+	// these state manages the EditDeleteTouchPointModal
+	const [openEDTPModal, setOpenEDTPModal] = useState(false);
+	const [editDeleteTouchpointItem, setEditDeleteTouchpointItem] = useState({})
+	
+	// this state manages the DeleteConfirmationModal
+	const [openDelConfirmModal, setOpenDelConfirmModal] = useState(false);
+	const [delConfirmTouchpointItem, setDelConfirmTouchpointItem] = useState({})
+
 	const [dragging, setDragging] = useState(false);
 
 	const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -192,9 +205,10 @@ const Map = () => {
 
 		loadMap();
 		requestAnimationFrame(updateNode);
-		requestAnimationFrame(updateHandles);
-		window.addEventListener('resize', updateHandles);
-	}, [id]);
+    requestAnimationFrame(updateHandles);
+    window.addEventListener('resize', updateHandles);
+	}, [id, refreshMap]);
+
 
 	/* This is called whenever columns state change */
 	useEffect(() => {
@@ -245,15 +259,35 @@ const Map = () => {
 				</div>
 				<div className="main" ref={componentRef}>
 					<TouchPointModalInfo
-						open={openModal}
-						onClose={() => setOpenModal(false)}
-						item={touchpointItem}
-						onItemChange={setTouchpointItem} />
-					<CreateTouchPointModal
-						open={openCTPModal}
-						onClose={() => setOpenCTPModal(false)}
-						item={columnInfo}
-						onItemChange={setColumnInfo} />
+					open={openModal}
+					onClose={() => setOpenModal(false)}
+					item={touchpointItem}
+					onItemChange={setTouchpointItem}
+					setOpenEDTPModal={setOpenEDTPModal}
+					setEditDeleteTouchpointItem={setEditDeleteTouchpointItem}
+					setOpenDelConfirmModal={setOpenDelConfirmModal} 
+					setDelConfirmTouchpointItem={setDelConfirmTouchpointItem} />
+				<CreateTouchPointModal
+					open={openCTPModal}
+					onClose={() => setOpenCTPModal(false)}
+					item={columnInfo}
+					onItemChange={setColumnInfo} />
+				<EditDeleteTouchPointModal
+					open={openEDTPModal}
+					onClose={() => setOpenEDTPModal(false)}
+					item={editDeleteTouchpointItem}
+					onItemChange={setEditDeleteTouchpointItem}
+					mapID={id} 
+					refreshMap={refreshMap} 
+					setRefreshMap={setRefreshMap} />
+				<DeleteConfirmationModal
+					open={openDelConfirmModal}
+					onClose={() => setOpenDelConfirmModal(false)}
+					item={delConfirmTouchpointItem}
+					onItemChange={setDelConfirmTouchpointItem}
+					mapID={id} 
+					refreshMap={refreshMap} 
+					setRefreshMap={setRefreshMap} />
 					<ReactFlow
 						nodes={nodes}
 						onNodesChange={onNodesChange}

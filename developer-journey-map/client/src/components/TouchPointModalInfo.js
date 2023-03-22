@@ -1,11 +1,25 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import parse from 'html-react-parser';
 
-const TouchPointInfoModal = ({ open, onClose, item, onItemChange }) => {
-
+const TouchPointInfoModal = ({ open, onClose, item, onItemChange, setOpenEDTPModal, setEditDeleteTouchpointItem, setOpenDelConfirmModal, setDelConfirmTouchpointItem }) => {
     const handleInputChange = useCallback(event => {
         onItemChange(event.target.value)
     }, [onItemChange])
+
+    useEffect(() => {
+		setEditDeleteTouchpointItem(item)
+        setDelConfirmTouchpointItem(item)
+	}, [open]);
+
+    function closeTouchPointModalAndOpenEditDeleteTouchPointModal() {
+        setOpenEDTPModal(true)
+        onClose()
+    }
+
+    function closeTouchPointModalAndOpenDeleteConfirmationModal() {
+        setOpenDelConfirmModal(true)
+        onClose()
+    }
 
     // if modal state is not true return nothing else return the modal view with data
     if (!open) return null;
@@ -28,11 +42,11 @@ const TouchPointInfoModal = ({ open, onClose, item, onItemChange }) => {
                     )}
                     <div className="flex flex-row justify-center items-center">
                         <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
-                        >
+                        onClick={closeTouchPointModalAndOpenEditDeleteTouchPointModal}>
                             Edit
                         </button>
                         <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer'
-                        >
+                        onClick={closeTouchPointModalAndOpenDeleteConfirmationModal}>
                             Delete
                         </button>
                     </div>

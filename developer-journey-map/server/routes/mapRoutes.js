@@ -74,4 +74,33 @@ router.route("/column/:id").put(async (req, res) => {
     }
 });
 
+// update touchpoint in a map with map _id == id
+router.route("/touchpoint/:id").put(async (req, res) => {
+    const id = req.params.id;
+    const touchpoint = req.body;
+
+    const map = await Map.updateOne({ _id: id },
+        {
+            $set: {
+                "columns.$[].touchpoints.$[touchpoint].title": touchpoint.title,
+                "columns.$[].touchpoints.$[touchpoint].borderColor": touchpoint.borderColor,
+                "columns.$[].touchpoints.$[touchpoint].borderSize": touchpoint.borderSize,
+                "columns.$[].touchpoints.$[touchpoint].text": touchpoint.text,
+            }
+        },
+        { arrayFilters: [{ "touchpoint._id": touchpoint._id }] });
+    res.send(map)
+});
+
+// remove touchpoint in a map with map _id == id
+router.route("/deletetouchpoint/:id").put(async (req, res) => {
+    const id = req.params.id;
+    const touchpoint = req.body;
+
+    const map = await Map.updateOne({ _id: id },
+        { $pull: { "columns.$[].touchpoints": { _id: touchpoint._id } } },
+        { multi: false });
+    res.send(map)
+});
+
 export default router;
