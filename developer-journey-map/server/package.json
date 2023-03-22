@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "all": "^0.0.0",
+    "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -22,6 +23,8 @@
     "passport": "^0.5.3",
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
-    "passport-linkedin-oauth2": "^2.0.0"
+    "passport-linkedin-oauth2": "^2.0.0",
+    "react-storage-complete": "^1.1.1",
+    "sessionstorage": "^0.1.0"
   }
 }

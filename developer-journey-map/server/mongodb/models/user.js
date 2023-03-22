@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 // import cookieParser from "cookie-parser";
 // import jwt from "jsonwebtoken";
 
-const app = express();
+// const app = express();
 
 // store token in cookie
 // app.use(cookieParser());
@@ -22,14 +22,6 @@ const UserSchema = new mongoose.Schema({
         type: Number,
     },
 });
-
-// login - compare password
-// UserSchema.methods.comparePassword = function(plainPassword, cb) {
-//     bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
-//         if(err) return cb(err)
-//         cb(null, isMatch)
-//     })
-// }
 
 // login - encryption(encode token)
 // UserSchema.methods.generateToken = function (cb) {
