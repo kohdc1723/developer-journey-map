@@ -72,7 +72,6 @@ function CreateTouchPointModal({ open, onClose, item, onItemChange }) {
             },
         });
     }
-    console.log(item);
     // if modal state is not true return nothing else return the modal view with data
     if (!open) return null;
     return (

@@ -1,11 +1,19 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import parse from 'html-react-parser';
 
-const TouchPointInfoModal = ({ open, onClose, item, onItemChange }) => {
-
+const TouchPointInfoModal = ({ open, onClose, item, onItemChange, openEDTPModal, setOpenEDTPModal, setEditDeleteTouchpointItem }) => {
     const handleInputChange = useCallback(event => {
         onItemChange(event.target.value)
     }, [onItemChange])
+
+    useEffect(() => {
+		setEditDeleteTouchpointItem(item)
+	}, [open]);
+
+    function closeTouchPointModalAndOpenEditDeleteTouchPointModal() {
+        setOpenEDTPModal(true)
+        onClose()
+    }
 
     // if modal state is not true return nothing else return the modal view with data
     if (!open) return null;
@@ -19,16 +27,16 @@ const TouchPointInfoModal = ({ open, onClose, item, onItemChange }) => {
             >
                 <div className='flex flex-col w-full justify-around bg-white'>
                     <div className='flex flex-row justify-center font-bold text-[30px]'>
-                        {item.item.title}
+                        {item.title}
                     </div>
-                    {item.item.text && (
+                    {item.text && (
                         <div className='flex flex-row justify-center'>
-                            {parse(item.item.text)}
+                            {parse(item.text)}
                         </div>
                     )}
                     <div className="flex flex-row justify-center items-center">
                         <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
-                        >
+                        onClick={closeTouchPointModalAndOpenEditDeleteTouchPointModal}>
                             Edit
                         </button>
                         <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer'

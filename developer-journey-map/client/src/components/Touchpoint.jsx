@@ -33,7 +33,7 @@ const Touchpoint = (props) => {
                         <div>{item.title}</div>
                     </div>
                     <button className="absolute right-[-5px] top-[-5px]  z-0"
-                      onClick={() => props.openModalWithItem({item: item, openEditDeleteModalWithItem: props.openEditDeleteModalWithItem})}>
+                      onClick={() => props.openModalWithItem(item)}>
                       <img src={Hamburger} alt="Hamburger" className='w-[15px]' />
                     </button>
 

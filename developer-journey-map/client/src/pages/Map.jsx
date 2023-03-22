@@ -90,9 +90,10 @@ const Map = () => {
 	}
 	// these state manages the EditDeleteTouchPointModal
 	const [openEDTPModal, setOpenEDTPModal] = useState(false);
+	const [editDeleteTouchpointItem, setEditDeleteTouchpointItem] = useState({})
 	const openEditDeleteModalWithItem = (item) => {
 		setOpenEDTPModal(true);
-		setTouchpointItem(item);
+		setEditDeleteTouchpointItem(item);
 	}
 	const [dragging, setDragging] = useState(false);
 
@@ -241,7 +242,11 @@ const Map = () => {
 					onClose={() => setOpenModal(false)}
 					item={touchpointItem}
 					onItemChange={setTouchpointItem}
-					mapID={id} />
+					mapID={id} 
+					openEDTPModal={openEDTPModal}
+					setOpenEDTPModal={setOpenEDTPModal}
+					setEditDeleteTouchpointItem={setEditDeleteTouchpointItem}
+					openEditDeleteModalWithItem={openEditDeleteModalWithItem} />
 				<CreateTouchPointModal
 					open={openCTPModal}
 					onClose={() => setOpenCTPModal(false)}
@@ -250,8 +255,8 @@ const Map = () => {
 				<EditDeleteTouchPointModal
 					open={openEDTPModal}
 					onClose={() => setOpenEDTPModal(false)}
-					item={touchpointItem}
-					onItemChange={setTouchpointItem}
+					item={editDeleteTouchpointItem}
+					onItemChange={setEditDeleteTouchpointItem}
 					mapID={id} />
 				<ReactFlow
 					nodes={nodes}

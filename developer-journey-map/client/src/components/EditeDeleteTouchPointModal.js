@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Select from 'react-select';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import Editor from 'ckeditor5-custom-build'
@@ -10,6 +10,7 @@ const options = [
     { value: 'border-green-600', label: 'Green' },
     { value: 'border-red-600', label: 'Red' },
     { value: 'border-fuchsia-700', label: 'Purple' },
+    { value: 'border-black', label: 'Black' }
 ]
 
 // Provides selection for touchpoint border size.
@@ -20,34 +21,56 @@ const borderOptions = [
     { value: 'border-8', label: 'Extra Large' },
 ]
 
-// This changes what toolbar buttons are shown in the text editor
-const editorConfiguration = {
-    toolbar: [
-        'bold',
-        'italic',
-        'underline',
-        'strikethrough',
-        '|',
-        'alignment',
-        'blockQuote',
-        '|',
-        'undo',
-        'redo'],
-};
-
 function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID }) {
     const handleInputChange = useCallback(event => {
         onItemChange(event.target.value)
     }, [onItemChange])
 
+    useEffect(() => {
+        function changeItemColorSizeValuesToLookLikePlaceholderValues() {
+            options.forEach((option, index) => {
+                if (item.borderColor == option.value) {
+                    setColorDisplay(option.label)
+                    
+                }  
+            })
+            borderOptions.forEach((option, index) => {
+                if (item.borderSize == option.value) {
+                    setSizeDisplay(option.label)
+                }
+            })
+        }
+        changeItemColorSizeValuesToLookLikePlaceholderValues()
+    }, [open]);
+
+    // This changes what toolbar buttons are shown in the text editor
+    const editorConfiguration = {
+        toolbar: [
+            'bold',
+            'italic',
+            'underline',
+            'strikethrough',
+            '|',
+            'alignment',
+            'blockQuote',
+            '|',
+            'undo',
+            'redo'],
+        placeholder: item.text
+    };
+
+    // States to display placeholder value
+    const [colorDisplay, setColorDisplay] = useState(item.borderColor)
+    const [sizeDisplay, setSizeDisplay] = useState(item.borderSize)
+
     // Saved state for touchpoint title
-    const [touchTitle, setTouchTitle] = useState(null);
+    const [touchTitle, setTouchTitle] = useState(item.title);
     // Saved state for touchpoint border color
-    const [touchColor, setTouchColor] = useState("border-black");
+    const [touchColor, setTouchColor] = useState(item.borderColor);
     // Save state for touchpoint border size
-    const [touchBSize, setTouchBSize] = useState("border");
+    const [touchBSize, setTouchBSize] = useState(item.borderSize);
     // Save state for touchpoint text
-    const [touchText, setTouchText] = useState("");
+    const [touchText, setTouchText] = useState(item.text);
     function getTouchTitle(event) {
         setTouchTitle(event.target.value)
     }
@@ -71,7 +94,6 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID })
             },
         });
     }
-    console.log(item);
     // if modal state is not true return nothing else return the modal view with data
     if (!open) return null;
     return (
@@ -107,7 +129,7 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID })
                     <p>Touchpoint Title:</p>
                 </div>
                 <div className="flex flex-row justify-center text-center text-3xl">
-                    <input className="border-2 border-black" type="text" onChange={getTouchTitle} />
+                    <input className="border-2 border-black" type="text" onChange={getTouchTitle} placeholder={item.title} />
                 </div>
                 <div className="editor flex-row justify-center py-2">
                     <CKEditor
@@ -123,25 +145,25 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID })
                 <div className="flex flex-row justify-around text-center text-xl">
                     <div className="flex flex-col justify-center text-center">
                         <p>Border Color:</p>
-                        <Select options={options} onChange={setColor} placeholder="Black" className="py-2" />
+                        <Select options={options} onChange={setColor} placeholder={colorDisplay} className="py-2" />
                     </div>
                     <div className="flex flex-col justify-center text-center">
                         <p>Border Size:</p>
-                        <Select options={borderOptions} onChange={setSize} placeholder="Small" className="py-2" />
+                        <Select options={borderOptions} onChange={setSize} placeholder={sizeDisplay} className="py-2" />
                     </div>
                 </div>
                 <div className="flex flex-row justify-center">
                     <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
-                        onClick={onClose} 
+                        onClick={onClose}
                         id="cancelBtn"
                     >
                         Cancel
                     </button>
                     <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer'
-                    onClick={() => {
-                        onClose();
-                        // addTouchPoint();
-                    }}>Different</button>
+                        onClick={() => {
+                            onClose();
+                            // addTouchPoint();
+                        }}>Different</button>
                 </div>
             </div>
         </div>
