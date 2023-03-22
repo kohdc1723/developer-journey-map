@@ -9,6 +9,8 @@ const TouchPointInfoModal = ({ open, onClose, item, onItemChange, setOpenEDTPMod
     useEffect(() => {
 		setEditDeleteTouchpointItem(item)
         setDelConfirmTouchpointItem(item)
+        console.log("changed item in edit/delete and confirmation")
+        console.log(item.title)
 	}, [open]);
 
     function closeTouchPointModalAndOpenEditDeleteTouchPointModal() {

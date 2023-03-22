@@ -22,10 +22,6 @@ const borderOptions = [
 ]
 
 function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID, refreshMap, setRefreshMap }) {
-    const handleInputChange = useCallback(event => {
-        onItemChange(event.target.value)
-    }, [onItemChange])
-
     useEffect(() => {
         function changeItemColorSizeValuesToLookLikePlaceholderValues() {
             options.forEach((option, index) => {
@@ -41,6 +37,11 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID, r
             })
         }
         changeItemColorSizeValuesToLookLikePlaceholderValues()
+        console.log("edit delete touch title is " + item.title)
+        setTouchTitle(item.title)
+        setTouchColor(item.borderColor)
+        setTouchBSize(item.borderSize)
+        setTouchText(item.text)
     }, [open]);
 
     // This changes what toolbar buttons are shown in the text editor

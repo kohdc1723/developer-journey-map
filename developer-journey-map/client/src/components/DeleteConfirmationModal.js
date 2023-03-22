@@ -1,16 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
-import Select from 'react-select';
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import Editor from 'ckeditor5-custom-build'
-
-
-
 
 function DeleteConfirmationModal({ open, onClose, item, onItemChange, mapID, refreshMap, setRefreshMap }) {
-    const handleInputChange = useCallback(event => {
-        onItemChange(event.target.value)
-    }, [onItemChange])
-
     // This procs the useEffect to save touchpoint to MongoDb
     const deleteTouchpoint = async () => {
         const response = await fetch(`http://localhost:3800/api/map/deletetouchpoint/${mapID}`, {
