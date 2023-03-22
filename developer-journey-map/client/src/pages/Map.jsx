@@ -10,6 +10,7 @@ import TouchpointNode from "../components/TouchpointNode";
 import TouchPointModalInfo from "../components/TouchPointModalInfo";
 import CreateTouchPointModal from "../components/CreateTouchPointModal";
 import EditDeleteTouchPointModal from "../components/EditDeleteTouchPointModal";
+import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
 import 'reactflow/dist/style.css';
 import "../index.css";
 import "../assets/styles/map.css";
@@ -94,10 +95,11 @@ const Map = () => {
 	// these state manages the EditDeleteTouchPointModal
 	const [openEDTPModal, setOpenEDTPModal] = useState(false);
 	const [editDeleteTouchpointItem, setEditDeleteTouchpointItem] = useState({})
-	const openEditDeleteModalWithItem = (item) => {
-		setOpenEDTPModal(true);
-		setEditDeleteTouchpointItem(item);
-	}
+	
+	// this state manages the DeleteConfirmationModal
+	const [openDelConfirmModal, setOpenDelConfirmModal] = useState(false);
+	const [delConfirmTouchpointItem, setDelConfirmTouchpointItem] = useState({})
+
 	const [dragging, setDragging] = useState(false);
 
 	const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -194,7 +196,6 @@ const Map = () => {
 		};
 
 		loadMap();
-		console.log("loaded")
 		requestAnimationFrame(updateNode);
     requestAnimationFrame(updateHandles);
     window.addEventListener('resize', updateHandles);
@@ -248,7 +249,8 @@ const Map = () => {
 					onItemChange={setTouchpointItem}
 					setOpenEDTPModal={setOpenEDTPModal}
 					setEditDeleteTouchpointItem={setEditDeleteTouchpointItem}
-					openEditDeleteModalWithItem={openEditDeleteModalWithItem} />
+					setOpenDelConfirmModal={setOpenDelConfirmModal} 
+					setDelConfirmTouchpointItem={setDelConfirmTouchpointItem} />
 				<CreateTouchPointModal
 					open={openCTPModal}
 					onClose={() => setOpenCTPModal(false)}
@@ -259,6 +261,14 @@ const Map = () => {
 					onClose={() => setOpenEDTPModal(false)}
 					item={editDeleteTouchpointItem}
 					onItemChange={setEditDeleteTouchpointItem}
+					mapID={id} 
+					refreshMap={refreshMap} 
+					setRefreshMap={setRefreshMap} />
+				<DeleteConfirmationModal
+					open={openDelConfirmModal}
+					onClose={() => setOpenDelConfirmModal(false)}
+					item={delConfirmTouchpointItem}
+					onItemChange={setDelConfirmTouchpointItem}
 					mapID={id} 
 					refreshMap={refreshMap} 
 					setRefreshMap={setRefreshMap} />

@@ -31,8 +31,8 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID, r
             options.forEach((option, index) => {
                 if (item.borderColor == option.value) {
                     setColorDisplay(option.label)
-                    
-                }  
+
+                }
             })
             borderOptions.forEach((option, index) => {
                 if (item.borderSize == option.value) {
@@ -97,6 +97,8 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID, r
                 text: touchText
             })
         });
+        setRefreshMap(!refreshMap)
+        onClose();
     }
     // if modal state is not true return nothing else return the modal view with data
     if (!open) return null;
@@ -166,10 +168,6 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID, r
                     <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer'
                         onClick={() => {
                             updateTouchpoint();
-                            setRefreshMap(!refreshMap)
-                            onClose();
-                            
-                            // addTouchPoint();
                         }}>Edit</button>
                 </div>
             </div>
