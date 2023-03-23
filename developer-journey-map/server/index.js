@@ -3,6 +3,7 @@ import cors from "cors";
 import connectDb from "./mongodb/connect.js";
 import mapsRoutes from "./routes/mapsRoutes.js";
 import mapRoutes from "./routes/mapRoutes.js";
+import questionRoutes from "./routes/questionRoutes.js";
 import cookieSession from "cookie-session";
 import "./passport.js";
 import passport from "passport";
@@ -21,6 +22,7 @@ app.use(passport.session());
 
 app.use("/api/map", mapRoutes);
 app.use("/api/maps", mapsRoutes);
+app.use("/api/question", questionRoutes);
 app.use("/auth", authRoutes);
 
 const connectServer = (port) => {

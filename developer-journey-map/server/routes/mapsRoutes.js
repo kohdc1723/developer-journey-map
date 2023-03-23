@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
-import Map from "../mongodb/models/map.js"
+import { Map } from "../mongodb/models/map.js"
 dotenv.config();
 
 const router = express.Router();

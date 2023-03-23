@@ -3,12 +3,61 @@
 .title {
     font-size: x-large;
     margin-bottom: 10px;
-    min-width: fit-content;
+    width: fit-content;
+    z-index: 10;
+    position: relative;
+    padding: 2px;
+    border: 2px solid var(--rev-white);
+    border-radius: 5px;
+}
+
+.question-index {
+    padding: 1px;
+}
+
+.question-cell {
+    padding-bottom: 50px !important;
+}
+
+.question-add-button {
+    width: 100%;
+    margin-bottom: 10px;
+    color: gray;
+    text-align: center;
+    position: absolute;
+    bottom: 0px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 2px lightgray;
+    z-index: 10;
+}
+
+.question-item {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 1px;
+    border: 2px solid var(--rev-white);
+    border-radius: 4px;
+}
+
+.question-item:hover {
+    border: 2px solid var(--rev-black);
+}
+
+.flex {
+    display: flex;
+}
+
+.title:hover {
+    border: 2px solid var(--rev-black);
+    border-radius: 5px;
 }
 
 #grid-layout-map {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(6, minmax(200px, 1fr));
     grid-template-rows: repeat(5, auto);
     grid-auto-rows: max-content;
 }
@@ -40,6 +89,7 @@
 
 .grid-cell {
     position: relative;
+    z-index: 5;
     padding: 3px;
     margin: 3px;
     font-size: small;

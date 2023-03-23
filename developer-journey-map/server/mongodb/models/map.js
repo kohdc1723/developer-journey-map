@@ -106,5 +106,9 @@ const Map = new mongoose.Schema({
 });
 
 const MapSchema = mongoose.model("Map", Map);
+const QuestionSchema = mongoose.model("Question", Question);
 
-export default MapSchema;
+export {
+    MapSchema as Map,
+    QuestionSchema as Question
+};
