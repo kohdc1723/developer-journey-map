@@ -24,11 +24,11 @@ const Question = ({ qstColumn, qst, qstColumnId, index }) => {
 
         await updateQuestion(mapId, questionColumnId, questionId, updatedQuestion);
 
-       if (updatedQuestion === "") {
-           qstColumn.questions.splice(index, 1);
-       } else {
-           setQuestion(updatedQuestion);
-       }
+        if (updatedQuestion === "") {
+            qstColumn.questions.splice(index, 1);
+        } else {
+            setQuestion(updatedQuestion);
+        }
 
         setEditable(false);
     };
@@ -60,10 +60,7 @@ const Question = ({ qstColumn, qst, qstColumnId, index }) => {
         return (
             <div className="flex">
                 <div className="question-index">{`${index + 1}. `}</div>
-                <div
-                    className="question-item"
-                    onClick={handleClick}
-                >{`${question}`}</div>
+                <div className="question-item" onClick={handleClick}>{`${question}`}</div>
             </div>
         );
     }
