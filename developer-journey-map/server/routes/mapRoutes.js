@@ -103,4 +103,18 @@ router.route("/deletetouchpoint/:id").put(async (req, res) => {
     res.send(map)
 });
 
+router.route("/arrow/:id").put(async (req, res) => {
+    const id = req.params.id;
+    const arrows = req.body.arrows;
+    try {
+        const result = await Map.updateOne({ _id: id }, 
+            { froms: arrows.map(arrow => arrow.source), tos: arrows.map(arrow => arrow.target) }
+        );
+        res.status(200).json({ success: true, result: result });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: err });
+    }
+});
+
 export default router;

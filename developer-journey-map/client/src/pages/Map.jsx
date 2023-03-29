@@ -102,8 +102,6 @@ const Map = () => {
 	const [openDelConfirmModal, setOpenDelConfirmModal] = useState(false);
 	const [delConfirmTouchpointItem, setDelConfirmTouchpointItem] = useState({})
 
-	const [dragging, setDragging] = useState(false);
-
 	const [nodes, setNodes, onNodesChange] = useNodesState([]);
 	const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 	const updateNode = useCallback(() => setNodes((ns) => {
@@ -133,6 +131,19 @@ const Map = () => {
 			node.style.width = `${width}px`;
 		});
 	}
+	useEffect(() => {
+		const updateArrows = async () => {
+			const response = await fetch(`http://localhost:3800/api/map/arrow/${id}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({arrows: edges}),
+			});
+			await response.json();
+		};
+		if (Array.from(document.querySelectorAll('.touchpoint-node')).length > 0) updateArrows();
+	}, [edges]);
 
 	const handleTitleBlur = async (e) => {
 		e.preventDefault();
@@ -201,6 +212,16 @@ const Map = () => {
 			setTitle(map.data.title);
 			setQstColumns(map.data.qstColumns);
 			setColumns(map.data.columns);
+			const froms = map.data.froms;
+			const tos = map.data.tos;
+			setEdges(froms.map((e, i) => {
+				return {
+					id: `arrow${i}`,
+					source: e,
+					target: tos[i],
+					type: 'arrowEdge',
+				}
+			}));
 		};
 
 		loadMap();
@@ -307,18 +328,9 @@ const Map = () => {
 						panActivationKeyCode={null}
 						selectionKeyCode={null}
 						multiSelectionKeyCode={null}
-						deleteKeyCode={null}
 					>
 						<DragDropContext
-							onDragStart={() => {
-								console.log('drag start');
-								setDragging(true);
-							}}
-							onDragEnd={(result) => {
-								console.log('drag end');
-								setDragging(false);
-								onDragEnd(result, columns, setColumns)
-							}}>
+							onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
 							{titleEditable ? (
 								<input
 									className="title"

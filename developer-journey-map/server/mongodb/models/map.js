@@ -83,6 +83,22 @@ Question.pre("save", function(next) {
     next();
 });
 
+const Arrow = new mongoose.Schema({
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: mongoose.Types.ObjectId(),
+        required: true
+    },
+    from: {
+        type: String,
+        required: true
+    },
+    to: {
+        type: String,
+        required: true
+    }
+});
+
 const Map = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -102,7 +118,9 @@ const Map = new mongoose.Schema({
         required: true
     },
     qstColumns: [QuestionsColumn],
-    columns: [Column]
+    columns: [Column],
+    froms: [String],
+    tos: [String],
 });
 
 const MapSchema = mongoose.model("Map", Map);
