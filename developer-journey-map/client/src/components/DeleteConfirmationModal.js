@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React from "react";
 
 function DeleteConfirmationModal({ open, onClose, item, onItemChange, mapID, refreshMap, setRefreshMap }) {
     // This procs the useEffect to save touchpoint to MongoDb
@@ -30,22 +30,6 @@ function DeleteConfirmationModal({ open, onClose, item, onItemChange, mapID, ref
                 e.stopPropagation();
             }}
                 className="fixed flex flex-col justify-evenly max-w-[50%] w-full h-auto top-[10%] left-[25%] bg-[#ffffff] rounded-xl shadow-2xl shadow-slate-400 py-5 px-5">
-                {/* unused code that provides an X at the top right to close modal */}
-                {/* <div className="flex flex-row-reverse">
-                    <button className='border-none text-2xl cursor-pointer p-3'
-                        onClick={() => {
-                            setModal({
-                                ...columns,
-                                [id]: {
-                                    ...column,
-                                    createModal: false,
-                                },
-                            });
-                        }}
-                    >
-                        X
-                    </button>
-                </div> */}
                 <div className="flex flex-row justify-center text-center text-3xl">
                     <p>Are you sure?</p>
                 </div>

@@ -1,9 +1,7 @@
-import React, { useState, useCallback } from "react";
-import { v4 as uuid } from "uuid";
+import React, { useState, useEffect } from "react";
 import Select from 'react-select';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import Editor from 'ckeditor5-custom-build'
-import mongoose from 'mongoose';
 
 // Provides selection for touchpoint border color. The value is the tailwind css and the label is what is shown in the select.
 const options = [
@@ -36,10 +34,14 @@ const editorConfiguration = {
         'redo'],
 };
 
-function CreateTouchPointModal({ open, onClose, item, onItemChange }) {
-    const handleInputChange = useCallback(event => {
-        onItemChange(event.target.value)
-    }, [onItemChange])
+function CreateTouchPointModal({ open, onClose, item, mapID, refreshMap, setRefreshMap }) {
+
+    useEffect(() => {
+        setTouchTitle("Placeholder")
+        setTouchColor("border-black")
+        setTouchBSize("border")
+        setTouchText("Placeholder")
+    }, [open]);
 
     // Saved state for touchpoint title
     const [touchTitle, setTouchTitle] = useState(null);
@@ -60,17 +62,32 @@ function CreateTouchPointModal({ open, onClose, item, onItemChange }) {
         console.log("setSize", selectedOption);
         setTouchBSize(selectedOption.value);
     }
-    // This procs the useEffect to save touchpoint to MongoDb
-    function addTouchPoint() {
-        // This is essentially the setColumns function just renamed
-        item.setColumns({
-            ...item.columns,
-            [item.id]: {
-                ...item.column,
-                touchpoints: [...item.column.touchpoints, { _id: new mongoose.Types.ObjectId, title: touchTitle, borderColor: touchColor, borderSize: touchBSize, text: touchText }],
-                createModal: false,
+    // This adds a touchpoint via PUT by pushing a touchpoint object into the touchpoint array of the specified column columnId
+    const addTouchPoint = async() => {
+        // old method of creating touchpoints
+        // item.setColumns({
+        //     ...item.columns,
+        //     [item.id]: {
+        //         ...item.column,
+        //         touchpoints: [...item.column.touchpoints, { _id: new mongoose.Types.ObjectId, title: touchTitle, borderColor: touchColor, borderSize: touchBSize, text: touchText }],
+        //         createModal: false,
+        //     },
+        // });
+        const response = await fetch(`http://localhost:3800/api/map/newtouchpoint/${mapID}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
             },
+            body: JSON.stringify({
+                title: touchTitle,
+                borderColor: touchColor,
+                borderSize: touchBSize,
+                text: touchText,
+                columnId: item.column._id
+            })
         });
+        setRefreshMap(!refreshMap)
+        onClose();
     }
     // if modal state is not true return nothing else return the modal view with data
     if (!open) return null;
@@ -87,22 +104,6 @@ function CreateTouchPointModal({ open, onClose, item, onItemChange }) {
                 e.stopPropagation();
             }}
                 className="fixed flex flex-col justify-evenly max-w-[50%] w-full h-auto top-[10%] left-[25%] bg-[#ffffff] rounded-xl shadow-2xl shadow-slate-400 py-5 px-5">
-                {/* unused code that provides an X at the top right to close modal */}
-                {/* <div className="flex flex-row-reverse">
-                    <button className='border-none text-2xl cursor-pointer p-3'
-                        onClick={() => {
-                            setModal({
-                                ...columns,
-                                [id]: {
-                                    ...column,
-                                    createModal: false,
-                                },
-                            });
-                        }}
-                    >
-                        X
-                    </button>
-                </div> */}
                 <div className="flex flex-row justify-center text-center text-3xl">
                     <p>Touchpoint Title:</p>
                 </div>
