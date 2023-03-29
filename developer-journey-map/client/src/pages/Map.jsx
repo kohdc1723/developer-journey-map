@@ -330,6 +330,7 @@ const Map = () => {
 						panActivationKeyCode={null}
 						selectionKeyCode={null}
 						multiSelectionKeyCode={null}
+						deleteKeyCode={'Delete'}
 					>
 						<DragDropContext
 							onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
