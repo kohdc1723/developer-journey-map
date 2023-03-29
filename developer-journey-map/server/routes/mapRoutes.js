@@ -1,6 +1,7 @@
 import express from "express";
 import * as dotenv from "dotenv";
 import Map from "../mongodb/models/map.js"
+import mongoose from "mongoose";
 dotenv.config();
 
 const router = express.Router();
@@ -74,6 +75,34 @@ router.route("/column/:id").put(async (req, res) => {
     }
 });
 
+// creates new touchpoint by pushing a touchpoint object into map_id's column_id's touchpoint array
+// auto generates touchpoint_id so it doesn't need to be included in the body
+router.route("/newtouchpoint/:id").put(async (req, res) => {
+    const id = req.params.id;
+    const touchpoint = req.body;
+
+    const map = await Map.updateOne(
+        { _id: id },
+        {
+            $push:
+            {
+                "columns.$[column].touchpoints": {
+                    "_id": new mongoose.Types.ObjectId(),
+                    "title": touchpoint.title,
+                    "borderColor": touchpoint.borderColor,
+                    "borderSize": touchpoint.borderSize,
+                    "text": touchpoint.text
+                }
+            }
+        },
+    {
+        arrayFilters: [
+            { "column._id": touchpoint.columnId }]
+    });
+res.send(map)
+});
+
+
 // update touchpoint in a map with map _id == id
 router.route("/touchpoint/:id").put(async (req, res) => {
     const id = req.params.id;
@@ -107,7 +136,7 @@ router.route("/arrow/:id").put(async (req, res) => {
     const id = req.params.id;
     const arrows = req.body.arrows;
     try {
-        const result = await Map.updateOne({ _id: id }, 
+        const result = await Map.updateOne({ _id: id },
             { froms: arrows.map(arrow => arrow.source), tos: arrows.map(arrow => arrow.target) }
         );
         res.status(200).json({ success: true, result: result });
