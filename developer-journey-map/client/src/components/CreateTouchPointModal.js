@@ -1,9 +1,7 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { v4 as uuid } from "uuid";
+import React, { useState, useEffect } from "react";
 import Select from 'react-select';
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import Editor from 'ckeditor5-custom-build'
-import mongoose from 'mongoose';
 
 // Provides selection for touchpoint border color. The value is the tailwind css and the label is what is shown in the select.
 const options = [
@@ -36,7 +34,7 @@ const editorConfiguration = {
         'redo'],
 };
 
-function CreateTouchPointModal({ open, onClose, item, onItemChange, mapID, refreshMap, setRefreshMap }) {
+function CreateTouchPointModal({ open, onClose, item, mapID, refreshMap, setRefreshMap }) {
 
     useEffect(() => {
         setTouchTitle("Placeholder")
@@ -66,7 +64,7 @@ function CreateTouchPointModal({ open, onClose, item, onItemChange, mapID, refre
     }
     // This adds a touchpoint via PUT by pushing a touchpoint object into the touchpoint array of the specified column columnId
     const addTouchPoint = async() => {
-        // This is essentially the setColumns function just renamed
+        // old method of creating touchpoints
         // item.setColumns({
         //     ...item.columns,
         //     [item.id]: {

@@ -292,7 +292,6 @@ const Map = () => {
 						open={openCTPModal}
 						onClose={() => setOpenCTPModal(false)}
 						item={columnInfo}
-						onItemChange={setColumnInfo}
 						mapID={id}
 						refreshMap={refreshMap}
 						setRefreshMap={setRefreshMap} />
