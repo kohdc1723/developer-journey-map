@@ -5,49 +5,23 @@ import passport from 'passport';
 import User from "./mongodb/models/user.js";
 
 // check if user exists in database
-function checkUser(profile, done) {
+async function checkUser(profile, done) {
     const userId = profile.id;
 
-    User.findOne({ id: userId }, (err, existingUser) => {
-        if (err) {
-            console.log(err);
-            done(err);
-        } else if (existingUser) {
-            console.log('Welcome back!');
-            done(null, profile);
+    try {
+        let user = await User.findOne({ id: userId });
+        if (!user) {
+            user = await User.create({ id: userId });
+            console.log('New user added to database.');
         } else {
-            const newUser = new User({
-                id: userId,
-            });
-            newUser.save((err, savedUser) => {
-                if (err) {
-                    console.log(err);
-                    done(err);
-                } else {
-                    console.log('New user added to database.');
-                    done(null, profile);
-                }
-            });
+            console.log('Welcome back!');
         }
-    });
+        done(null, profile);
+    } catch (err) {
+        console.error(err);
+        done(err);
+    }
 }
-
-// function checkUser(profile, accessToken, done) {
-//     const userId = profile.id;
-//     const token = accessToken;
-
-//     User.findOneAndUpdate({ id: userId }, { $set: { token: token } }, { new: true, upsert: true })
-//         .then(updatedUser => {
-//             const isNewUser = !updatedUser;
-//             const message = isNewUser ? 'New user added to database.' : 'Welcome back!';
-//             console.log(message);
-//             done(null, profile);
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             done(err);
-//         });
-// };
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,

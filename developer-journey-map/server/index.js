@@ -3,6 +3,7 @@ import cors from "cors";
 import connectDb from "./mongodb/connect.js";
 import mapsRoutes from "./routes/mapsRoutes.js";
 import mapRoutes from "./routes/mapRoutes.js";
+import cookieParser from "cookie-parser";
 import cookieSession from "cookie-session";
 import "./passport.js";
 import passport from "passport";
@@ -15,6 +16,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", methods: "GET,POST,PUT,DELETE", credentials: true }));
+app.use(cookieParser());
 app.use(cookieSession({ name: "session", keys: ["journeymap"], maxAge: 24 * 60 * 60 * 1000 }));
 app.use(passport.initialize());
 app.use(passport.session());
