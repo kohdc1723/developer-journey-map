@@ -44,7 +44,7 @@ function DeleteConfirmationModal({ open, onClose, item, onItemChange, mapID, ref
                     <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer'
                         onClick={() => {
                             deleteTouchpoint();
-                        }}>DELETE</button>
+                        }}>OK</button>
                 </div>
             </div>
         </div>
