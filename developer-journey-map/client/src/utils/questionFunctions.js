@@ -32,3 +32,18 @@ export const createQuestion = async (mapId, questionColumnId) => {
     
     return jsonResponse.result;
 };
+
+export const deleteQuestion = async (mapId, questionColumnId, questionId) => {
+    const response = await fetch(`http://localhost:3800/api/question/${questionId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            mapId: mapId,
+            questionColumnId: questionColumnId
+        })
+    });
+
+    await response.json();
+};

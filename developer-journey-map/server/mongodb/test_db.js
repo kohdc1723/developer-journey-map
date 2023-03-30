@@ -5,7 +5,7 @@ dotenv.config();
 
 const defaultColumn = [
     {
-        _id: mongoose.Types.ObjectId(),
+        _id: new mongoose.Types.ObjectId(),
         colIndex: "0",
         position: "internal",
         touchpoints: [

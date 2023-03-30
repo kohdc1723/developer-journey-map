@@ -1,92 +1,12 @@
 import mongoose from "mongoose";
+import QuestionsColumn from "./questionsColumn.js";
+import Column from "./column.js";
+import { defaultColumn, defaultQuestionsColumn } from "./defaultMapContents.js";
 
-const Touchpoint = new mongoose.Schema({
+const MapSchema = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
-        default: mongoose.Types.ObjectId(),
-        required: true
-    },
-    title: {
-        type: String,
-        required: true
-    },
-    borderColor: {
-        type: String,
-    },
-    borderSize: {
-        type: String,
-    },
-    text: {
-        type: String,
-    }
-});
-
-const Column = new mongoose.Schema({
-    _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        default: mongoose.Types.ObjectId(),
-        required: true
-    },
-    colIndex: {
-        type: String,
-        required: true
-    },
-    position: {
-        type: String,
-        required: true
-    },
-    touchpoints: [Touchpoint]
-});
-
-const Question = new mongoose.Schema({
-    _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        default: mongoose.Types.ObjectId(),
-        required: true
-    },
-    qstIndex: {
-        type: Number,
-        default: 0,
-        required: true
-    },
-    question: {
-        type: String,
-        required: true
-    }
-});
-
-const QuestionsColumn = new mongoose.Schema({
-    _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        default: mongoose.Types.ObjectId(),
-        required: true
-    },
-    qstColIndex: {
-        type: Number,
-        required: true
-    },
-    questions: {
-        type: [Question]
-    },
-    qstCounter: {
-        type: Number,
-        default: 0,
-        required: true
-    }
-});
-
-Question.pre("save", function(next) {
-    if (this.isNew) {
-        this.qstIndex = this.parent().qstCounter++;
-    }
-
-    next();
-});
-
-const Map = new mongoose.Schema({
-    _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        default: mongoose.Types.ObjectId(),
+        default: new mongoose.Types.ObjectId(),
         required: true
     },
     uid: {
@@ -101,14 +21,21 @@ const Map = new mongoose.Schema({
         type: String,
         required: true
     },
-    qstColumns: [QuestionsColumn],
-    columns: [Column]
+    qstColumns: [QuestionsColumn.schema],
+    columns: [Column.schema]
 });
 
-const MapSchema = mongoose.model("Map", Map);
-const QuestionSchema = mongoose.model("Question", Question);
+MapSchema.statics.createMap = function(uid) {
+    const map = new this({
+        uid: uid,
+        lastModified: new Date(),
+        title: "Untitled",
+        qstColumns: defaultQuestionsColumn,
+        columns: defaultColumn
+    });
 
-export {
-    MapSchema as Map,
-    QuestionSchema as Question
+    return map.save();
 };
+
+const Map = mongoose.model("Map", MapSchema);
+export default Map;

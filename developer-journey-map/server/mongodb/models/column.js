@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 import Touchpoint from "./touchpoint.js";
 
-const Column = new mongoose.Schema({
-    index: {
-        type: Number,
+const ColumnSchema = new mongoose.Schema({
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: new mongoose.Types.ObjectId(),
         required: true
     },
-    name: {
+    colIndex: {
         type: String,
         required: true
     },
@@ -14,9 +15,8 @@ const Column = new mongoose.Schema({
         type: String,
         required: true
     },
-    touchpoints: [Touchpoint]
+    touchpoints: [Touchpoint.schema]
 });
 
-const ColumnSchema = mongoose.model("Column", Column);
-
-export default ColumnSchema;
+const Column = mongoose.model("Column", ColumnSchema);
+export default Column;

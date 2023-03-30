@@ -40,10 +40,38 @@
     padding: 1px;
     border: 2px solid var(--rev-white);
     border-radius: 4px;
+    display: flex;
+    align-items: center;
 }
 
 .question-item:hover {
     border: 2px solid var(--rev-black);
+}
+
+.question {
+    overflow-wrap: break-word;
+}
+
+.editable-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.questionTextarea {
+    width: 80%;
+}
+
+.trash {
+    color: var(--rev-black);
+    font-size: x-large;
+    padding-right: 3px;
+}
+
+.trash:hover {
+    color: var(--rev-black);
+    opacity: 70%;
 }
 
 .flex {

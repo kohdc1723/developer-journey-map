@@ -12,7 +12,7 @@ const Dashboard = () => {
 
 
   const duplicateMap = async ({ _id }) => {
-    const response = await fetch(`http://localhost:3800/api/maps/${_id}`, {
+    const response = await fetch(`http://localhost:3800/api/map/duplicate/${_id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -23,8 +23,8 @@ const Dashboard = () => {
       })
     });
 
-    const copied = await response.json();
-    setMaps([...maps, copied]);
+    const duplicate = await response.json();
+    setMaps([...maps, duplicate]);
   }
 
   const deleteMap = async ({ _id }) => {
@@ -34,6 +34,15 @@ const Dashboard = () => {
 
     const deletedMap = await response.json();
     setMaps(maps.filter(map => map._id !== deletedMap.result._id));
+  }
+
+  const createMap = async (uid) => {
+    const response = await fetch(`http://localhost:3800/api/map/${uid}`, {
+      method: "POST"
+    });
+
+    const createdMap = await response.json();
+    setMaps([...maps, createdMap]);
   }
 
   useEffect(() => {
@@ -75,6 +84,16 @@ const Dashboard = () => {
       <div className="main">
         <h2 id="title">Dashboard (Temporary)</h2>
         <div id="dashboard-flex-layout">
+          <button
+            className="map-item"
+            onClick={(e) => {
+              e.preventDefault();
+              createMap(uid);
+            }}
+          >
+              Create
+          </button>
+
           {maps
             .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))
             .map((map, index) => {

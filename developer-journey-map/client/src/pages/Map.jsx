@@ -188,26 +188,8 @@ const Map = () => {
 
     /* This is called whenever any state change */
     useEffect(() => {
-        // update lastModified in the database
-        // const updateTimestamp = async () => {
-        //     const timestamp = { timestamp: new Date() };
-
-        //     const response = await fetch(
-        //         `http://localhost:3800/api/map/timestamp/${id}`,
-        //         {
-        //         method: "PUT",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(timestamp)
-        //         }
-        //     );
-        //     await response.json();
-        // };
         updateLastModified(id, new Date());
-
-        // updateTimestamp();
-    }, [title, qstColumns, columns, nodes, edges, id]);
+    }, [title, qstColumns, columns, edges, id]);
 
     return (
         <>
@@ -286,7 +268,6 @@ const Map = () => {
                             .map((qstColumn) => (
                                 <div className="grid-cell question-cell" key={qstColumn._id}>
                                     {qstColumn.questions
-                                        .sort((a, b) => a.qstIndex - b.qstIndex)
                                         .map((qst, index) => (
                                             <Question
                                                 key={qst._id}
