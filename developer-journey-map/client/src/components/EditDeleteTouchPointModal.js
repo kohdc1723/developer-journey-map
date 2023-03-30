@@ -153,7 +153,7 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID, r
                     <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer'
                         onClick={() => {
                             updateTouchpoint();
-                        }}>Edit</button>
+                        }}>OK</button>
                 </div>
             </div>
         </div>
