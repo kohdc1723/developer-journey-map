@@ -4,32 +4,31 @@ import { Strategy as LinkedInStrategy } from 'passport-linkedin-oauth2';
 import passport from 'passport';
 import User from "./mongodb/models/user.js";
 
+passport.serializeUser((user, done) => {
+    done(null, user)
+});
+
+passport.deserializeUser((user, done) => {
+    done(null, user)
+});
+
 // check if user exists in database
-function checkUser(profile, done) {
+async function checkUser(profile, done) {
     const userId = profile.id;
 
-    User.findOne({ id: userId }, (err, existingUser) => {
-        if (err) {
-            console.log(err);
-            done(err);
-        } else if (existingUser) {
-            console.log('Welcome back!');
-            done(null, profile);
+    try {
+        let user = await User.findOne({ id: userId });
+        if (!user) {
+            user = await User.create({ id: userId });
+            console.log('New user added to database.');
         } else {
-            const newUser = new User({
-                id: userId,
-            });
-            newUser.save((err, savedUser) => {
-                if (err) {
-                    console.log(err);
-                    done(err);
-                } else {
-                    console.log('New user added to database.');
-                    done(null, profile);
-                }
-            });
+            console.log('Welcome back!');
         }
-    });
+        done(null, profile);
+    } catch (err) {
+        console.error(err);
+        done(err);
+    }
 }
 
 passport.use(new GoogleStrategy({
@@ -39,7 +38,7 @@ passport.use(new GoogleStrategy({
 }, function (accessToken, refreshToken, profile, done) {
     checkUser(profile, done);
 }));
-
+ 
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
@@ -57,13 +56,5 @@ passport.use(new LinkedInStrategy({
     checkUser(profile, done);
 }
 ));
-
-passport.serializeUser((user, done) => {
-    done(null, user)
-});
-
-passport.deserializeUser((user, done) => {
-    done(null, user)
-});
 
 export default passport

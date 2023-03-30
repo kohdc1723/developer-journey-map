@@ -5,11 +5,9 @@ import "../assets/styles/dashboard.css";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const Dashboard = () => {
+const Dashboard = ({ user }) => {
   const { uid } = useParams();
   const [maps, setMaps] = useState([]);
-  const [user, setUser] = useState(null);
-
 
   const duplicateMap = async ({ _id }) => {
     const response = await fetch(`http://localhost:3800/api/maps/${_id}`, {
@@ -35,28 +33,6 @@ const Dashboard = () => {
     const deletedMap = await response.json();
     setMaps(maps.filter(map => map._id !== deletedMap.result._id));
   }
-
-  useEffect(() => {
-    const getUser = () => {
-      fetch("http://localhost:3800/auth/login/success", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-      }).then((response) => {
-        if (response.status === 200) return response.json();
-        throw new Error("authentication has been failed!");
-      }).then((resObject) => {
-        setUser(resObject.user);
-      }).catch((err) => {
-        console.log(err);
-      });
-    };
-    getUser();
-  }, []);
 
   useEffect(() => {
     const loadMaps = async () => {

@@ -68,10 +68,8 @@ const onDragEnd = (result, columns, setColumns) => {
 	}
 };
 
-const Map = () => {
+const Map = ({ user }) => {
 	/* Define states */
-	const [user, setUser] = useState(null);
-
 	const { id } = useParams();
 
 	// quick way to check for a refresh on Map when updating db without changing columns
@@ -180,28 +178,6 @@ const Map = () => {
 		content: () => componentRef.current,
 		documentTitle: "Developer Journey Map",
 	});
-
-	useEffect(() => {
-		const getUser = () => {
-			fetch("http://localhost:3800/auth/login/success", {
-				method: "GET",
-				credentials: "include",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Credentials": true,
-				},
-			}).then((response) => {
-				if (response.status === 200) return response.json();
-				throw new Error("authentication has been failed!");
-			}).then((resObject) => {
-				setUser(resObject.user);
-			}).catch((err) => {
-				console.log(err);
-			});
-		};
-		getUser();
-	}, []);
 
 	/* This is called only once at the very beginning */
 	useEffect(() => {
