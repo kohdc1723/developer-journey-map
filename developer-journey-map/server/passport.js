@@ -4,6 +4,14 @@ import { Strategy as LinkedInStrategy } from 'passport-linkedin-oauth2';
 import passport from 'passport';
 import User from "./mongodb/models/user.js";
 
+passport.serializeUser((user, done) => {
+    done(null, user)
+});
+
+passport.deserializeUser((user, done) => {
+    done(null, user)
+});
+
 // check if user exists in database
 async function checkUser(profile, done) {
     const userId = profile.id;
@@ -30,7 +38,7 @@ passport.use(new GoogleStrategy({
 }, function (accessToken, refreshToken, profile, done) {
     checkUser(profile, done);
 }));
-
+ 
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
@@ -48,13 +56,5 @@ passport.use(new LinkedInStrategy({
     checkUser(profile, done);
 }
 ));
-
-passport.serializeUser((user, done) => {
-    done(null, user)
-});
-
-passport.deserializeUser((user, done) => {
-    done(null, user)
-});
 
 export default passport
