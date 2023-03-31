@@ -3,7 +3,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { Touchpoint } from "../components";
 import "../assets/styles/map.css";
 
-const Column = ({ id, column, columns, setColumns, openModalWithItem, openCreateTouchpointModal }) => {
+const Column = ({ id, column, columns, setColumns, openModalWithItem, openCreateTouchpointModal, openViewModalWithItem }) => {
   return (
     <div key={id} className="grid-cell droppable-cell">
       <Droppable droppableId={id}>
@@ -16,7 +16,7 @@ const Column = ({ id, column, columns, setColumns, openModalWithItem, openCreate
               }`}
             >
               {column.touchpoints.map((item, index) => {
-                return <Touchpoint item={item} index={index} key={item._id} openModalWithItem={openModalWithItem} />;
+                return <Touchpoint item={item} index={index} key={item._id} openModalWithItem={openModalWithItem} openViewModalWithItem={openViewModalWithItem} />;
               })}
 
               {provided.placeholder}

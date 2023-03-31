@@ -1,17 +1,14 @@
-import React, { useCallback, useEffect } from 'react'
-import parse from 'html-react-parser';
+import React, { useEffect } from 'react'
 
-const TouchPointInfoModal = ({ open, onClose, item, onItemChange, setOpenEDTPModal, setEditDeleteTouchpointItem, setOpenDelConfirmModal, setDelConfirmTouchpointItem }) => {
-    const handleInputChange = useCallback(event => {
-        onItemChange(event.target.value)
-    }, [onItemChange])
 
+const TouchPointInfoModal = ({ open, onClose, item, setOpenEDTPModal, setEditDeleteTouchpointItem, setOpenDelConfirmModal, setDelConfirmTouchpointItem }) => {
     useEffect(() => {
-		setEditDeleteTouchpointItem(item)
+        setEditDeleteTouchpointItem(item)
         setDelConfirmTouchpointItem(item)
         console.log("changed item in edit/delete and confirmation")
         console.log(item.title)
-	}, [open]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open]);
 
     function closeTouchPointModalAndOpenEditDeleteTouchPointModal() {
         setOpenEDTPModal(true)
@@ -31,30 +28,18 @@ const TouchPointInfoModal = ({ open, onClose, item, onItemChange, setOpenEDTPMod
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
-                className='fixed flex max-w-[40%] w-full h-[50%] top-[30%] left-[30%] bg-[#ffffff] z-10'
+                className='fixed flex justify-center min-w-[200px] max-w-[20%] w-full h-auto top-[40%] left-[30%] sm:left-[35%] md:left-[40%] bg-[#ffffff] rounded-xl shadow-2xl shadow-slate-400 py-5 px-5'
             >
-                <div className='flex flex-col w-full justify-around bg-white'>
-                    <div className='flex flex-row justify-center font-bold text-[30px]'>
-                        {item.title}
-                    </div>
-                    {item.text && (
-                        <div className='flex flex-row justify-center'>
-                            {parse(item.text)}
-                        </div>
-                    )}
-                    <div className="flex flex-row justify-center items-center">
-                        <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
+                <div className='flex flex-col justify-center text-center text-3xl'>
+                    <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
                         onClick={closeTouchPointModalAndOpenEditDeleteTouchPointModal}>
-                            Edit
-                        </button>
-                        <button className='w-36 h-11 m-2 border-none bg-rev-green hover:text-rev-black text-rev-white rounded-lg text-xl cursor-pointer'
+                        Edit
+                    </button>
+                    <button className='w-36 h-11 m-2 border-none bg-rev-black hover:text-rev-green text-rev-white rounded-lg text-xl cursor-pointer'
                         onClick={closeTouchPointModalAndOpenDeleteConfirmationModal}>
-                            Delete
-                        </button>
-                    </div>
+                        Delete
+                    </button>
                 </div>
-
-
             </div>
         </div>
     )
