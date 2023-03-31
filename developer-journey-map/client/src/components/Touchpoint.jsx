@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import Hamburger from '../images/hamburger.png'
-
 
 
 const Touchpoint = (props) => {
@@ -15,7 +14,8 @@ const Touchpoint = (props) => {
         <Draggable key={item._id} draggableId={item._id.toString()} index={index}>
             {(provided, snapshot) => (
                 <div
-            id={item._id}
+
+                    id={item._id}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
@@ -27,15 +27,16 @@ const Touchpoint = (props) => {
                                 : ""
                         )
                     }
-                    // className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
+                // className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
                 >
-                    <div className='flex flex-row justify-center items-center'>
+                    <div className='flex flex-row justify-center items-center'
+                        onClick={() => props.openViewModalWithItem(item)}>
                         <div>{item.title}</div>
                     </div>
-                    <button className="absolute right-[-5px] top-[-5px]  z-0"
-                      onClick={() => props.openModalWithItem(item)}>
-                      <img src={Hamburger} alt="Hamburger" className='w-[15px]' />
-                    </button>
+                    <div className="absolute right-[-5px] top-[-5px]  z-0"
+                        onClick={() => props.openModalWithItem(item)}>
+                        <img src={Hamburger} alt="Hamburger" className='w-[15px]' />
+                    </div>
 
                 </div>
             )}

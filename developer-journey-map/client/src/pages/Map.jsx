@@ -12,6 +12,7 @@ import TouchPointModalInfo from "../components/TouchPointModalInfo";
 import CreateTouchPointModal from "../components/CreateTouchPointModal";
 import EditDeleteTouchPointModal from "../components/EditDeleteTouchPointModal";
 import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
+import ViewTouchpointModal from "../components/ViewTouchPointModal";
 import ExportIcon from '../assets/img/file.png'
 import 'reactflow/dist/style.css';
 import "../index.css";
@@ -94,6 +95,12 @@ const Map = () => {
 		setOpenCTPModal(true);
 		setColumnInfo(info);
 	}
+	// this state manages the ViewTouchPointModal
+	const [openViewModal, setOpenViewModal] = useState(false);
+	const openViewModalWithItem = (item) => {
+		setOpenViewModal(true);
+		setTouchpointItem(item);
+	};
 	// these state manages the EditDeleteTouchPointModal
 	const [openEDTPModal, setOpenEDTPModal] = useState(false);
 	const [editDeleteTouchpointItem, setEditDeleteTouchpointItem] = useState({})
@@ -117,7 +124,9 @@ const Map = () => {
 		//console.log(dragging.valueOf());
 		requestAnimationFrame(updateNode);
 		return [...ns]
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}), []);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'arrowEdge' }, eds)), []);
 	const updateHandles = () => {
 		const touchpoints = Array.from(document.querySelectorAll('.touchpoint'));
@@ -138,11 +147,12 @@ const Map = () => {
 				headers: {
 					"Content-Type": "application/json"
 				},
-				body: JSON.stringify({arrows: edges}),
+				body: JSON.stringify({ arrows: edges }),
 			});
 			await response.json();
 		};
 		if (Array.from(document.querySelectorAll('.touchpoint-node')).length > 0) updateArrows();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [edges]);
 
 	const handleTitleBlur = async (e) => {
@@ -228,6 +238,7 @@ const Map = () => {
 		requestAnimationFrame(updateNode);
 		requestAnimationFrame(updateHandles);
 		window.addEventListener('resize', updateHandles);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id, refreshMap]);
 
 
@@ -247,6 +258,7 @@ const Map = () => {
 			updateHandles();
 		};
 		updateColumns();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [columns, id]);
 
 	/* This is called whenever any state change */
@@ -311,6 +323,10 @@ const Map = () => {
 						mapID={id}
 						refreshMap={refreshMap}
 						setRefreshMap={setRefreshMap} />
+					<ViewTouchpointModal
+						open={openViewModal}
+						onClose={() => setOpenViewModal(false)}
+						item={touchpointItem} />
 					<ReactFlow
 						nodes={nodes}
 						onNodesChange={onNodesChange}
@@ -386,6 +402,7 @@ const Map = () => {
 											columns={columns}
 											setColumns={setColumns}
 											openModalWithItem={openModalWithItem}
+											openViewModalWithItem={openViewModalWithItem}
 											openCreateTouchpointModal={openCreateTouchpointModal}
 											key={id}
 										/>
@@ -402,6 +419,7 @@ const Map = () => {
 											columns={columns}
 											setColumns={setColumns}
 											openModalWithItem={openModalWithItem}
+											openViewModalWithItem={openViewModalWithItem}
 											openCreateTouchpointModal={openCreateTouchpointModal}
 											key={id}
 										/>
