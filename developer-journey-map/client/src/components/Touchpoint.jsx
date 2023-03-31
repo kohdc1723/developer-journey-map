@@ -2,7 +2,6 @@ import React from 'react';
 import { Draggable } from "react-beautiful-dnd";
 import Hamburger from '../images/hamburger.png'
 
-
 const Touchpoint = (props) => {
     const item = props.item;
     const index = props.index;
@@ -11,10 +10,13 @@ const Touchpoint = (props) => {
     const borderSize = item.borderSize ? item.borderSize : "border";
 
     return (
-        <Draggable key={item._id} draggableId={item._id.toString()} index={index}>
+        <Draggable 
+            key={item._id}
+            draggableId={item._id.toString()}
+            index={index}
+        >
             {(provided, snapshot) => (
                 <div
-
                     id={item._id}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
@@ -27,7 +29,6 @@ const Touchpoint = (props) => {
                                 : ""
                         )
                     }
-                // className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
                 >
                     <div className='flex flex-row justify-center items-center'
                         onClick={() => props.openViewModalWithItem(item)}>
@@ -37,34 +38,10 @@ const Touchpoint = (props) => {
                         onClick={() => props.openModalWithItem(item)}>
                         <img src={Hamburger} alt="Hamburger" className='w-[15px]' />
                     </div>
-
                 </div>
             )}
         </Draggable>
-    )
+    );
 };
-
-// import React from "react";
-// import { Draggable } from "react-beautiful-dnd";
-// import "../assets/styles/map.css";
-
-// const Touchpoint = ({ item, index }) => {
-//   return (
-//     <Draggable key={item._id} draggableId={item._id} index={index}>
-//       {(provided, snapshot) => {
-//         return (
-//           <div
-//             {...provided.draggableProps}
-//             {...provided.dragHandleProps}
-//             ref={provided.innerRef}
-//             className={`${{ ...provided.draggableProps.style }} ${snapshot.isDragging ? "touchpoint-on-dragging" : "touchpoint"}`}
-//           >
-//             {item.content}
-//           </div>
-//         );
-//       }}
-//     </Draggable>
-//   );
-// };
 
 export default Touchpoint;

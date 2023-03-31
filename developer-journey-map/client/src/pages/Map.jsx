@@ -4,8 +4,8 @@ import { useReactToPrint } from "react-to-print";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import ArrowEdge from "../components/ArrowEdge";
 import TouchpointNode from "../components/TouchpointNode";
 import TouchPointModalInfo from "../components/TouchPointModalInfo";
@@ -14,7 +14,10 @@ import EditDeleteTouchPointModal from "../components/EditDeleteTouchPointModal";
 import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
 import ViewTouchpointModal from "../components/ViewTouchPointModal";
 import ExportIcon from '../assets/img/file.png'
-import 'reactflow/dist/style.css';
+import Question from "../components/Question";
+import { createQuestion } from "../utils/questionFunctions.js";
+import { onDragEnd, updateTitle, updateLastModified } from "../utils/mapFunctions";
+import "reactflow/dist/style.css";
 import "../index.css";
 import "../assets/styles/map.css";
 
@@ -26,69 +29,59 @@ const edgeTypes = {
 	arrowEdge: ArrowEdge,
 };
 
-// on drag handler
-const onDragEnd = (result, columns, setColumns) => {
-	const { source, destination } = result;
-
-	// if drag and drop to non-droppable area
-	if (!result.destination) return;
-
-	// if drag and drop to different columns
-	if (source.droppableId !== destination.droppableId) {
-		const srcColumn = columns[source.droppableId];
-		const destColumn = columns[destination.droppableId];
-		const srcItems = [...srcColumn.touchpoints];
-		const destItems = [...destColumn.touchpoints];
-
-		const [draggedItem] = srcItems.splice(source.index, 1);
-		destItems.splice(destination.index, 0, draggedItem);
-		setColumns({
-			...columns,
-			[source.droppableId]: {
-				...srcColumn,
-				touchpoints: srcItems,
-			},
-			[destination.droppableId]: {
-				...destColumn,
-				touchpoints: destItems,
-			},
-		});
-	} else {
-		const sourceColumn = columns[source.droppableId];
-		const copiedItems = [...sourceColumn.touchpoints];
-
-		const [draggedItem] = copiedItems.splice(source.index, 1);
-		copiedItems.splice(destination.index, 0, draggedItem);
-		setColumns({
-			...columns,
-			[source.droppableId]: {
-				...sourceColumn,
-				touchpoints: copiedItems,
-			},
-		});
-	}
-};
-
 const Map = () => {
 	/* Define states */
 	const [user, setUser] = useState(null);
-
 	const { id } = useParams();
 
 	// quick way to check for a refresh on Map when updating db without changing columns
 	const [refreshMap, setRefreshMap] = useState(false);
 
+    /* title states */
 	const [title, setTitle] = useState("Map");
 	const [titleEditable, setTitleEditable] = useState(false);
+    const [titleLength, setTitleLength] = useState(title.length);
+
+    const handleTitleChange = (e) => {
+        e.preventDefault();
+        const newTitle = e.target.value.trim();
+        const newTitleSize = newTitle.length;
+        setTitle(newTitle);
+        setTitleLength(newTitleSize);
+    };
+
+    const handleTitleBlur = async (e) => {
+        e.preventDefault();
+        const value = e.target.value.trim();
+
+        updateTitle(id, value, setTitle);
+
+        setTitleEditable(false);
+    };
+
+    const handleTitleClick = (e) => {
+        e.preventDefault();
+        setTitleEditable(true);
+    };
 
 	const [qstColumns, setQstColumns] = useState([]);
+
+    const handleClickAdd = async (questionColumnId, questionColumnIndex) => {
+        const newQuestion = await createQuestion(id, questionColumnId);
+        qstColumns[questionColumnIndex].questions.push(newQuestion);
+        setQstColumns(qstColumns);
+    };
+
 	const [columns, setColumns] = useState([]);
+    
 	const [openModal, setOpenModal] = useState(false);
 	const [touchpointItem, setTouchpointItem] = useState({});
+
 	const openModalWithItem = (item) => {
 		setOpenModal(true);
 		setTouchpointItem(item);
 	};
+
 	const [openCTPModal, setOpenCTPModal] = useState(false);
 	const [columnInfo, setColumnInfo] = useState({});
 	const openCreateTouchpointModal = (info) => {
@@ -126,8 +119,10 @@ const Map = () => {
 		return [...ns]
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}), []);
+
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const onConnect = useCallback((params) => setEdges((eds) => addEdge({ ...params, type: 'arrowEdge' }, eds)), []);
+
 	const updateHandles = () => {
 		const touchpoints = Array.from(document.querySelectorAll('.touchpoint'));
 		const nodes = Array.from(document.querySelectorAll('.touchpoint-node'));
@@ -139,7 +134,8 @@ const Map = () => {
 		nodes.forEach((node) => {
 			node.style.width = `${width}px`;
 		});
-	}
+	};
+
 	useEffect(() => {
 		const updateArrows = async () => {
 			const response = await fetch(`http://localhost:3800/api/map/arrow/${id}`, {
@@ -154,36 +150,6 @@ const Map = () => {
 		if (Array.from(document.querySelectorAll('.touchpoint-node')).length > 0) updateArrows();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [edges]);
-
-	const handleTitleBlur = async (e) => {
-		e.preventDefault();
-		const value = e.target.value.trim();
-
-		if (!value) {
-			setTitle("Title");
-		} else {
-			setTitle(value);
-		}
-
-		const response = await fetch(`http://localhost:3800/api/map/title/${id}`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				title: value
-			})
-		});
-
-		await response.json();
-
-		setTitleEditable(false);
-	}
-
-	const handleTitleClick = (e) => {
-		e.preventDefault();
-		setTitleEditable(true);
-	}
 
 	const componentRef = useRef();
 	const handleExport = useReactToPrint({
@@ -263,22 +229,8 @@ const Map = () => {
 
 	/* This is called whenever any state change */
 	useEffect(() => {
-		// update lastModified in the database
-		const updateTimestamp = async () => {
-			const timestamp = { timestamp: new Date() };
-
-			const response = await fetch(`http://localhost:3800/api/map/timestamp/${id}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				body: JSON.stringify(timestamp)
-			});
-			await response.json();
-
-		};
-		updateTimestamp();
-	}, [columns, id]);
+        updateLastModified(id, new Date());
+    }, [title, qstColumns, columns, edges, id]);
 
 	return (
 		<>
@@ -351,17 +303,22 @@ const Map = () => {
 						<DragDropContext
 							onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
 							{titleEditable ? (
-								<input
-									className="title"
-									type="text"
-									onBlur={handleTitleBlur}
-									defaultValue={title}
-									autoFocus
-									required
-								/>
-							) : (
-								<h2 className="title" onClick={handleTitleClick}>{title}</h2>
-							)}
+                                <input
+                                    className="title"
+                                    type="text"
+                                    onBlur={handleTitleBlur}
+                                    onChange={handleTitleChange}
+                                    defaultValue={title}
+                                    size={titleLength + 1}
+                                    autoFocus
+                                    required
+                                />
+                            ) : (
+                                <h2 className="title" onClick={handleTitleClick}>
+                                    {title}
+                                </h2>
+                            )}
+
 							<div id="grid-layout-map">
 								<h3 className="heading-left heading-top-rounded">STAGE</h3>
 								<h3 className="heading-top">DISCOVER</h3>
@@ -381,13 +338,24 @@ const Map = () => {
 								{qstColumns
 									.sort((a, b) => a.qstColIndex - b.qstColIndex)
 									.map(qstColumn => (
-										<div className="grid-cell" key={qstColumn._id}>
+										<div className="grid-cell question-cell" key={qstColumn._id}>
 											{qstColumn.questions
-												.sort((a, b) => a.qstIndex - b.qstIndex)
 												.map((qst, index) => (
-													<div key={qst._id}>{`${index + 1}. ${qst.question}`}</div>
+													<Question
+                                                        key={qst._id}
+                                                        qstColumn={qstColumn}
+                                                        qstColumnId={qstColumn._id}
+                                                        qst={qst}
+                                                        index={index}
+                                                    />
 												))
 											}
+                                            <button
+                                                className="question-add-button"
+                                                onClick={() => handleClickAdd(qstColumn._id, qstColumn.qstColIndex)}
+                                            >
+                                                +
+                                            </button>
 										</div>
 									))
 								}

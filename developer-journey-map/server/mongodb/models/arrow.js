@@ -1,22 +1,20 @@
 import mongoose from "mongoose";
-import Touchpoint from "./touchpoint.js";
 
-const ColumnSchema = new mongoose.Schema({
+const ArrowSchema = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         default: new mongoose.Types.ObjectId(),
         required: true
     },
-    colIndex: {
+    from: {
         type: String,
         required: true
     },
-    position: {
+    to: {
         type: String,
         required: true
-    },
-    touchpoints: [Touchpoint.schema]
+    }
 });
 
-const Column = mongoose.model("Column", ColumnSchema);
-export default Column;
+const Arrow = mongoose.model("Arrow", ArrowSchema);
+export default Arrow;
