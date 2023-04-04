@@ -3,6 +3,7 @@ import passport from "passport";
 
 const router = express.Router();
 const DASHBOARD_URL = "http://localhost:3000";
+const LOGIN_URL = "http://localhost:3000/login";
 
 router.get('/login/success', (req, res) => {
     if (req.user) {
@@ -24,7 +25,7 @@ router.get('/login/failed', (req, res) => {
 router.get('/logout', (req, res) => {
     req.logout();
     req.session = null;
-    res.redirect("http://localhost:3000/login");
+    res.redirect(LOGIN_URL);
 });
 
 // google

@@ -36,8 +36,7 @@ const App = () => {
                 <Route path="/" element={user ? <Navigate to={`/dashboard/${user.id}`} /> : <Login />} />
                 <Route path="/login" element={user ? <Navigate to={`/dashboard/${user.id}`} /> : <Login />} />
                 <Route path="/dashboard/:uid" element={user ? <Dashboard user={user} /> : <Navigate to="/login" />} />
-                {/* <Route path="/map/:id" element={user ? <Map /> : <Navigate to="/login" />} /> */}
-                <Route path="/map/:id" element={<Map user={user} />} />
+                <Route path="/map/:id" element={user ? <Map user={user} /> : <Navigate to="/login" />} />
             </Routes>
         </BrowserRouter>
     );
