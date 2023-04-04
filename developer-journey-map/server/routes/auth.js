@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 
 const router = express.Router();
-const DASHBOARD_URL = "http://localhost:3000/dashboard/:uid"
+const DASHBOARD_URL = "http://localhost:3000";
 
 router.get('/login/success', (req, res) => {
     if (req.user) {
@@ -10,7 +10,6 @@ router.get('/login/success', (req, res) => {
             success: true,
             message: "success",
             user: req.user,
-            // cookies: req.cookies
         });
     }
 });
@@ -21,9 +20,10 @@ router.get('/login/failed', (req, res) => {
         message: "failure"
     });
 });
-
+    
 router.get('/logout', (req, res) => {
     req.logout();
+    req.session = null;
     res.redirect("http://localhost:3000/login");
 });
 

@@ -29,51 +29,50 @@ const edgeTypes = {
 	arrowEdge: ArrowEdge,
 };
 
-const Map = () => {
+const Map = ({ user }) => {
 	/* Define states */
-	const [user, setUser] = useState(null);
 	const { id } = useParams();
 
 	// quick way to check for a refresh on Map when updating db without changing columns
 	const [refreshMap, setRefreshMap] = useState(false);
 
-    /* title states */
+	/* title states */
 	const [title, setTitle] = useState("Map");
 	const [titleEditable, setTitleEditable] = useState(false);
-    const [titleLength, setTitleLength] = useState(title.length);
+	const [titleLength, setTitleLength] = useState(title.length);
 
-    const handleTitleChange = (e) => {
-        e.preventDefault();
-        const newTitle = e.target.value.trim();
-        const newTitleSize = newTitle.length;
-        setTitle(newTitle);
-        setTitleLength(newTitleSize);
-    };
+	const handleTitleChange = (e) => {
+		e.preventDefault();
+		const newTitle = e.target.value.trim();
+		const newTitleSize = newTitle.length;
+		setTitle(newTitle);
+		setTitleLength(newTitleSize);
+	};
 
-    const handleTitleBlur = async (e) => {
-        e.preventDefault();
-        const value = e.target.value.trim();
+	const handleTitleBlur = async (e) => {
+		e.preventDefault();
+		const value = e.target.value.trim();
 
-        updateTitle(id, value, setTitle);
+		updateTitle(id, value, setTitle);
 
-        setTitleEditable(false);
-    };
+		setTitleEditable(false);
+	};
 
-    const handleTitleClick = (e) => {
-        e.preventDefault();
-        setTitleEditable(true);
-    };
+	const handleTitleClick = (e) => {
+		e.preventDefault();
+		setTitleEditable(true);
+	};
 
 	const [qstColumns, setQstColumns] = useState([]);
 
-    const handleClickAdd = async (questionColumnId, questionColumnIndex) => {
-        const newQuestion = await createQuestion(id, questionColumnId);
-        qstColumns[questionColumnIndex].questions.push(newQuestion);
-        setQstColumns(qstColumns);
-    };
+	const handleClickAdd = async (questionColumnId, questionColumnIndex) => {
+		const newQuestion = await createQuestion(id, questionColumnId);
+		qstColumns[questionColumnIndex].questions.push(newQuestion);
+		setQstColumns(qstColumns);
+	};
 
 	const [columns, setColumns] = useState([]);
-    
+
 	const [openModal, setOpenModal] = useState(false);
 	const [touchpointItem, setTouchpointItem] = useState({});
 
@@ -157,28 +156,6 @@ const Map = () => {
 		documentTitle: "Developer Journey Map",
 	});
 
-	useEffect(() => {
-		const getUser = () => {
-			fetch("http://localhost:3800/auth/login/success", {
-				method: "GET",
-				credentials: "include",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Credentials": true,
-				},
-			}).then((response) => {
-				if (response.status === 200) return response.json();
-				throw new Error("authentication has been failed!");
-			}).then((resObject) => {
-				setUser(resObject.user);
-			}).catch((err) => {
-				console.log(err);
-			});
-		};
-		getUser();
-	}, []);
-
 	/* This is called only once at the very beginning */
 	useEffect(() => {
 		// load the entire map 
@@ -207,7 +184,6 @@ const Map = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id, refreshMap]);
 
-
 	/* This is called whenever columns state change */
 	useEffect(() => {
 		// auto-update the database
@@ -229,8 +205,8 @@ const Map = () => {
 
 	/* This is called whenever any state change */
 	useEffect(() => {
-        updateLastModified(id, new Date());
-    }, [title, qstColumns, columns, edges, id]);
+		updateLastModified(id, new Date());
+	}, [title, qstColumns, columns, edges, id]);
 
 	return (
 		<>
@@ -303,21 +279,21 @@ const Map = () => {
 						<DragDropContext
 							onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
 							{titleEditable ? (
-                                <input
-                                    className="title"
-                                    type="text"
-                                    onBlur={handleTitleBlur}
-                                    onChange={handleTitleChange}
-                                    defaultValue={title}
-                                    size={titleLength + 1}
-                                    autoFocus
-                                    required
-                                />
-                            ) : (
-                                <h2 className="title" onClick={handleTitleClick}>
-                                    {title}
-                                </h2>
-                            )}
+								<input
+									className="title"
+									type="text"
+									onBlur={handleTitleBlur}
+									onChange={handleTitleChange}
+									defaultValue={title}
+									size={titleLength + 1}
+									autoFocus
+									required
+								/>
+							) : (
+								<h2 className="title" onClick={handleTitleClick}>
+									{title}
+								</h2>
+							)}
 
 							<div id="grid-layout-map">
 								<h3 className="heading-left heading-top-rounded">STAGE</h3>
@@ -342,20 +318,20 @@ const Map = () => {
 											{qstColumn.questions
 												.map((qst, index) => (
 													<Question
-                                                        key={qst._id}
-                                                        qstColumn={qstColumn}
-                                                        qstColumnId={qstColumn._id}
-                                                        qst={qst}
-                                                        index={index}
-                                                    />
+														key={qst._id}
+														qstColumn={qstColumn}
+														qstColumnId={qstColumn._id}
+														qst={qst}
+														index={index}
+													/>
 												))
 											}
-                                            <button
-                                                className="question-add-button"
-                                                onClick={() => handleClickAdd(qstColumn._id, qstColumn.qstColIndex)}
-                                            >
-                                                +
-                                            </button>
+											<button
+												className="question-add-button"
+												onClick={() => handleClickAdd(qstColumn._id, qstColumn.qstColIndex)}
+											>
+												+
+											</button>
 										</div>
 									))
 								}

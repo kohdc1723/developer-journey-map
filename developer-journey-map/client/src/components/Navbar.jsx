@@ -2,14 +2,14 @@ import { Link } from "react-router-dom"
 import LoginImage from '../assets/img/user.png'
 
 const Navbar = ({ user }) => {
-
+    
     const logout = () => {
         window.open("http://localhost:3800/auth/logout", "_self");
     };
 
     return (
         <div className="navbar">
-            <a className="logo" href="http://localhost:3000/dashboard/:uid">Interactive Developer Journey Map</a>
+            <a className="logo" href={`http://localhost:3000/dashboard/${user.id}`}>Interactive Developer Journey Map</a>
             {user ? (
                 <ul className="list">
                     <li className="listItem">
