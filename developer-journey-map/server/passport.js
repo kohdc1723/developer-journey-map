@@ -1,6 +1,5 @@
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as GitHubStrategy } from 'passport-github2';
-import { Strategy as LinkedInStrategy } from 'passport-linkedin-oauth2';
 import passport from 'passport';
 import User from "./mongodb/models/user.js";
 
@@ -39,16 +38,6 @@ passport.use(new GitHubStrategy({
 }, function (accessToken, refreshToken, profile, done) {
     checkUser(profile, done);
 }));
-
-passport.use(new LinkedInStrategy({
-    clientID: process.env.LINKEDIN_KEY,
-    clientSecret: process.env.LINKEDIN_SECRET,
-    callbackURL: "/auth/linkedin/callback",
-    scope: ['r_emailaddress', 'r_liteprofile'],
-}, function (token, tokenSecret, profile, done) {
-    checkUser(profile, done);
-}
-));
 
 passport.serializeUser((user, done) => {
     done(null, user)

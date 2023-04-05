@@ -44,12 +44,4 @@ router.get('/github/callback', passport.authenticate('github', {
     failureRedirect: '/login/failed'
 }));
 
-// linkedin
-router.get('/linkedin', passport.authenticate('linkedin', { scope: ['r_emailaddress', 'r_liteprofile'] }));
-
-router.get('/linkedin/callback', passport.authenticate('linkedin', {
-    successRedirect: DASHBOARD_URL,
-    failureRedirect: '/login/failed'
-}));
-
 export default router;
