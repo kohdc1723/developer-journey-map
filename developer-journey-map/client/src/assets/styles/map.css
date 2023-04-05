@@ -166,7 +166,6 @@
 
 .grid-cell {
     position: relative;
-    z-index: 5;
     padding: 3px;
     margin: 3px;
     font-size: small;
@@ -208,12 +207,15 @@
 }
 
 .react-flow__renderer {
-    z-index: 15 !important;
-    cursor: default;
+    z-index: 1 !important;
+}
+
+.react-flow__pane {
+    cursor: default !important;
 }
 
 .react-flow .react-flow__handle {
-    z-index: 16 !important;
+    z-index: 5 !important;
     background-color: black;
     width: 8px;
     height: 8px;
