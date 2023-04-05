@@ -208,12 +208,12 @@
 }
 
 .react-flow__renderer {
-    z-index: 1 !important;
+    z-index: 15 !important;
     cursor: default;
 }
 
 .react-flow .react-flow__handle {
-    z-index: 155 !important;
+    z-index: 16 !important;
     background-color: black;
     width: 8px;
     height: 8px;
