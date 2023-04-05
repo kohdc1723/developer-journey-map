@@ -11,6 +11,7 @@
     "all": "^0.0.0",
     "ckeditor5-custom-build": "file:ckeditor5",
     "html-react-parser": "^3.0.12",
+    "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "mongoose": "^7.0.1",
     "react": "^18.2.0",
@@ -21,8 +22,10 @@
     "react-router-dom": "^6.8.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.0",
+    "react-storage-complete": "^1.1.1",
     "react-to-print": "^2.14.12",
     "reactflow": "^11.5.6",
+    "use-react-screenshot": "^3.0.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

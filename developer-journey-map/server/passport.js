@@ -5,38 +5,30 @@ import passport from 'passport';
 import User from "./mongodb/models/user.js";
 
 // check if user exists in database
-function checkUser(profile, done) {
+async function checkUser(profile, done) {
     const userId = profile.id;
 
-    User.findOne({ id: userId }, (err, existingUser) => {
-        if (err) {
-            console.log(err);
-            done(err);
-        } else if (existingUser) {
-            console.log('Welcome back!');
-            done(null, profile);
+    try {
+        let user = await User.findOne({ id: userId });
+        if (!user) {
+            user = await User.create({ id: userId });
+            console.log('New user added to database.');
         } else {
-            const newUser = new User({
-                id: userId,
-            });
-            newUser.save((err, savedUser) => {
-                if (err) {
-                    console.log(err);
-                    done(err);
-                } else {
-                    console.log('New user added to database.');
-                    done(null, profile);
-                }
-            });
+            console.log('Welcome back!');
         }
-    });
-}
+        return done(null, profile);
+    } catch (err) {
+        console.error(err);
+        return done(err);
+    }
+};
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback",
-}, function (accessToken, refreshToken, profile, done) {
+    passReqToCallback: true
+}, function (request, accessToken, refreshToken, profile, done) {
     checkUser(profile, done);
 }));
 

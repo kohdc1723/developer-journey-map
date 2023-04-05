@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
-import { useReactToPrint } from "react-to-print";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
+import { useScreenshot, createFileName } from "use-react-screenshot";
+import { jsPDF } from 'jspdf';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ArrowEdge from "../components/ArrowEdge";
@@ -29,51 +30,50 @@ const edgeTypes = {
 	arrowEdge: ArrowEdge,
 };
 
-const Map = () => {
+const Map = ({ user }) => {
 	/* Define states */
-	const [user, setUser] = useState(null);
 	const { id } = useParams();
 
 	// quick way to check for a refresh on Map when updating db without changing columns
 	const [refreshMap, setRefreshMap] = useState(false);
 
-    /* title states */
+	/* title states */
 	const [title, setTitle] = useState("Map");
 	const [titleEditable, setTitleEditable] = useState(false);
-    const [titleLength, setTitleLength] = useState(title.length);
+	const [titleLength, setTitleLength] = useState(title.length);
 
-    const handleTitleChange = (e) => {
-        e.preventDefault();
-        const newTitle = e.target.value.trim();
-        const newTitleSize = newTitle.length;
-        setTitle(newTitle);
-        setTitleLength(newTitleSize);
-    };
+	const handleTitleChange = (e) => {
+		e.preventDefault();
+		const newTitle = e.target.value.trim();
+		const newTitleSize = newTitle.length;
+		setTitle(newTitle);
+		setTitleLength(newTitleSize);
+	};
 
-    const handleTitleBlur = async (e) => {
-        e.preventDefault();
-        const value = e.target.value.trim();
+	const handleTitleBlur = async (e) => {
+		e.preventDefault();
+		const value = e.target.value.trim();
 
-        updateTitle(id, value, setTitle);
+		updateTitle(id, value, setTitle);
 
-        setTitleEditable(false);
-    };
+		setTitleEditable(false);
+	};
 
-    const handleTitleClick = (e) => {
-        e.preventDefault();
-        setTitleEditable(true);
-    };
+	const handleTitleClick = (e) => {
+		e.preventDefault();
+		setTitleEditable(true);
+	};
 
 	const [qstColumns, setQstColumns] = useState([]);
 
-    const handleClickAdd = async (questionColumnId, questionColumnIndex) => {
-        const newQuestion = await createQuestion(id, questionColumnId);
-        qstColumns[questionColumnIndex].questions.push(newQuestion);
-        setQstColumns(qstColumns);
-    };
+	const handleClickAdd = async (questionColumnId, questionColumnIndex) => {
+		const newQuestion = await createQuestion(id, questionColumnId);
+		qstColumns[questionColumnIndex].questions.push(newQuestion);
+		setQstColumns(qstColumns);
+	};
 
 	const [columns, setColumns] = useState([]);
-    
+
 	const [openModal, setOpenModal] = useState(false);
 	const [touchpointItem, setTouchpointItem] = useState({});
 
@@ -151,34 +151,6 @@ const Map = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [edges]);
 
-	const componentRef = useRef();
-	const handleExport = useReactToPrint({
-		content: () => componentRef.current,
-		documentTitle: "Developer Journey Map",
-	});
-
-	useEffect(() => {
-		const getUser = () => {
-			fetch("http://localhost:3800/auth/login/success", {
-				method: "GET",
-				credentials: "include",
-				headers: {
-					Accept: "application/json",
-					"Content-Type": "application/json",
-					"Access-Control-Allow-Credentials": true,
-				},
-			}).then((response) => {
-				if (response.status === 200) return response.json();
-				throw new Error("authentication has been failed!");
-			}).then((resObject) => {
-				setUser(resObject.user);
-			}).catch((err) => {
-				console.log(err);
-			});
-		};
-		getUser();
-	}, []);
-
 	/* This is called only once at the very beginning */
 	useEffect(() => {
 		// load the entire map 
@@ -207,7 +179,6 @@ const Map = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [id, refreshMap]);
 
-
 	/* This is called whenever columns state change */
 	useEffect(() => {
 		// auto-update the database
@@ -229,20 +200,75 @@ const Map = () => {
 
 	/* This is called whenever any state change */
 	useEffect(() => {
-        updateLastModified(id, new Date());
-    }, [title, qstColumns, columns, edges, id]);
+		updateLastModified(id, new Date());
+	}, [title, qstColumns, columns, edges, id]);
+
+	/* This gets a reference to a map to screenshot */
+	const ref = useRef(null);
+
+	/* This screenshots the map as a jpg image */
+	const [image, takeScreenShot] = useScreenshot({
+		type: "image/jpeg",
+		quality: 1.0,
+	});
+	
+	/* This downloads the map as a pdf file */
+	const downloadPDF = () => {
+		takeScreenShot(ref.current).then((image) => {
+			const img = new Image();
+			img.onload = () => {
+				const pdf = new jsPDF({
+					orientation: img.width > img.height ? "l" : "p",
+				});
+				const canvas = document.createElement("canvas");
+				canvas.width = img.width;
+				canvas.height = img.height;
+				const ctx = canvas.getContext("2d");
+				ctx.drawImage(img, 0, 0, img.width, img.height);
+				const imgData = canvas.toDataURL("image/jpeg", 1.0);
+				pdf.addImage(
+					imgData,
+					"JPEG",
+					0,
+					0,
+					pdf.internal.pageSize.getWidth(),
+					pdf.internal.pageSize.getHeight()
+				);
+				pdf.save(createFileName("Developer Journey Map"));
+			};
+			img.src = image;
+		});
+	};
+
+	/* This hides the export button when the screen's width is less than the screen's max width */
+	const [showButton, setShowButton] = useState(true);
+
+	useEffect(() => {
+		const handleResize = () => {
+			const { innerWidth, innerHeight } = window;
+
+			if (innerWidth < window.screen.width) {
+				setShowButton(false);
+			} else {
+				setShowButton(true);
+			}
+		};
+
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
 
 	return (
 		<>
 			<Navbar user={user} />
 			<div className="content">
 				<div className="export">
-					<div className="exportButton" onClick={handleExport}>
+					{showButton && <div className="exportButton" onClick={downloadPDF} >
 						<img src={ExportIcon} alt="exportIcon" className="exportIcon" />
 						Export
-					</div>
+					</div>}
 				</div>
-				<div className="main" ref={componentRef}>
+				<div className="main" ref={ref}>
 					<TouchPointModalInfo
 						open={openModal}
 						onClose={() => setOpenModal(false)}
@@ -303,21 +329,21 @@ const Map = () => {
 						<DragDropContext
 							onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
 							{titleEditable ? (
-                                <input
-                                    className="title"
-                                    type="text"
-                                    onBlur={handleTitleBlur}
-                                    onChange={handleTitleChange}
-                                    defaultValue={title}
-                                    size={titleLength + 1}
-                                    autoFocus
-                                    required
-                                />
-                            ) : (
-                                <h2 className="title" onClick={handleTitleClick}>
-                                    {title}
-                                </h2>
-                            )}
+								<input
+									className="title"
+									type="text"
+									onBlur={handleTitleBlur}
+									onChange={handleTitleChange}
+									defaultValue={title}
+									size={titleLength + 1}
+									autoFocus
+									required
+								/>
+							) : (
+								<h2 className="title" onClick={handleTitleClick}>
+									{title}
+								</h2>
+							)}
 
 							<div id="grid-layout-map">
 								<h3 className="heading-left heading-top-rounded">STAGE</h3>
@@ -342,20 +368,20 @@ const Map = () => {
 											{qstColumn.questions
 												.map((qst, index) => (
 													<Question
-                                                        key={qst._id}
-                                                        qstColumn={qstColumn}
-                                                        qstColumnId={qstColumn._id}
-                                                        qst={qst}
-                                                        index={index}
-                                                    />
+														key={qst._id}
+														qstColumn={qstColumn}
+														qstColumnId={qstColumn._id}
+														qst={qst}
+														index={index}
+													/>
 												))
 											}
-                                            <button
-                                                className="question-add-button"
-                                                onClick={() => handleClickAdd(qstColumn._id, qstColumn.qstColIndex)}
-                                            >
-                                                +
-                                            </button>
+											<button
+												className="question-add-button"
+												onClick={() => handleClickAdd(qstColumn._id, qstColumn.qstColIndex)}
+											>
+												+
+											</button>
 										</div>
 									))
 								}

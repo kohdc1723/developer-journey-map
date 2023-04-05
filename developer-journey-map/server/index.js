@@ -4,6 +4,7 @@ import connectDb from "./mongodb/connect.js";
 import mapsRoutes from "./routes/mapsRoutes.js";
 import mapRoutes from "./routes/mapRoutes.js";
 import questionRoutes from "./routes/questionRoutes.js";
+import cookieParser from "cookie-parser";
 import cookieSession from "cookie-session";
 import "./passport.js";
 import passport from "passport";
@@ -16,10 +17,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:3000", methods: "GET,POST,PUT,DELETE", credentials: true }));
-app.use(cookieSession({ name: "session", keys: ["journeymap"], maxAge: 24 * 60 * 60 * 1000 }));
+app.use(cookieParser());
+app.use(cookieSession({ name: "session", keys: ["journeymap"], maxAge: 24 * 60 * 60 * 1000 }));  // 24 hours
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use("/api/map", mapRoutes);
 app.use("/api/maps", mapsRoutes);
 app.use("/api/question", questionRoutes);
