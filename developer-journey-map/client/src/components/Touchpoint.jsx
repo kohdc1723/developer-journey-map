@@ -1,6 +1,6 @@
 import React from 'react';
 import { Draggable } from "react-beautiful-dnd";
-import Hamburger from '../images/hamburger.png'
+import Hamburger from '../assets/img/hamburger.png'
 
 const Touchpoint = (props) => {
     const item = props.item;
