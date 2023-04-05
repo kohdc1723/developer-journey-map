@@ -63,7 +63,7 @@ const Question = ({ qstColumn, qst, qstColumnId, index }) => {
                         onChange={handleChange}
                     />
                     <BsFillTrashFill
-                        className="trash"
+                        className="delete-button"
                         onMouseDown={handleDelete}
                     />
                 </div>

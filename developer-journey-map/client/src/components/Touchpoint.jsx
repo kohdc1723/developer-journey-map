@@ -23,20 +23,20 @@ const Touchpoint = (props) => {
                     ref={provided.innerRef}
                     className={
                         { ...provided.draggableProps.style } + " " + borderColor + " " + borderSize +
-                        " touchpoint relative z-10 select-none rounded-lg my-1 text-sm px-1 w-full h-fit min-h-[25px]".concat(
+                        " break-all touchpoint relative z-10 select-none rounded-lg text-sm w-[80%] h-fit mx-auto min-h-[25px]".concat(
                             snapshot.isDragging
                                 ? "opacity-50"
                                 : ""
                         )
                     }
                 >
-                    <div className='flex flex-row justify-center items-center'
+                    <div className='flex flex-row justify-center items-center p-1'
                         onClick={() => props.openViewModalWithItem(item)}>
                         <div>{item.title}</div>
                     </div>
-                    <div className="absolute right-[-5px] top-[-5px]  z-0"
+                    <div className="absolute right-[-5px] top-[-5px] z-0"
                         onClick={() => props.openModalWithItem(item)}>
-                        <img src={Hamburger} alt="Hamburger" className='w-[15px]' />
+                        <img src={Hamburger} alt="Hamburger" className='w-[15px] hover:cursor-pointer' />
                     </div>
                 </div>
             )}

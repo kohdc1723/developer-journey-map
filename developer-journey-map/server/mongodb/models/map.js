@@ -3,22 +3,6 @@ import QuestionsColumn from "./questionsColumn.js";
 import Column from "./column.js";
 import { defaultColumn, defaultQuestionsColumn } from "./defaultMapContents.js";
 
-// const Arrow = new mongoose.Schema({
-//     _id: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         default: mongoose.Types.ObjectId(),
-//         required: true
-//     },
-//     from: {
-//         type: String,
-//         required: true
-//     },
-//     to: {
-//         type: String,
-//         required: true
-//     }
-// });
-
 const MapSchema = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -45,6 +29,7 @@ const MapSchema = new mongoose.Schema({
 
 MapSchema.statics.createMap = function(uid) {
     const map = new this({
+        _id: new mongoose.Types.ObjectId(),
         uid: uid,
         lastModified: new Date(),
         title: "Untitled",
