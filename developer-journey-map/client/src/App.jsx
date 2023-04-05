@@ -33,10 +33,10 @@ const App = () => {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={user ? <Navigate to={`/dashboard/${user.id}`} /> : <Login />} />
                 <Route path="/login" element={user ? <Navigate to={`/dashboard/${user.id}`} /> : <Login />} />
-                <Route path="/dashboard/:uid" element={user ? <Dashboard /> : <Navigate to="/login" />} />
-                {/* <Route path="/map/:id" element={user ? <Map /> : <Navigate to="/login" />} /> */}
-                <Route path="/map/:id" element={<Map />} />
+                <Route path="/dashboard/:uid" element={user ? <Dashboard user={user} /> : <Navigate to="/login" />} />
+                <Route path="/map/:id" element={user ? <Map user={user} /> : <Navigate to="/login" />} />
             </Routes>
         </BrowserRouter>
     );

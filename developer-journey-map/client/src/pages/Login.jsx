@@ -1,7 +1,6 @@
 import React from 'react'
 import Google from '../assets/img/google.png'
 import Github from '../assets/img/github.png'
-import Linkedin from '../assets/img/linkedin.png'
 import LoginImage from '../assets/img/login.png'
 import Logo from '../assets/img/logo.png'
 import "../assets/styles/login.css"
@@ -14,10 +13,6 @@ const Login = () => {
 
     const github = () => {
         window.open("http://localhost:3800/auth/github", "_self");
-    };
-
-    const linkedin = () => {
-        window.open("http://localhost:3800/auth/linkedin", "_self");
     };
 
     return (
@@ -47,10 +42,6 @@ const Login = () => {
                     <div className='loginButton github' onClick={github}>
                         <img src={Github} alt="" className='icon gh' />
                         Github
-                    </div>
-                    <div className='loginButton linkedin' onClick={linkedin}>
-                        <img src={Linkedin} alt="" className='icon li' />
-                        Linkedin
                     </div>
                 </div>
             </div>
