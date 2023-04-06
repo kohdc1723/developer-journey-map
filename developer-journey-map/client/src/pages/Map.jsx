@@ -5,6 +5,8 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
 import { useScreenshot, createFileName } from "use-react-screenshot";
 import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ArrowEdge from "../components/ArrowEdge";
@@ -204,41 +206,57 @@ const Map = ({ user }) => {
 	}, [title, qstColumns, columns, edges, id]);
 
 	/* This gets a reference to a map to screenshot */
-	const ref = useRef(null);
+	// const ref = useRef(null);
 
 	/* This screenshots the map as a jpg image */
-	const [image, takeScreenShot] = useScreenshot({
-		type: "image/jpeg",
-		quality: 1.0,
-	});
+	// const [image, takeScreenShot] = useScreenshot({
+	// 	type: "image/jpeg",
+	// 	quality: 1.0,
+	// });
 	
 	/* This downloads the map as a pdf file */
+	// const downloadPDF = () => {
+	// 	takeScreenShot(ref.current).then((image) => {
+	// 		const img = new Image();
+	// 		img.onload = () => {
+	// 			const pdf = new jsPDF({
+	// 				orientation: img.width > img.height ? "l" : "p",
+	// 			});
+	// 			const canvas = document.createElement("canvas");
+	// 			canvas.width = img.width;
+	// 			canvas.height = img.height;
+	// 			const ctx = canvas.getContext("2d");
+	// 			ctx.drawImage(img, 0, 0, img.width, img.height);
+	// 			const imgData = canvas.toDataURL("image/jpeg", 1.0);
+	// 			pdf.addImage(
+	// 				imgData,
+	// 				"JPEG",
+	// 				0,
+	// 				0,
+	// 				pdf.internal.pageSize.getWidth(),
+	// 				pdf.internal.pageSize.getHeight()
+	// 			);
+	// 			pdf.save(createFileName("Developer Journey Map"));
+	// 		};
+	// 		img.src = image;
+	// 	});
+	// };
+
+	const mapRef = useRef(null);
+
 	const downloadPDF = () => {
-		takeScreenShot(ref.current).then((image) => {
-			const img = new Image();
-			img.onload = () => {
-				const pdf = new jsPDF({
-					orientation: img.width > img.height ? "l" : "p",
-				});
-				const canvas = document.createElement("canvas");
-				canvas.width = img.width;
-				canvas.height = img.height;
-				const ctx = canvas.getContext("2d");
-				ctx.drawImage(img, 0, 0, img.width, img.height);
-				const imgData = canvas.toDataURL("image/jpeg", 1.0);
-				pdf.addImage(
-					imgData,
-					"JPEG",
-					0,
-					0,
-					pdf.internal.pageSize.getWidth(),
-					pdf.internal.pageSize.getHeight()
-				);
-				pdf.save(createFileName("Developer Journey Map"));
-			};
-			img.src = image;
+		html2canvas(mapRef.current).then((canvas) => {
+		  const imgData = canvas.toDataURL("image/png");
+		  const pdf = new jsPDF({
+			orientation: canvas.width > canvas.height ? "l" : "p",
+		  });
+		  const pdfWidth = pdf.internal.pageSize.getWidth();
+		  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+		  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+		  pdf.save(createFileName("Developer Journey Map"));
 		});
-	};
+	  };
+	  
 
 	/* This hides the export button when the screen's width is less than the screen's max width */
 	const [showButton, setShowButton] = useState(true);
@@ -268,7 +286,7 @@ const Map = ({ user }) => {
 						Export
 					</div>}
 				</div>
-				<div className="main" ref={ref}>
+				<div className="main" ref={mapRef}>
 					<TouchPointModalInfo
 						open={openModal}
 						onClose={() => setOpenModal(false)}
