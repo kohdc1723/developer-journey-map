@@ -16,11 +16,52 @@
     margin: 5px 0;
     padding: 10px 20px;
     font-size: x-large;
+    align-items: center;
+}
+
+.create-row:hover {
+    background-color: var(--rev-white);
+}
+
+.create-text {
+    font-size: large;
 }
 
 .create-button:hover {
     color: aquamarine;
 
+}
+
+.create-title {
+    font-size: large;
+    font-weight: bold;
+    color: var(--rev-black);
+    margin-bottom: 10px;
+}
+
+.create-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.create-template {
+    padding: 5px;
+    background-color: var(--rev-white);
+    border: 2px solid var(--rev-white);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.create-template:hover {
+    border: 2px solid var(--rev-dark-green);
+    cursor: pointer;
+}
+
+.create-subtitle {
+    padding-top: 5px;
 }
 
 .grid-container {
@@ -31,6 +72,7 @@
     margin: 5px 0;
     padding: 10px 20px;
     border-bottom: 2px solid var(--rev-white);
+    border-radius: 10px;
 }
 
 .grid-container:hover {
@@ -44,9 +86,11 @@
     align-items: center;
     margin: 5px 0;
     padding: 10px 20px;
-    background-color: var(--rev-white);
+    background-color: var(--rev-dark-green);
+    color: var(--rev-white);
     font-weight: bold;
     height: 40px;
+    border-radius: 10px;
 }
 
 .map-icon {
