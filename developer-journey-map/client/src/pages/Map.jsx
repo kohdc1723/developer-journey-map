@@ -213,7 +213,7 @@ const Map = ({ user }) => {
 	// 	type: "image/jpeg",
 	// 	quality: 1.0,
 	// });
-	
+
 	/* This downloads the map as a pdf file */
 	// const downloadPDF = () => {
 	// 	takeScreenShot(ref.current).then((image) => {
@@ -244,19 +244,27 @@ const Map = ({ user }) => {
 
 	const mapRef = useRef(null);
 
+	// const downloadPDF = () => {
+	// 	html2canvas(mapRef.current).then((canvas) => {
+	// 		const imgData = canvas.toDataURL("image/png");
+	// 		const pdf = new jsPDF({
+	// 			orientation: canvas.width > canvas.height ? "l" : "p",
+	// 		});
+	// 		const pdfWidth = pdf.internal.pageSize.getWidth();
+	// 		const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+	// 		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+	// 		pdf.save(createFileName("Developer Journey Map"));
+	// 	});
+	// };
+
 	const downloadPDF = () => {
-		html2canvas(mapRef.current).then((canvas) => {
-		  const imgData = canvas.toDataURL("image/png");
-		  const pdf = new jsPDF({
-			orientation: canvas.width > canvas.height ? "l" : "p",
-		  });
-		  const pdfWidth = pdf.internal.pageSize.getWidth();
-		  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-		  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-		  pdf.save(createFileName("Developer Journey Map"));
+		html2canvas(mapRef.current).then(canvas => {
+		  const link = document.createElement('a');
+		  link.download = 'export.png';
+		  link.href = canvas.toDataURL();
+		  link.click();
 		});
 	  };
-	  
 
 	/* This hides the export button when the screen's width is less than the screen's max width */
 	const [showButton, setShowButton] = useState(true);
