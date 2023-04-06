@@ -108,6 +108,7 @@
     color: var(--rev-black);
     font-size: 23px;
     padding-left: 5px;
+    z-index: 10;
 }
 
 .delete-button:hover {
