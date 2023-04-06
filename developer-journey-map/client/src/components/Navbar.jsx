@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import LoginImage from '../assets/img/user.png'
-import LogoImage from '../assets/img/logo_with_no_bg.png'
+import LogoImage from '../assets/img/white_logo.png'
 
 const Navbar = ({ user }) => {
 
@@ -12,10 +12,10 @@ const Navbar = ({ user }) => {
         <div className="navbar">
             <div className="navbar-left">
                 <div>
-                    <a className="logo" href={`http://localhost:3000/dashboard/${user.id}`}>Interactive Developer Journey Map</a>
+                    <img src={LogoImage} alt="logoImage" className="logoImage" />
                 </div>
                 <div>
-                    <img src={LogoImage} alt="logoImage" className="logoImage" />
+                    <a className="logo" href={`http://localhost:3000/dashboard/${user.id}`}>Interactive Developer Journey Map</a>
                 </div>
             </div>
             <div className="navbar-right">

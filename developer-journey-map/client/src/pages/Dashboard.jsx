@@ -12,10 +12,9 @@ import "../assets/styles/app.css";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const Dashboard = () => {
+const Dashboard = ({ user }) => {
     const { uid } = useParams();
     const [maps, setMaps] = useState([]);
-    const [user, setUser] = useState(null);
 
     const handleClickDelete = (mapId) => {
         confirmAlert({
@@ -68,28 +67,6 @@ const Dashboard = () => {
         const createdMap = await response.json();
         setMaps([...maps, createdMap.data]);
     }
-
-    useEffect(() => {
-        const getUser = () => {
-        fetch("http://localhost:3800/auth/login/success", {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": true,
-            },
-        }).then((response) => {
-            if (response.status === 200) return response.json();
-            throw new Error("authentication has been failed!");
-        }).then((resObject) => {
-            setUser(resObject.user);
-        }).catch((err) => {
-            console.log(err);
-        })};
-
-        getUser();
-    }, []);
 
     // all maps which the logged-in user created will be loaded once right after tha dashboard page is rendered
     useEffect(() => {

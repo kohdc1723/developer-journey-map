@@ -1,3 +1,5 @@
+@import url("./color-palette.css");
+
 .login {
     height: 100vh;
     display: flex;
@@ -22,7 +24,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: end;
-    background-color: #91C859;
+    background-color: var(--rev-green);
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 }
@@ -35,7 +37,7 @@
 .copyright {
     margin-bottom: 40px;
     font-size: 7px;
-    color: #63883D;
+    color: var(--rev-dark-green);
 }
 
 .intro {
@@ -45,7 +47,7 @@
 }
 
 .intro h1 {
-    color: #2E352F;
+    color: var(--rev-black);
     font-size: 10px;
     font-weight: bold;
     margin-top: 40px;
@@ -54,7 +56,7 @@
 
 .intro p {
     font-size: 10px;
-    color: #63883D;
+    color: var(--rev-dark-green);
     margin-bottom: 5px;
 }
 
@@ -62,8 +64,8 @@
     font-size: 8px;
     padding: 5px 5px;
     border-radius: 5px;
-    border-color: #2E352F;
-    background-color: #63883D;
+    border-color: var(--rev-black);
+    background-color: var(--rev-dark-green);
     color: white;
 }
 
@@ -87,7 +89,7 @@
 }
 
 .logoName {
-    color: #2E352F;
+    color: var(--rev-black);
     font-size: 20px;
     font-weight: bold;
 }
@@ -100,25 +102,25 @@
 
 .loginTitle {
     margin-bottom: 40px;
-    color: #91C859;
+    color: var(--rev-green);
     font-size: 40px;
     font-weight: bold;
 }
 
 .loginSubtitle {
-    color: #2E352F;
+    color: var(--rev-black);
     font-weight: bold;
     font-size: 10px;
     width: 45%;
     text-align: center;
-    border-bottom: 1px solid #2E352F;
+    border-bottom: 1px solid var(--rev-black);
     line-height: 0.1em;
     margin: 10px 0 20px;
     margin-bottom: 50px;
 }
 
 .loginSubtitle span {
-    background: #fff;
+    background: white;
     padding: 0 10px;
 }
 
