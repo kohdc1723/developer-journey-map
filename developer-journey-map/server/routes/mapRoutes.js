@@ -56,7 +56,9 @@ router.route("/duplicate/:id").post(async (req, res) => {
         lastModified: lastModified,
         title: copyPrefix.concat(mapToDuplicate.title),
         qstColumns: [],
-        columns: []
+        columns: [],
+        froms: [],
+        tos: []
     });
 
     mapToDuplicate.qstColumns.forEach(qstColumn => {
@@ -95,6 +97,23 @@ router.route("/duplicate/:id").post(async (req, res) => {
         const result = await duplicateMap.save();
         res.status(200).json({ success: true, result: result });
     } catch (err) {
+        res.status(500).json({ success: false, message: err });
+    }
+});
+
+// delete a map by _id
+router.route("/:id").delete(async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const map = await Map.findOneAndRemove({ _id: id });
+        if (!map) {
+            return res.status(404).json({ success: false, message: "map not found" });
+        }
+
+        res.status(200).json({ success: true, result: map });
+    } catch (err) {
+        console.error(err);
         res.status(500).json({ success: false, message: err });
     }
 });

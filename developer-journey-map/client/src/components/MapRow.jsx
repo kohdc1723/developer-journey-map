@@ -34,7 +34,7 @@ const MapRow = ({ map, uid, maps, setMaps }) => {
     }
 
     const deleteMap = async (mapId) => {
-        const response = await fetch(`http://localhost:3800/api/maps/${mapId}`, {
+        const response = await fetch(`http://localhost:3800/api/map/${mapId}`, {
             method: "DELETE"
         });
 
