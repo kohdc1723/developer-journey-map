@@ -3,9 +3,9 @@ import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
-import { useScreenshot, createFileName } from "use-react-screenshot";
-import { jsPDF } from 'jspdf';
+// import { useScreenshot, createFileName } from "use-react-screenshot";
 import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -256,15 +256,27 @@ const Map = ({ user }) => {
 	// 		pdf.save(createFileName("Developer Journey Map"));
 	// 	});
 	// };
-
 	const downloadPDF = () => {
-		html2canvas(mapRef.current).then(canvas => {
-		  const link = document.createElement('a');
-		  link.download = 'export.png';
-		  link.href = canvas.toDataURL();
-		  link.click();
+		html2canvas(mapRef.current).then((canvas) => {
+			const imgData = canvas.toDataURL("image/png");
+			const pdf = new jsPDF({
+				orientation: canvas.width > canvas.height ? "l" : "p",
+			});
+			const pdfWidth = pdf.internal.pageSize.getWidth();
+			const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+			pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+			pdf.save();
 		});
-	  };
+	};
+
+	// const handleExport = () => {
+	// 	html2canvas(mapRef.current).then(canvas => {
+	// 	  const link = document.createElement('a');
+	// 	  link.download = 'export.png';
+	// 	  link.href = canvas.toDataURL();
+	// 	  link.click();
+	// 	});
+	//   };
 
 	/* This hides the export button when the screen's width is less than the screen's max width */
 	const [showButton, setShowButton] = useState(true);
