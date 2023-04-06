@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { confirmAlert } from "react-confirm-alert";
+// import { confirmAlert } from "react-confirm-alert";
 import { FiMoreVertical } from "react-icons/fi";
 import { BsFillMapFill } from "react-icons/bs";
 import { AiFillPlusCircle } from "react-icons/ai";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import { IconButton, Menu, MenuItem, Backdrop } from "@mui/material";
+// import Button from '@mui/material/Button';
+// import Menu from '@mui/material/Menu';
+// import MenuItem from '@mui/material/MenuItem';
 
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "../assets/styles/dashboard.css";
@@ -18,23 +20,36 @@ const Dashboard = () => {
     const [maps, setMaps] = useState([]);
     const [user, setUser] = useState(null);
 
-    const handleClickDelete = (mapId) => {
-        confirmAlert({
-            message: "Are you sure to delete this map?",
-            buttons: [
-                {
-                    label: "Delete",
-                    style: {
-                        backgroundColor: "red"
-                    },
-                    onClick: () => deleteMap(mapId)
-                },
-                {
-                    label: "Cancel"
-                }
-            ]
-        });
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const open = Boolean(anchorEl);
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        setAnchorEl(e.currentTarget);
     };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    // const handleClickDelete = (mapId) => {
+    //     confirmAlert({
+    //         message: "Are you sure to delete this map?",
+    //         buttons: [
+    //             {
+    //                 label: "Delete",
+    //                 style: {
+    //                     backgroundColor: "red"
+    //                 },
+    //                 onClick: () => deleteMap(mapId)
+    //             },
+    //             {
+    //                 label: "Cancel"
+    //             }
+    //         ]
+    //     });
+    // };
 
     const duplicateMap = async ({ _id }) => {
         const response = await fetch(`http://localhost:3800/api/map/duplicate/${_id}`, {
@@ -49,7 +64,7 @@ const Dashboard = () => {
         });
 
         const duplicate = await response.json();
-        setMaps([...maps, duplicate.result]);
+        setMaps(maps.unshift(duplicate.result));
     }
 
     const deleteMap = async (mapId) => {
@@ -67,7 +82,8 @@ const Dashboard = () => {
         });
 
         const createdMap = await response.json();
-        setMaps([...maps, createdMap.data]);
+        console.log("c: " + createdMap.data._id)
+        setMaps(maps.unshift(createdMap.data));
     }
 
     useEffect(() => {
@@ -141,7 +157,42 @@ const Dashboard = () => {
                                         {new Date(map.lastModified).toLocaleString()}
                                     </div>
                                     <div className="more">
-                                        <span className="more-icon-cover"><FiMoreVertical /></span>
+                                        <IconButton
+                                            className="more-icon-cover"
+                                            aria-label="more"
+                                            aria-controls={open ? 'basic-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? 'true' : undefined}
+                                            onClick={handleClick}
+                                        >
+                                            <FiMoreVertical />
+                                        </IconButton>
+                                        <Menu
+                                            // id="basic-menu"
+                                            anchorEl={anchorEl}
+                                            open={open}
+                                            onClose={handleClose}
+                                            MenuListProps={{
+                                                'aria-labelledby': 'basic-button',
+                                            }}
+                                            onBackdropClick={handleClose}
+                                        >
+                                            <MenuItem onClick={(e) => {
+                                                e.preventDefault();
+                                                duplicateMap(map);
+                                                setAnchorEl(null);
+                                            }}>
+                                                Duplicate
+                                            </MenuItem>
+                                            <MenuItem onClick={(e) => {
+                                                e.preventDefault();
+                                                console.log(map._id)
+                                                deleteMap(map._id);
+                                                setAnchorEl(null);
+                                            }}>
+                                                Delete
+                                            </MenuItem>
+                                        </Menu>
                                     </div>
                                     {/* <div style={{display: "flex"}}>
                                         <button
