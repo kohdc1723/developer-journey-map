@@ -98,6 +98,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 10;
 }
 
 .questionTextarea {
@@ -108,7 +109,6 @@
     color: var(--rev-black);
     font-size: 23px;
     padding-left: 5px;
-    z-index: 10;
 }
 
 .delete-button:hover {
