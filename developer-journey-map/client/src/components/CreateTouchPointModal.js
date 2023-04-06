@@ -40,7 +40,7 @@ function CreateTouchPointModal({ open, onClose, item, mapID, refreshMap, setRefr
         setTouchTitle("Placeholder")
         setTouchColor("border-black")
         setTouchBSize("border")
-        setTouchText("Placeholder")
+        setTouchText("")
     }, [open]);
 
     // Saved state for touchpoint title
