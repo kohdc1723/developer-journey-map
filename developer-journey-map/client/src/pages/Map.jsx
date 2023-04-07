@@ -258,16 +258,17 @@ const Map = ({ user }) => {
 	// };
 	const downloadPDF = () => {
 		html2canvas(mapRef.current).then((canvas) => {
-			const imgData = canvas.toDataURL("image/png");
-			const pdf = new jsPDF({
-				orientation: canvas.width > canvas.height ? "l" : "p",
-			});
-			const pdfWidth = pdf.internal.pageSize.getWidth();
-			const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-			pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-			pdf.save();
+		  const imgData = canvas.toDataURL("image/png");
+		  
+		  const pdf = new jsPDF({
+			orientation: canvas.width > canvas.height ? "l" : "p",
+		  });
+		  const pdfWidth = pdf.internal.pageSize.getWidth();
+		  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+		  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+		  pdf.save("Developer Journey Map.pdf");
 		});
-	};
+	  };	  
 
 	// const handleExport = () => {
 	// 	html2canvas(mapRef.current).then(canvas => {

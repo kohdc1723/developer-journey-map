@@ -24,7 +24,7 @@
     margin-top: 20px;
     padding: 3px 8px;
     border-radius: 5px;
-    background-color: #2E352F;
+    background-color: var(--rev-black);
     color: white;
     font-size: small;
     display: flex;
@@ -33,7 +33,8 @@
 }
 
 .exportButton:hover {
-    background-color: var(--rev-green);
+    border-radius: 5px;
+    padding: 4px 9px;
 }
 
 .title {
@@ -106,13 +107,12 @@
 
 .delete-button {
     color: var(--rev-black);
-    font-size: 23px;
-    padding-left: 5px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 .delete-button:hover {
     color: var(--rev-black);
-    opacity: 70%;
 }
 
 .flex {
