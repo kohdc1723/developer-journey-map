@@ -40,7 +40,7 @@ const Map = ({ user }) => {
 	const [refreshMap, setRefreshMap] = useState(false);
 
 	/* title states */
-	const [title, setTitle] = useState("Map");
+	const [title, setTitle] = useState("Untitled");
 	const [titleEditable, setTitleEditable] = useState(false);
 	const [titleLength, setTitleLength] = useState(title.length);
 
@@ -56,6 +56,7 @@ const Map = ({ user }) => {
 		e.preventDefault();
 		const value = e.target.value.trim();
 
+		setTitleLength(value.length);
 		updateTitle(id, value, setTitle);
 
 		setTitleEditable(false);
