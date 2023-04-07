@@ -15,7 +15,7 @@ const Navbar = ({ user }) => {
                     <img src={LogoImage} alt="logoImage" className="logoImage" />
                 </div>
                 <div>
-                    <a className="logo" href={`http://localhost:3000/dashboard/${user.id}`}>Interactive Developer Journey Map</a>
+                    <a className="logo" href="http://localhost:3000/dashboard/:uid">Interactive Developer Journey Map</a>
                 </div>
             </div>
             <div className="navbar-right">
@@ -29,7 +29,7 @@ const Navbar = ({ user }) => {
                             )}
                         </li>
                         <li className="listItem">{user.displayName}</li>
-                        <li className="listItem" onClick={logout}>Logout</li>
+                        <li className="logoutButton" onClick={logout}>Logout</li>
                     </ul>
                 ) : (<Link to="/login">Login</Link>)}
             </div>

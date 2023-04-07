@@ -1,6 +1,7 @@
 body {
     font-family: "Avenir Next Condensed re", sans-serif;
     font-weight: 400;
+    cursor: default;
 }
 
 .main {
@@ -46,6 +47,12 @@ body {
 .listItem {
     margin-left: 20px;
     font-weight: 500;
+    cursor: default;
+}
+
+.logoutButton {
+    margin-left: 20px;
+    font-weight: 500;
     cursor: pointer;
 }
 
@@ -64,4 +71,5 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    cursor: default;
 }

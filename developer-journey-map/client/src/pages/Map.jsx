@@ -3,7 +3,6 @@ import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
-// import { useScreenshot, createFileName } from "use-react-screenshot";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
@@ -206,57 +205,9 @@ const Map = ({ user }) => {
 		updateLastModified(id, new Date());
 	}, [title, qstColumns, columns, edges, id]);
 
-	/* This gets a reference to a map to screenshot */
-	// const ref = useRef(null);
-
-	/* This screenshots the map as a jpg image */
-	// const [image, takeScreenShot] = useScreenshot({
-	// 	type: "image/jpeg",
-	// 	quality: 1.0,
-	// });
-
-	/* This downloads the map as a pdf file */
-	// const downloadPDF = () => {
-	// 	takeScreenShot(ref.current).then((image) => {
-	// 		const img = new Image();
-	// 		img.onload = () => {
-	// 			const pdf = new jsPDF({
-	// 				orientation: img.width > img.height ? "l" : "p",
-	// 			});
-	// 			const canvas = document.createElement("canvas");
-	// 			canvas.width = img.width;
-	// 			canvas.height = img.height;
-	// 			const ctx = canvas.getContext("2d");
-	// 			ctx.drawImage(img, 0, 0, img.width, img.height);
-	// 			const imgData = canvas.toDataURL("image/jpeg", 1.0);
-	// 			pdf.addImage(
-	// 				imgData,
-	// 				"JPEG",
-	// 				0,
-	// 				0,
-	// 				pdf.internal.pageSize.getWidth(),
-	// 				pdf.internal.pageSize.getHeight()
-	// 			);
-	// 			pdf.save(createFileName("Developer Journey Map"));
-	// 		};
-	// 		img.src = image;
-	// 	});
-	// };
-
+	/* This downloads the map as a png image */
 	const mapRef = useRef(null);
 
-	// const downloadPDF = () => {
-	// 	html2canvas(mapRef.current).then((canvas) => {
-	// 		const imgData = canvas.toDataURL("image/png");
-	// 		const pdf = new jsPDF({
-	// 			orientation: canvas.width > canvas.height ? "l" : "p",
-	// 		});
-	// 		const pdfWidth = pdf.internal.pageSize.getWidth();
-	// 		const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-	// 		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-	// 		pdf.save(createFileName("Developer Journey Map"));
-	// 	});
-	// };
 	const downloadPDF = () => {
 		html2canvas(mapRef.current).then((canvas) => {
 		  const imgData = canvas.toDataURL("image/png");
