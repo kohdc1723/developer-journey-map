@@ -34,7 +34,9 @@ MapSchema.statics.createMap = function(uid) {
         lastModified: new Date(),
         title: "Untitled",
         qstColumns: defaultQuestionsColumn,
-        columns: defaultColumn
+        columns: defaultColumn,
+        froms: [],
+        tos: []
     });
 
     return map.save();
