@@ -93,6 +93,36 @@ router.route("/duplicate/:id").post(async (req, res) => {
         }));
     });
 
+    mapToDuplicate.froms.forEach(fromId => {
+        const touchpoint = mapToDuplicate.columns
+            .flatMap(column => column.touchpoints)
+            .find(touchpoint => touchpoint._id.equals(fromId));
+
+        if (touchpoint) {
+            const matchingTouchpoint = duplicateMap.columns
+                .find(column => column.touchpoints.some(tp => tp.title === touchpoint.title))
+                .touchpoints.find(tp => tp.title === touchpoint.title);
+    
+            const matchingTouchpointId = matchingTouchpoint._id;
+            duplicateMap.froms.push(matchingTouchpointId);
+        }
+    });
+
+    mapToDuplicate.tos.forEach(toId => {
+        const touchpoint = mapToDuplicate.columns
+            .flatMap(column => column.touchpoints)
+            .find(touchpoint => touchpoint._id.equals(toId));
+
+        if (touchpoint) {
+            const matchingTouchpoint = duplicateMap.columns
+                .find(column => column.touchpoints.some(tp => tp.title === touchpoint.title))
+                .touchpoints.find(tp => tp.title === touchpoint.title);
+    
+            const matchingTouchpointId = matchingTouchpoint._id;
+            duplicateMap.tos.push(matchingTouchpointId);
+        }
+    });
+
     try {
         const result = await duplicateMap.save();
         res.status(200).json({ success: true, result: result });

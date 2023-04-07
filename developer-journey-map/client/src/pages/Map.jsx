@@ -40,7 +40,7 @@ const Map = ({ user }) => {
 	const [refreshMap, setRefreshMap] = useState(false);
 
 	/* title states */
-	const [title, setTitle] = useState("Map");
+	const [title, setTitle] = useState("Untitled");
 	const [titleEditable, setTitleEditable] = useState(false);
 	const [titleLength, setTitleLength] = useState(title.length);
 
@@ -56,6 +56,7 @@ const Map = ({ user }) => {
 		e.preventDefault();
 		const value = e.target.value.trim();
 
+		setTitleLength(value.length);
 		updateTitle(id, value, setTitle);
 
 		setTitleEditable(false);
@@ -259,7 +260,6 @@ const Map = ({ user }) => {
 	const downloadPDF = () => {
 		html2canvas(mapRef.current).then((canvas) => {
 		  const imgData = canvas.toDataURL("image/png");
-		  
 		  const pdf = new jsPDF({
 			orientation: canvas.width > canvas.height ? "l" : "p",
 		  });
