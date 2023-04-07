@@ -263,6 +263,7 @@ const Map = ({ user }) => {
 				orientation: canvas.width > canvas.height ? "l" : "p",
 			});
 			const pdfWidth = pdf.internal.pageSize.getWidth();
+			console.log(pdfWidth);
 			const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 			pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
 			pdf.save();
