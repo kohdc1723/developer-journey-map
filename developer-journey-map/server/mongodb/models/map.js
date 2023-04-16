@@ -27,6 +27,20 @@ const MapSchema = new mongoose.Schema({
     tos: [String]
 });
 
+MapSchema.pre('save', async function (next) {
+    if (this.isModified('title') || this.isNew) {
+        let uniqueTitle = this.title;
+        let counter = 1;
+        while (await this.constructor.findOne({ uid: this.uid, title: uniqueTitle })) {
+            uniqueTitle = `${this.title} (${counter++})`;
+        }
+
+        this.title = uniqueTitle;
+    }
+
+    next();
+});
+
 MapSchema.statics.createMap = function(uid) {
     const map = new this({
         _id: new mongoose.Types.ObjectId(),
