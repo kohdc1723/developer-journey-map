@@ -14,6 +14,7 @@ const ArrowEdge = ({
   targetPosition,
   selected,
 }) => {
+  targetX = targetX - 10; // apply offset to targetX so that the edge looks more natural
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
@@ -25,7 +26,7 @@ const ArrowEdge = ({
 
   return (
     <>
-      <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5"
+      <marker id={`arrow-${id}`} viewBox="0 0 10 10" refX="0" refY="5"
         markerWidth="12" markerHeight="12"
         orient="auto-start-reverse"
         fill={selected ? selectedColor : unselectedColor}>
@@ -42,7 +43,7 @@ const ArrowEdge = ({
         style={{stroke: selected ? selectedColor : unselectedColor}}
         className="react-flow__edge-path"
         d={edgePath}
-        markerEnd="url(#arrow)"
+        markerEnd={`url(#arrow-${id})`}
         fillRule="evenodd"
       />
     </>
