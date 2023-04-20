@@ -140,7 +140,7 @@ const Map = ({ user }) => {
 
 	useEffect(() => {
 		const updateArrows = async () => {
-			const response = await fetch(`http://localhost:3800/api/map/arrow/${id}`, {
+			const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/arrow/${id}`, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json"
@@ -157,7 +157,7 @@ const Map = ({ user }) => {
 	useEffect(() => {
 		// load the entire map 
 		const loadMap = async () => {
-			const response = await fetch(`http://localhost:3800/api/map/${id}`);
+			const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/${id}`);
 			const map = await response.json();
 			setTitle(map.data.title);
 			setQstColumns(map.data.qstColumns);
@@ -185,7 +185,7 @@ const Map = ({ user }) => {
 	useEffect(() => {
 		// auto-update the database
 		const updateColumns = async () => {
-			const response = await fetch(`http://localhost:3800/api/map/column/${id}`, {
+			const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/column/${id}`, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json"

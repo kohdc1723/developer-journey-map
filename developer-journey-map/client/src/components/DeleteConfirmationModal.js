@@ -3,7 +3,7 @@ import React from "react";
 function DeleteConfirmationModal({ open, onClose, item, onItemChange, mapID, refreshMap, setRefreshMap }) {
     // This procs the useEffect to save touchpoint to MongoDb
     const deleteTouchpoint = async () => {
-        const response = await fetch(`http://localhost:3800/api/map/deletetouchpoint/${mapID}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/deletetouchpoint/${mapID}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

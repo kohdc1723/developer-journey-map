@@ -5,7 +5,7 @@ import LogoImage from '../assets/img/white_logo.png'
 const Navbar = ({ user }) => {
 
     const logout = () => {
-        window.open("http://localhost:3800/auth/logout", "_self");
+        window.open(`http://localhost:3800/auth/logout`, "_self");
     };
 
     return (

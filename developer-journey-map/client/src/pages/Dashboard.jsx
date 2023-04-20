@@ -15,7 +15,7 @@ const Dashboard = ({ user }) => {
     const navigate = useNavigate();
 
     const createMap = async (uid) => {
-        const response = await fetch(`http://localhost:3800/api/map/${uid}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/${uid}`, {
             method: "POST"
         });
 
@@ -33,7 +33,7 @@ const Dashboard = ({ user }) => {
     // all maps which the logged-in user created will be loaded once right after tha dashboard page is rendered
     useEffect(() => {
         const loadAllMapsOfUser = async () => {
-            const response = await fetch(`http://localhost:3800/api/maps/${uid}`);
+            const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/maps/${uid}`);
             const maps = await response.json();
 
             setMaps(maps.data);

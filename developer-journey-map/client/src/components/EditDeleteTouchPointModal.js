@@ -85,7 +85,7 @@ function EditDeleteTouchPointModal({ open, onClose, item, onItemChange, mapID, r
     }
     // This procs the useEffect to save touchpoint to MongoDb
     const updateTouchpoint = async () => {
-        const response = await fetch(`http://localhost:3800/api/map/touchpoint/${mapID}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/touchpoint/${mapID}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

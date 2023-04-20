@@ -1,5 +1,5 @@
 export const updateQuestion = async (mapId, questionColumnId, questionId, questionContent) => {
-    const response = await fetch(`http://localhost:3800/api/question/${questionId}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/question/${questionId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -17,7 +17,7 @@ export const updateQuestion = async (mapId, questionColumnId, questionId, questi
 export const createQuestion = async (mapId, questionColumnId) => {
     const defaultQuestionContent = "New question";
 
-    const response = await fetch(`http://localhost:3800/api/question/${questionColumnId}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/question/${questionColumnId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -34,7 +34,7 @@ export const createQuestion = async (mapId, questionColumnId) => {
 };
 
 export const deleteQuestion = async (mapId, questionColumnId, questionId) => {
-    const response = await fetch(`http://localhost:3800/api/question/${questionId}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/question/${questionId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"

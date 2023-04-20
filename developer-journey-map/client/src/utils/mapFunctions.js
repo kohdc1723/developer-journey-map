@@ -50,7 +50,7 @@ export const updateTitle = async (mapId, titleInput, setTitle) => {
 
     setTitle(titleInput);
 
-    const response = await fetch(`http://localhost:3800/api/map/title/${mapId}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/title/${mapId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export const updateTitle = async (mapId, titleInput, setTitle) => {
 
 // update lastModified
 export const updateLastModified = async (mapId, timestamp) => {
-    const response = await fetch(`http://localhost:3800/api/map/timestamp/${mapId}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/timestamp/${mapId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

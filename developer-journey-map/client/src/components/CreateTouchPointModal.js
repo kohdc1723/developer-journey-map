@@ -73,7 +73,7 @@ function CreateTouchPointModal({ open, onClose, item, mapID, refreshMap, setRefr
         //         createModal: false,
         //     },
         // });
-        const response = await fetch(`http://localhost:3800/api/map/newtouchpoint/${mapID}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/newtouchpoint/${mapID}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

@@ -8,11 +8,12 @@ import "../assets/styles/login.css"
 const Login = () => {
 
     const google = () => {
-        window.open("http://localhost:3800/auth/google", "_self");
+        console.log(`${process.env.REACT_APP_API_ENDPOINT}/auth/google`);
+        window.open(`${process.env.REACT_APP_API_ENDPOINT}/auth/google`, "_self");
     };
 
     const github = () => {
-        window.open("http://localhost:3800/auth/github", "_self");
+        window.open(`${process.env.REACT_APP_API_ENDPOINT}/auth/github`, "_self");
     };
 
     return (

@@ -10,7 +10,7 @@ const App = () => {
 
     useEffect(() => {
         const getUser = () => {
-            fetch("http://localhost:3800/auth/login/success", {
+            fetch(`${process.env.REACT_APP_API_ENDPOINT}/auth/login/success`, {
                 method: "GET",
                 credentials: "include",
                 headers: {

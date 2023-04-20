@@ -18,7 +18,7 @@ const MapRow = ({ map, uid, maps, setMaps }) => {
     };
 
     const duplicateMap = async ({ _id }) => {
-        const response = await fetch(`http://localhost:3800/api/map/duplicate/${_id}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/duplicate/${_id}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -34,7 +34,7 @@ const MapRow = ({ map, uid, maps, setMaps }) => {
     }
 
     const deleteMap = async (mapId) => {
-        const response = await fetch(`http://localhost:3800/api/map/${mapId}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/api/map/${mapId}`, {
             method: "DELETE"
         });
 
