@@ -12,8 +12,10 @@ const App = () => {
         const getUser = async () => {
             try {
                 const url = `${process.env.REACT_APP_API_ENDPOINT}/auth/login/success`;
-                const { data } = await fetch(url, { withCredentials: true });
-                setUser(data.user._json);
+                const response = await fetch(url, { withCredentials: true });
+                const result = await response.json();
+                console.log(result);
+                setUser(user);
             } catch (err) {
                 console.log(err);
             }
@@ -34,7 +36,7 @@ const App = () => {
             //     console.log(err);
             // });
         };
-        
+
         getUser();
     }, []);
 

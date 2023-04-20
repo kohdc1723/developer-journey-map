@@ -15,9 +15,11 @@ dotenv.config();
 
 const app = express();
 
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cookieSession({ name: "session", keys: ["revere"], maxAge: 24 * 60 * 60 * 1000 }));  // 24 hours
+app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors({ origin: "http://localhost:3000", methods: "GET,POST,PUT,DELETE", credentials: true }));
