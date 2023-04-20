@@ -25,10 +25,11 @@ async function checkUser(profile, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://developer-journey-map.onrender.com/auth/google/callback",
+    callbackURL: "/auth/google/callback",
+    scope: ["profile", "email"],
     passReqToCallback: true
-}, function (request, accessToken, refreshToken, profile, done) {
-    checkUser(profile, done);
+}, function (accessToken, refreshToken, profile, callback) {
+    callback(null, profile);
 }));
 
 passport.use(new GitHubStrategy({

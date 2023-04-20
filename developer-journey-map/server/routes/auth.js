@@ -1,7 +1,7 @@
 import express from "express";
 import passport from "passport";
-
 const router = express.Router();
+
 const DASHBOARD_URL = "http://localhost:3000";
 const LOGIN_URL = "http://localhost:3000/login";
 
@@ -12,6 +12,8 @@ router.get('/login/success', (req, res) => {
             message: "success",
             user: req.user,
         });
+    } else {
+        res.status(403).json({ success: false, message: "auth failed"});
     }
 });
 
@@ -29,7 +31,7 @@ router.get('/logout', (req, res) => {
 });
 
 // google
-router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+router.get('/google', passport.authenticate('google', { scope: ["profile", " email"] }));
 
 router.get('/google/callback', passport.authenticate('google', {
     successRedirect: DASHBOARD_URL,
