@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
+import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCkYskBSadsh_fE7m3pAsoNPiG7vSG9_yg",
@@ -15,11 +15,23 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
-const provider = new GoogleAuthProvider().setCustomParameters({ prompt: "select_account" });
+const googleAuthProvider = new GoogleAuthProvider().setCustomParameters({ prompt: "select_account" });
+const githubAuthProvider = new GithubAuthProvider();
 
 const signInWithGoogle = async () => {
     try {
-        const data = await signInWithPopup(auth, provider);
+        const data = await signInWithPopup(auth, googleAuthProvider);
+        console.log(data.user);
+
+        return data.user;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+const signInWithGithub = async () => {
+    try {
+        const data = await signInWithPopup(auth, githubAuthProvider);
         console.log(data.user);
 
         return data.user;
@@ -32,4 +44,4 @@ const logout = async () => {
     await signOut(auth);
 };
 
-export { app, auth, provider, signInWithGoogle, logout };
+export { app, auth, googleAuthProvider, githubAuthProvider, signInWithGoogle, signInWithGithub, logout };

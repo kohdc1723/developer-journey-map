@@ -1,5 +1,5 @@
 import React from 'react';
-import { signInWithGoogle } from "../services/firebase";
+import { signInWithGoogle, signInWithGithub } from "../services/firebase";
 
 import Google from '../assets/img/google.png'
 import Github from '../assets/img/github.png'
@@ -10,6 +10,13 @@ import "../assets/styles/login.css"
 const Login = ({ user, setUser }) => {
     const handleGoogleLogin = async () => {
         const user = await signInWithGoogle();
+        console.log(user.uid);
+
+        if (user) setUser(user);
+    };
+
+    const handleGithubLogin = async () => {
+        const user = await signInWithGithub();
         console.log(user.uid);
 
         if (user) setUser(user);
@@ -39,7 +46,7 @@ const Login = ({ user, setUser }) => {
                         <img src={Google} alt="" className='icon' />
                         Google
                     </div>
-                    <div className='loginButton github' onClick={null}>
+                    <div className='loginButton github' onClick={handleGithubLogin}>
                         <img src={Github} alt="" className='icon gh' />
                         Github
                     </div>

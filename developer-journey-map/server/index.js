@@ -27,7 +27,6 @@ app.use(cors({ origin: `${process.env.CLIENT_URL}`, methods: "GET,POST,PUT,DELET
 app.use("/api/map", mapRoutes);
 app.use("/api/maps", mapsRoutes);
 app.use("/api/question", questionRoutes);
-app.use("/auth", authRoutes);
 
 const connectServer = (port) => {
     app.listen(port, () => {
