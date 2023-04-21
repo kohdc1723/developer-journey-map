@@ -8,7 +8,6 @@ import cookieParser from "cookie-parser";
 import cookieSession from "cookie-session";
 import "./passport.js";
 import passport from "passport";
-import authRoutes from "./routes/auth.js";
 import * as dotenv from "dotenv";
 
 dotenv.config();
