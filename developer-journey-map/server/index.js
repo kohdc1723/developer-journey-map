@@ -17,8 +17,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cookieSession({ name: "session", keys: ["revere"], maxAge: 24 * 60 * 60 * 1000 }));  // 24 hours
 app.use(express.urlencoded({ extended: true }));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(cors({ origin: `${process.env.CLIENT_URL}`, methods: "GET,POST,PUT,DELETE", credentials: true }));
 
 app.use("/api/map", mapRoutes);
