@@ -6,8 +6,6 @@ import mapRoutes from "./routes/mapRoutes.js";
 import questionRoutes from "./routes/questionRoutes.js";
 import cookieParser from "cookie-parser";
 import cookieSession from "cookie-session";
-import "./passport.js";
-import passport from "passport";
 import * as dotenv from "dotenv";
 
 dotenv.config();
