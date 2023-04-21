@@ -1,52 +1,37 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Map, Login, Dashboard } from "./pages";
+import { auth } from "../src/services/firebase";
 import "./assets/styles/app.css";
 import "./index.css";
-import { useEffect, useState } from 'react';
 
 const App = () => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const getUser = async () => {
-            try {
-                const url = `${process.env.REACT_APP_API_ENDPOINT}/auth/login/success`;
-                const response = await fetch(url, { withCredentials: true });
-                const result = await response.json();
-                console.log(result);
-                setUser(user);
-            } catch (err) {
-                console.log(err);
-            }
-            // fetch(`${process.env.REACT_APP_API_ENDPOINT}/auth/login/success`, {
-            //     method: "GET",
-            //     credentials: "include",
-            //     headers: {
-            //         Accept: "application/json",
-            //         "Content-Type": "application/json",
-            //         "Access-Control-Allow-Credentials": true,
-            //     },
-            // }).then((response) => {
-            //     if (response.status === 200) return response.json();
-            //     throw new Error("authentication has been failed!");
-            // }).then((resObject) => {
-            //     setUser(resObject.user);
-            // }).catch((err) => {
-            //     console.log(err);
-            // });
-        };
-
-        getUser();
+        auth.onAuthStateChanged(user => {
+            setUser(user);
+        });
     }, []);
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={user ? <Navigate to={`/dashboard/${user.id}`} /> : <Login />} />
-                <Route path="/login" element={user ? <Navigate to={`/dashboard/${user.id}`} /> : <Login />} />
-                <Route path="/dashboard/:uid" element={user ? <Dashboard user={user} /> : <Navigate to="/login" />} />
-                <Route path="/map/:id" element={user ? <Map user={user} /> : <Navigate to="/login" />} />
+                <Route
+                    path="/"
+                    element={user ?
+                        <Navigate to={`/dashboard/${user.uid}`} /> : 
+                        <Login user={user} setUser={setUser}/>
+                    }
+                />
+                <Route
+                    path="/dashboard/:uid"
+                    element={user ? <Dashboard user={user} /> : <Navigate to={`/`} />}
+                />
+                <Route path="/map/:id"
+                    element={user ? <Map user={user} /> : <Navigate to={`/`} />}
+                />
             </Routes>
         </BrowserRouter>
     );

@@ -68,11 +68,15 @@ const Dashboard = ({ user }) => {
                     <div></div>
                 </div>
 
-                {maps
-                    .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))
-                    .map((map, index) => (
-                        <MapRow key={map._id} map={map} uid={uid} maps={maps} setMaps={setMaps} />
-                    ))
+                {(maps.length !== 0) ?
+                    (maps
+                        .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))
+                        .map((map, index) => (
+                            <MapRow key={map._id} map={map} uid={uid} maps={maps} setMaps={setMaps} />
+                        ))
+                    ) : (
+                        <div className="empty-list">No documents</div>
+                    )
                 }
             </div>
             <Footer />

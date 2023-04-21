@@ -22,7 +22,7 @@ app.use(cookieSession({ name: "session", keys: ["revere"], maxAge: 24 * 60 * 60 
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors({ origin: "http://localhost:3000", methods: "GET,POST,PUT,DELETE", credentials: true }));
+app.use(cors({ origin: `${process.env.CLIENT_URL}`, methods: "GET,POST,PUT,DELETE", credentials: true }));
 
 app.use("/api/map", mapRoutes);
 app.use("/api/maps", mapsRoutes);

@@ -96,28 +96,6 @@ const MapRow = ({ map, uid, maps, setMaps }) => {
                             </MenuItem>
                         </Menu>
                     </div>
-                    {/* <div style={{display: "flex"}}>
-                        <button
-                            className="button"
-                            type="button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                duplicateMap(map);
-                            }}
-                        >
-                            Duplicate
-                        </button>
-                        <button
-                            className="button"
-                            type="button"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                deleteMap(map._id);
-                            }}
-                        >
-                            Delete
-                        </button>
-                    </div> */}
                 </div>
             </Link>
         </React.Fragment>

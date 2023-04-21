@@ -40,6 +40,7 @@ body {
 
 .list {
     display: flex;
+    column-gap: 20px;
     align-items: center;
     list-style: none;
 }
@@ -51,17 +52,37 @@ body {
 }
 
 .logoutButton {
-    margin-left: 20px;
     font-weight: 500;
     cursor: pointer;
+    background-color: var(--rev-black);
+    height: 40px;
+    width: fit-content;
+    line-height: 40px;
+    padding: 0 15px;
+    border-radius: 20px;
 }
 
-.avatar {
-    width: 30px;
-    height: 30px;
+.profile {
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    height: 40px;
+    width: fit-content;
+    padding: 0 5px;
+}
+
+.profile-image {
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     object-fit: cover;
     background-color: white;
+}
+
+.profile-name {
+    color: var(--rev-white);
+    font-weight: 500;
+    font-size: medium;
 }
 
 .footer {

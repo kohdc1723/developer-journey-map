@@ -1,19 +1,18 @@
-import React from 'react'
+import React from 'react';
+import { signInWithGoogle } from "../services/firebase";
+
 import Google from '../assets/img/google.png'
 import Github from '../assets/img/github.png'
 import LoginImage from '../assets/img/login.png'
 import Logo from '../assets/img/logo.png'
 import "../assets/styles/login.css"
 
-const Login = () => {
+const Login = ({ user, setUser }) => {
+    const handleGoogleLogin = async () => {
+        const user = await signInWithGoogle();
+        console.log(user.uid);
 
-    const google = () => {
-        console.log(`${process.env.REACT_APP_API_ENDPOINT}/auth/google`);
-        window.open(`${process.env.REACT_APP_API_ENDPOINT}/auth/google`, "_self");
-    };
-
-    const github = () => {
-        window.open(`${process.env.REACT_APP_API_ENDPOINT}/auth/github`, "_self");
+        if (user) setUser(user);
     };
 
     return (
@@ -36,11 +35,11 @@ const Login = () => {
                     </div>
                     <h1 className='loginTitle'>Welcome Back</h1>
                     <h1 className='loginSubtitle'><span>CONTINUE WITH</span></h1>
-                    <div className='loginButton google' onClick={google}>
+                    <div className='loginButton google' onClick={handleGoogleLogin}>
                         <img src={Google} alt="" className='icon' />
                         Google
                     </div>
-                    <div className='loginButton github' onClick={github}>
+                    <div className='loginButton github' onClick={null}>
                         <img src={Github} alt="" className='icon gh' />
                         Github
                     </div>
