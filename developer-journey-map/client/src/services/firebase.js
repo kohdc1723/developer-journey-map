@@ -1,44 +1,49 @@
 import { initializeApp } from "firebase/app";
-import { GithubAuthProvider, GoogleAuthProvider, signInWithPopup, linkWithPopup, getAuth, signOut } from "firebase/auth";
+import {
+    GithubAuthProvider,
+    GoogleAuthProvider,
+    signInWithPopup,
+    getAuth,
+    signOut
+} from "firebase/auth";
+
+console.log(process.env.FIREBASE_API_KEY);
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCkYskBSadsh_fE7m3pAsoNPiG7vSG9_yg",
-    authDomain: "developer-journey-map-auth.firebaseapp.com",
-    projectId: "developer-journey-map-auth",
-    storageBucket: "developer-journey-map-auth.appspot.com",
-    messagingSenderId: "680932717154",
-    appId: "1:680932717154:web:dae9d6e116239b580c173b",
-    measurementId: "G-JD4PKVQ2RP"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
-const googleAuthProvider = new GoogleAuthProvider().setCustomParameters({ prompt: "select_account" });
-const githubAuthProvider = new GithubAuthProvider().setCustomParameters({ prompt: "select_account" });
-
 const signInWithGoogle = async () => {
+    const googleAuthProvider = new GoogleAuthProvider();
+
     try {
-        const data = await linkWithPopup(auth, googleAuthProvider);
-        console.log(data.user);
+        const result = await signInWithPopup(auth, googleAuthProvider);
+        console.log(result);
 
-        return data.user;
+        return result.user;
     } catch (err) {
-        if (err.code === "auth/account-exists-with-different-credential") {
-
-        }
-
         console.error(err);
     }
 };
 
 const signInWithGithub = async () => {
-    try {
-        const data = await linkWithPopup(auth, githubAuthProvider);
-        console.log(data.user);
+    const githubAuthProvider = new GithubAuthProvider();
 
-        return data.user;
+    try {
+        const result = await signInWithPopup(auth, githubAuthProvider);
+        console.log(result);
+
+        return result.user;
     } catch (err) {
         console.error(err);
     }
@@ -48,4 +53,4 @@ const logout = async () => {
     await signOut(auth);
 };
 
-export { app, auth, googleAuthProvider, githubAuthProvider, signInWithGoogle, signInWithGithub, logout };
+export { auth, signInWithGoogle, signInWithGithub, logout };

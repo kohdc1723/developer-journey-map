@@ -13,7 +13,7 @@ const App = () => {
         auth.onAuthStateChanged(user => {
             setUser(user);
         });
-    }, []);
+    }, [user]);
 
     return (
         <BrowserRouter>
@@ -29,7 +29,8 @@ const App = () => {
                     path="/dashboard/:uid"
                     element={user ? <Dashboard user={user} /> : <Navigate to={`/`} />}
                 />
-                <Route path="/map/:id"
+                <Route
+                    path="/map/:id"
                     element={user ? <Map user={user} /> : <Navigate to={`/`} />}
                 />
             </Routes>

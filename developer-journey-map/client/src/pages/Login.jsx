@@ -15,12 +15,12 @@ const Login = ({ user, setUser }) => {
         if (user) setUser(user);
     };
 
-    const handleGithubLogin = async () => {
-        const user = await signInWithGithub();
-        console.log(user.uid);
+    // const handleGithubLogin = async () => {
+    //     const user = await signInWithGithub();
+    //     console.log(user.uid);
 
-        if (user) setUser(user);
-    };
+    //     if (user) setUser(user);
+    // };
 
     return (
         <div className='login'>
@@ -46,10 +46,10 @@ const Login = ({ user, setUser }) => {
                         <img src={Google} alt="" className='icon' />
                         Google
                     </div>
-                    <div className='loginButton github' onClick={handleGithubLogin}>
+                    {/* <div className='loginButton github' onClick={handleGithubLogin}>
                         <img src={Github} alt="" className='icon gh' />
                         Github
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>
