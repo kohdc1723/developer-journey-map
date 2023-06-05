@@ -3,8 +3,6 @@ import ReactFlow, { useNodesState, useEdgesState, addEdge, } from 'reactflow';
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Column } from "../components";
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -15,7 +13,6 @@ import CreateTouchPointModal from "../components/CreateTouchPointModal";
 import EditDeleteTouchPointModal from "../components/EditDeleteTouchPointModal";
 import DeleteConfirmationModal from "../components/DeleteConfirmationModal";
 import ViewTouchpointModal from "../components/ViewTouchPointModal";
-import ExportIcon from '../assets/img/file.png'
 import Question from "../components/Question";
 import { createQuestion } from "../utils/questionFunctions.js";
 import { onDragEnd, updateTitle, updateLastModified } from "../utils/mapFunctions";
@@ -208,28 +205,6 @@ const Map = ({ user }) => {
 	/* This downloads the map as a png image */
 	const mapRef = useRef(null);
 
-	const downloadPDF = () => {
-		html2canvas(mapRef.current).then((canvas) => {
-		  const imgData = canvas.toDataURL("image/png");
-		  const pdf = new jsPDF({
-			orientation: canvas.width > canvas.height ? "l" : "p",
-		  });
-		  const pdfWidth = pdf.internal.pageSize.getWidth();
-		  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-		  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-		  pdf.save("Developer Journey Map.pdf");
-		});
-	  };	  
-
-	// const handleExport = () => {
-	// 	html2canvas(mapRef.current).then(canvas => {
-	// 	  const link = document.createElement('a');
-	// 	  link.download = 'export.png';
-	// 	  link.href = canvas.toDataURL();
-	// 	  link.click();
-	// 	});
-	//   };
-
 	/* This hides the export button when the screen's width is less than the screen's max width */
 	const [showButton, setShowButton] = useState(true);
 
@@ -252,12 +227,6 @@ const Map = ({ user }) => {
 		<>
 			<Navbar user={user} />
 			<div className="content">
-				<div className="export">
-					{showButton && <div className="exportButton" onClick={downloadPDF} >
-						<img src={ExportIcon} alt="exportIcon" className="exportIcon" />
-						Export
-					</div>}
-				</div>
 				<div className="main" ref={mapRef}>
 					<TouchPointModalInfo
 						open={openModal}
